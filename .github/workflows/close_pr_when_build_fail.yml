@@ -5,12 +5,29 @@ on:
     branches: [ 'main' ]
 
 jobs:
-  create_issue_branch_job:
+  build_and_test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run:
+            ./gradlew clean build --stacktrace
+
       - name: If build fail
         # 이전 step이 실패한 경우에만 이 step을 실행시키는 syntax
-#        if: ${{ failure() }}
+        if: ${{ failure() }}
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.ROBINJOON_GITHUB_TOKEN }}
