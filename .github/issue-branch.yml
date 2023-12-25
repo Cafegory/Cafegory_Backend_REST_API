@@ -1,0 +1,9 @@
+branchName: 'feature-${issue.number}'
+mode: immediate
+branches:
+  - label: "Type: Bugfix/UI"
+    skip: true
+  - label: "Type: Bugfix/Function"
+    skip: true
+  - label: "Type: Release"
+    skip: true
