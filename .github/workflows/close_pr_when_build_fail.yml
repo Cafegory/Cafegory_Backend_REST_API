@@ -17,13 +17,6 @@ jobs:
           script: |
             const pull_number = ${{ github.event.pull_request.number }}
             const updated_title = `[BUILD FAIL] ${{ github.event.pull_request.title }}`
-            await github.rest.pulls.createReview({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pull_number,
-              body: '빌드에 실패했습니다.',
-              event: 'REQUEST_CHANGES'
-            })
             await github.rest.pulls.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
