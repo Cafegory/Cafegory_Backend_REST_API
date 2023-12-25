@@ -9,7 +9,6 @@ on:
 
 jobs:
   create_issue_branch_job:
-    if : github.
     runs-on: ubuntu-latest
     steps:
       - name: Create Issue Branch
