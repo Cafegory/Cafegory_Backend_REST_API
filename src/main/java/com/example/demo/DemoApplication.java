@@ -8,6 +8,7 @@ public class DemoApplication {
 
 	public static void main(String[] args) {
 		String a = "1ㅇd";
+		a
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
