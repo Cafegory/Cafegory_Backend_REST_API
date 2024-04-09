@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.domain.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
