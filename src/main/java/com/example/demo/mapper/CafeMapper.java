@@ -8,8 +8,6 @@ import com.example.demo.domain.cafe.BusinessHour;
 import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.OpenChecker;
-import com.example.demo.dto.CanMakeStudyOnceResponse;
-import com.example.demo.dto.StudyOnceForCafeResponse;
 import com.example.demo.dto.cafe.BusinessHourResponse;
 import com.example.demo.dto.cafe.CafeBasicInfoResponse;
 import com.example.demo.dto.cafe.CafeResponse;
@@ -17,6 +15,8 @@ import com.example.demo.dto.cafe.CafeSearchRequest;
 import com.example.demo.dto.cafe.CafeSearchResponse;
 import com.example.demo.dto.cafe.SnsResponse;
 import com.example.demo.dto.review.ReviewResponse;
+import com.example.demo.dto.study.CanMakeStudyOnceResponse;
+import com.example.demo.dto.study.StudyOnceForCafeResponse;
 
 public class CafeMapper {
 

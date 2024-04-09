@@ -15,17 +15,17 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
-import com.example.demo.domain.StudyOnceImpl;
 import com.example.demo.domain.cafe.Address;
 import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
-import com.example.demo.dto.StudyOnceCreateRequest;
-import com.example.demo.dto.StudyOnceSearchResponse;
+import com.example.demo.domain.study.StudyOnceImpl;
 import com.example.demo.dto.profile.ProfileResponse;
 import com.example.demo.dto.profile.ProfileUpdateRequest;
+import com.example.demo.dto.study.StudyOnceCreateRequest;
+import com.example.demo.dto.study.StudyOnceSearchResponse;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.service.StudyOnceService;
+import com.example.demo.service.study.StudyOnceService;
 
 @SpringBootTest
 @Import(TestConfig.class)

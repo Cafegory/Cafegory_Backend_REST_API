@@ -11,8 +11,8 @@ import com.example.demo.dto.auth.CafegoryToken;
 import com.example.demo.dto.auth.RefreshRequest;
 import com.example.demo.dto.oauth2.KakaoOAuth2TokenRequest;
 import com.example.demo.dto.oauth2.NaverOAuth2TokenRequest;
-import com.example.demo.service.AuthService;
-import com.example.demo.service.OAuth2Service;
+import com.example.demo.service.auth.AuthService;
+import com.example.demo.service.oauth2.OAuth2Service;
 
 import lombok.RequiredArgsConstructor;
 

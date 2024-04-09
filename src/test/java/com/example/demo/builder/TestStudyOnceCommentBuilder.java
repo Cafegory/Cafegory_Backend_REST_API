@@ -1,8 +1,8 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.StudyOnceComment;
-import com.example.demo.domain.StudyOnceImpl;
 import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.study.StudyOnceComment;
+import com.example.demo.domain.study.StudyOnceImpl;
 
 public class TestStudyOnceCommentBuilder {
 	private Long id;

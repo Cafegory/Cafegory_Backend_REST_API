@@ -12,7 +12,7 @@ import com.example.demo.domain.oauth2.KakaoOAuth2ProfileRequester;
 import com.example.demo.domain.oauth2.KakaoOAuth2TokenRequester;
 import com.example.demo.domain.oauth2.NaverOAuth2ProfileRequester;
 import com.example.demo.domain.oauth2.NaverOAuth2TokenRequester;
-import com.example.demo.service.OAuth2ServiceImpl;
+import com.example.demo.service.oauth2.OAuth2ServiceImpl;
 
 @Configuration
 public class OAuthServiceConfig {

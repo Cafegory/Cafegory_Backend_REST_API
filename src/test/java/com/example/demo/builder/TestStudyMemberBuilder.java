@@ -1,9 +1,9 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.Attendance;
-import com.example.demo.domain.StudyMember;
-import com.example.demo.domain.StudyOnceImpl;
 import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.study.Attendance;
+import com.example.demo.domain.study.StudyMember;
+import com.example.demo.domain.study.StudyOnceImpl;
 
 public class TestStudyMemberBuilder {
 

@@ -2,9 +2,9 @@ package com.example.demo.builder;
 
 import java.time.LocalDateTime;
 
-import com.example.demo.domain.StudyOnceImpl;
 import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.study.StudyOnceImpl;
 
 public class TestStudyOnceBuilder {
 

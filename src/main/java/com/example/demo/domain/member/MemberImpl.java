@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.example.demo.domain.StudyMember;
+import com.example.demo.domain.study.StudyMember;
 import com.example.demo.exception.CafegoryException;
 
 import lombok.AccessLevel;
