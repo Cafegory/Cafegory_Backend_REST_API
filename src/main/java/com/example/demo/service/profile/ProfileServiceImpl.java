@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyMember;
 import com.example.demo.domain.StudyOnceImpl;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.dto.profile.ProfileResponse;
 import com.example.demo.dto.profile.ProfileUpdateRequest;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.StudyMemberRepository;
 import com.example.demo.repository.StudyOnceRepository;
+import com.example.demo.repository.member.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

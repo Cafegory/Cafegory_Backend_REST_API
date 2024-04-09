@@ -1,6 +1,6 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.ThumbnailImage;
+import com.example.demo.domain.member.ThumbnailImage;
 
 public class TestThumbnailImageBuilder {
 	private Long id;

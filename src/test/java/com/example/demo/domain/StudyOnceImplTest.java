@@ -15,6 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.exception.CafegoryException;
 
 class StudyOnceImplTest {

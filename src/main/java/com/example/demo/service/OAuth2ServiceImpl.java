@@ -5,16 +5,16 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.domain.MemberImpl;
-import com.example.demo.domain.ThumbnailImage;
 import com.example.demo.domain.auth.CafegoryTokenManager;
+import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.oauth2.OAuth2ProfileRequester;
 import com.example.demo.domain.oauth2.OAuth2TokenRequester;
 import com.example.demo.dto.auth.CafegoryToken;
 import com.example.demo.dto.oauth2.OAuth2Profile;
 import com.example.demo.dto.oauth2.OAuth2Token;
 import com.example.demo.dto.oauth2.OAuth2TokenRequest;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.member.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

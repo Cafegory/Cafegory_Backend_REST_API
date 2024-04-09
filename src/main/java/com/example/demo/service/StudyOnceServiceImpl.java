@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Attendance;
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyMember;
 import com.example.demo.domain.StudyMemberId;
 import com.example.demo.domain.StudyOnceImpl;
 import com.example.demo.domain.cafe.CafeImpl;
-import com.example.demo.dto.MemberResponse;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.dto.PagedResponse;
 import com.example.demo.dto.StudyMemberStateRequest;
 import com.example.demo.dto.StudyMemberStateResponse;
@@ -26,13 +25,14 @@ import com.example.demo.dto.StudyOnceSearchRequest;
 import com.example.demo.dto.StudyOnceSearchResponse;
 import com.example.demo.dto.UpdateAttendanceRequest;
 import com.example.demo.dto.UpdateAttendanceResponse;
+import com.example.demo.dto.member.MemberResponse;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.mapper.StudyMemberMapper;
 import com.example.demo.mapper.StudyOnceMapper;
-import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.StudyMemberRepository;
 import com.example.demo.repository.StudyOnceRepository;
 import com.example.demo.repository.cafe.CafeRepository;
+import com.example.demo.repository.member.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

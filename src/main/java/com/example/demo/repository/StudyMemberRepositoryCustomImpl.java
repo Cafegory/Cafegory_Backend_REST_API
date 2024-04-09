@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyMember;
+import com.example.demo.domain.member.MemberImpl;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 

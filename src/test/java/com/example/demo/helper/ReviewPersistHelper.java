@@ -4,9 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.demo.builder.TestReviewBuilder;
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.ReviewImpl;
 import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.member.MemberImpl;
 
 public class ReviewPersistHelper {
 

@@ -6,9 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.demo.builder.TestStudyOnceBuilder;
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyOnceImpl;
 import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.member.MemberImpl;
 
 public class StudyOncePersistHelper {
 

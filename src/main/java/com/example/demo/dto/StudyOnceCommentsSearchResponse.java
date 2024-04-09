@@ -3,6 +3,8 @@ package com.example.demo.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.dto.member.MemberResponse;
+
 import lombok.Getter;
 
 @Getter

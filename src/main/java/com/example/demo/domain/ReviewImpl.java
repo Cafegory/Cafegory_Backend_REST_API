@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import org.thymeleaf.util.StringUtils;
 
 import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.exception.CafegoryException;
 
 import lombok.AccessLevel;

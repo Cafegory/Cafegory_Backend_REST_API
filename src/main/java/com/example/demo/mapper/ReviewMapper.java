@@ -3,8 +3,8 @@ package com.example.demo.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.ReviewImpl;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.dto.ReviewResponse;
 import com.example.demo.dto.ReviewSearchResponse;
 import com.example.demo.dto.WriterResponse;

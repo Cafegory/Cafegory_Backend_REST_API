@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.demo.builder.TestThumbnailImageBuilder;
-import com.example.demo.domain.ThumbnailImage;
+import com.example.demo.domain.member.ThumbnailImage;
 
 public class ThumbnailImagePersistHelper {
 

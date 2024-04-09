@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import com.example.demo.domain.MemberImpl;
-import com.example.demo.dto.MemberResponse;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.dto.WriterResponse;
+import com.example.demo.dto.member.MemberResponse;
 
 public class MemberMapper {
 

@@ -2,6 +2,8 @@ package com.example.demo.dto;
 
 import java.util.List;
 
+import com.example.demo.dto.member.MemberResponse;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

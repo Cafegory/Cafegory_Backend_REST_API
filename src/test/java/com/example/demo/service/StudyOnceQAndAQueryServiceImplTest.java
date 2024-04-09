@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyOnceComment;
 import com.example.demo.domain.StudyOnceImpl;
-import com.example.demo.domain.ThumbnailImage;
 import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.dto.StudyOnceCommentResponse;
 import com.example.demo.helper.CafePersistHelper;
 import com.example.demo.helper.MemberPersistHelper;

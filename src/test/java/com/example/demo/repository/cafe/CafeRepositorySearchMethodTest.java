@@ -22,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.QueryDslConfig;
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.ReviewImpl;
 import com.example.demo.domain.cafe.Address;
 import com.example.demo.domain.cafe.BusinessHour;
@@ -31,6 +30,7 @@ import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.MaxAllowableStay;
 import com.example.demo.domain.cafe.Menu;
 import com.example.demo.domain.cafe.SnsDetail;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.util.PageRequestCustom;
 
 // @SpringBootTest

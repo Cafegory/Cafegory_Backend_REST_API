@@ -5,15 +5,15 @@ import static com.example.demo.exception.ExceptionType.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyOnceComment;
 import com.example.demo.domain.StudyOnceImpl;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.dto.StudyOnceCommentRequest;
 import com.example.demo.dto.StudyOnceCommentUpdateRequest;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.StudyOnceCommentRepository;
 import com.example.demo.repository.StudyOnceRepository;
+import com.example.demo.repository.member.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

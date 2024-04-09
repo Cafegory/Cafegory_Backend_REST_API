@@ -1,7 +1,7 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.MemberImpl;
-import com.example.demo.domain.ThumbnailImage;
+import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.ThumbnailImage;
 
 public class TestMemberBuilder {
 

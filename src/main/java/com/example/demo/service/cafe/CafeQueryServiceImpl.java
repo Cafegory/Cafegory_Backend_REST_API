@@ -24,9 +24,9 @@ import com.example.demo.mapper.CafeMapper;
 import com.example.demo.mapper.ReviewMapper;
 import com.example.demo.mapper.SnsDetailMapper;
 import com.example.demo.mapper.StudyOnceMapper;
-import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.cafe.CafeQueryRepository;
 import com.example.demo.repository.cafe.CafeRepository;
+import com.example.demo.repository.member.MemberRepository;
 import com.example.demo.util.PageRequestCustom;
 
 import lombok.RequiredArgsConstructor;

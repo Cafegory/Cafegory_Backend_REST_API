@@ -3,6 +3,8 @@ package com.example.demo.domain;
 import java.time.LocalDateTime;
 
 import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.member.Member;
+import com.example.demo.domain.member.MemberImpl;
 
 public interface StudyOnce {
 

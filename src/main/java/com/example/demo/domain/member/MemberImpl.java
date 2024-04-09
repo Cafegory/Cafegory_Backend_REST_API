@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.domain.member;
 
 import static com.example.demo.exception.ExceptionType.*;
 
@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.example.demo.domain.StudyMember;
 import com.example.demo.exception.CafegoryException;
 
 import lombok.AccessLevel;

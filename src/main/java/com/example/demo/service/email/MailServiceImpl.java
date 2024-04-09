@@ -4,13 +4,13 @@ import static com.example.demo.exception.ExceptionType.*;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.email.EmailSender;
 import com.example.demo.domain.email.EmailTemplate;
+import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.dto.email.EmailSendRequest;
 import com.example.demo.dto.email.EmailTemplateResponse;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.member.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

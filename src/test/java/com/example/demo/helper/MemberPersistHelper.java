@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.demo.builder.TestMemberBuilder;
-import com.example.demo.domain.MemberImpl;
-import com.example.demo.domain.ThumbnailImage;
+import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.ThumbnailImage;
 
 public class MemberPersistHelper {
 
