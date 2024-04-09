@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.QStudyOnceImpl;
+import com.example.demo.domain.study.QStudyOnceImpl;
 import com.example.demo.domain.study.StudyOnceImpl;
 import com.example.demo.dto.study.StudyOnceSearchRequest;
 import com.example.demo.dto.study.TalkAbleState;

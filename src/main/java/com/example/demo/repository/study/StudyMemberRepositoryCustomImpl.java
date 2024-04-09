@@ -1,6 +1,6 @@
 package com.example.demo.repository.study;
 
-import static com.example.demo.domain.QStudyMember.*;
+import static com.example.demo.domain.study.QStudyMember.*;
 
 import java.time.LocalDate;
 import java.util.List;
