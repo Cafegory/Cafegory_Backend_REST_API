@@ -1,20 +1,20 @@
-package com.example.demo.service;
+package com.example.demo.service.review;
 
 import static com.example.demo.exception.ExceptionType.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.ReviewImpl;
 import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.domain.member.MemberImpl;
-import com.example.demo.dto.ReviewSaveRequest;
-import com.example.demo.dto.ReviewUpdateRequest;
+import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.dto.review.ReviewSaveRequest;
+import com.example.demo.dto.review.ReviewUpdateRequest;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.exception.ExceptionType;
-import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.cafe.CafeRepository;
 import com.example.demo.repository.member.MemberRepository;
+import com.example.demo.repository.review.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
 

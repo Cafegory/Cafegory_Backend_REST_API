@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.example.demo.domain.auth.CafegoryTokenManager;
 import com.example.demo.dto.PagedResponse;
-import com.example.demo.dto.ReviewResponse;
-import com.example.demo.dto.ReviewSaveRequest;
-import com.example.demo.dto.ReviewSearchRequest;
-import com.example.demo.dto.ReviewSearchResponse;
-import com.example.demo.dto.ReviewUpdateRequest;
-import com.example.demo.service.ReviewQueryService;
-import com.example.demo.service.ReviewService;
+import com.example.demo.dto.review.ReviewResponse;
+import com.example.demo.dto.review.ReviewSaveRequest;
+import com.example.demo.dto.review.ReviewSearchRequest;
+import com.example.demo.dto.review.ReviewSearchResponse;
+import com.example.demo.dto.review.ReviewUpdateRequest;
+import com.example.demo.service.review.ReviewQueryService;
+import com.example.demo.service.review.ReviewService;
 
 import lombok.RequiredArgsConstructor;
 

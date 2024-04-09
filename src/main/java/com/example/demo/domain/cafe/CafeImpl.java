@@ -14,8 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.example.demo.domain.ReviewImpl;
 import com.example.demo.domain.StudyOnceImpl;
+import com.example.demo.domain.review.ReviewImpl;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

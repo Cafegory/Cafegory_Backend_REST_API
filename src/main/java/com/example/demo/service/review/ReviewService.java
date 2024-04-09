@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.review;
 
-import com.example.demo.dto.ReviewSaveRequest;
-import com.example.demo.dto.ReviewUpdateRequest;
+import com.example.demo.dto.review.ReviewSaveRequest;
+import com.example.demo.dto.review.ReviewUpdateRequest;
 
 public interface ReviewService {
 

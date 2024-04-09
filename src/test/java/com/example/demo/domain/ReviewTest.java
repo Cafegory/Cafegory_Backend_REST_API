@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.example.demo.domain.review.ReviewImpl;
 import com.example.demo.exception.CafegoryException;
 
 class ReviewTest {

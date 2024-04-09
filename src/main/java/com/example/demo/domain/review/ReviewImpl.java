@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.domain.review;
 
 import static com.example.demo.exception.ExceptionType.*;
 

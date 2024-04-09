@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.review;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
@@ -6,17 +6,17 @@ import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 
 @Getter
-public class ReviewSaveRequest {
+public class ReviewUpdateRequest {
 
 	@NotBlank
 	private String content;
 	@PositiveOrZero
 	private double rate;
 
-	public ReviewSaveRequest() {
+	public ReviewUpdateRequest() {
 	}
 
-	public ReviewSaveRequest(String content, double rate) {
+	public ReviewUpdateRequest(String content, double rate) {
 		this.content = content;
 		this.rate = rate;
 	}

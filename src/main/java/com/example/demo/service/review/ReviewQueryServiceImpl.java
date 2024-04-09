@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.review;
 
 import static com.example.demo.exception.ExceptionType.*;
 
@@ -9,15 +9,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.ReviewImpl;
+import com.example.demo.domain.review.ReviewImpl;
 import com.example.demo.dto.PagedResponse;
-import com.example.demo.dto.ReviewResponse;
-import com.example.demo.dto.ReviewSearchRequest;
-import com.example.demo.dto.ReviewSearchResponse;
+import com.example.demo.dto.review.ReviewResponse;
+import com.example.demo.dto.review.ReviewSearchRequest;
+import com.example.demo.dto.review.ReviewSearchResponse;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.mapper.ReviewMapper;
-import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.cafe.CafeRepository;
+import com.example.demo.repository.review.ReviewRepository;
 import com.example.demo.util.PageRequestCustom;
 
 import lombok.RequiredArgsConstructor;

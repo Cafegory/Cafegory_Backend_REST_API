@@ -12,17 +12,18 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
-import com.example.demo.domain.ReviewImpl;
 import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
-import com.example.demo.dto.ReviewSaveRequest;
-import com.example.demo.dto.ReviewUpdateRequest;
+import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.dto.review.ReviewSaveRequest;
+import com.example.demo.dto.review.ReviewUpdateRequest;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.helper.CafePersistHelper;
 import com.example.demo.helper.MemberPersistHelper;
 import com.example.demo.helper.ThumbnailImagePersistHelper;
-import com.example.demo.repository.ReviewRepository;
+import com.example.demo.repository.review.ReviewRepository;
+import com.example.demo.service.review.ReviewService;
 
 @SpringBootTest
 @Transactional

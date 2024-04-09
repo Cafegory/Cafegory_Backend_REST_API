@@ -3,8 +3,8 @@ package com.example.demo.dto.cafe;
 import java.util.List;
 
 import com.example.demo.dto.CanMakeStudyOnceResponse;
-import com.example.demo.dto.ReviewResponse;
 import com.example.demo.dto.StudyOnceForCafeResponse;
+import com.example.demo.dto.review.ReviewResponse;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,11 +1,13 @@
-package com.example.demo.dto;
+package com.example.demo.dto.review;
 
+import com.example.demo.dto.WriterResponse;
+
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-public class ReviewSearchResponse {
+@Builder
+public class ReviewResponse {
 
 	private final long reviewId;
 	private final WriterResponse writer;
