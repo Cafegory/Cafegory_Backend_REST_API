@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.auth.CafegoryTokenManager;
-import com.example.demo.dto.CafeResponse;
-import com.example.demo.dto.CafeSearchRequest;
-import com.example.demo.dto.CafeSearchResponse;
 import com.example.demo.dto.PagedResponse;
-import com.example.demo.service.CafeQueryService;
+import com.example.demo.dto.cafe.CafeResponse;
+import com.example.demo.dto.cafe.CafeSearchRequest;
+import com.example.demo.dto.cafe.CafeSearchResponse;
+import com.example.demo.service.cafe.CafeQueryService;
 
 import lombok.RequiredArgsConstructor;
 

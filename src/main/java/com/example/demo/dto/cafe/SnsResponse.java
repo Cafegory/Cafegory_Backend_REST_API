@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.cafe;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.cafe;
 
 import static com.example.demo.exception.ExceptionType.*;
 
@@ -14,10 +14,10 @@ import com.example.demo.domain.cafe.BusinessHourOpenChecker;
 import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.OpenChecker;
-import com.example.demo.dto.CafeResponse;
-import com.example.demo.dto.CafeSearchRequest;
-import com.example.demo.dto.CafeSearchResponse;
 import com.example.demo.dto.PagedResponse;
+import com.example.demo.dto.cafe.CafeResponse;
+import com.example.demo.dto.cafe.CafeSearchRequest;
+import com.example.demo.dto.cafe.CafeSearchResponse;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.mapper.BusinessHourMapper;
 import com.example.demo.mapper.CafeMapper;

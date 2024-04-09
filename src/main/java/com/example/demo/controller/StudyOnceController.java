@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.auth.CafegoryTokenManager;
-import com.example.demo.dto.CafeSearchResponse;
 import com.example.demo.dto.PagedResponse;
 import com.example.demo.dto.StudyMembersResponse;
 import com.example.demo.dto.StudyOnceCommentRequest;
@@ -31,12 +30,13 @@ import com.example.demo.dto.StudyOnceSearchRequest;
 import com.example.demo.dto.StudyOnceSearchResponse;
 import com.example.demo.dto.UpdateAttendanceRequest;
 import com.example.demo.dto.UpdateAttendanceResponse;
+import com.example.demo.dto.cafe.CafeSearchResponse;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.service.CafeQueryService;
 import com.example.demo.service.StudyOnceCommentQueryService;
 import com.example.demo.service.StudyOnceCommentService;
 import com.example.demo.service.StudyOnceQAndAQueryService;
 import com.example.demo.service.StudyOnceService;
+import com.example.demo.service.cafe.CafeQueryService;
 
 import lombok.RequiredArgsConstructor;
 

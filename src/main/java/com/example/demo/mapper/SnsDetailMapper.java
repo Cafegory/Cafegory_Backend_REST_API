@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.example.demo.domain.cafe.SnsDetail;
-import com.example.demo.dto.SnsResponse;
+import com.example.demo.dto.cafe.SnsResponse;
 
 public class SnsDetailMapper {
 
