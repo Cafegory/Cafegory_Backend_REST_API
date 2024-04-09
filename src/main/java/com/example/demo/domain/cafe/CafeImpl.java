@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.domain.cafe;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,6 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.example.demo.domain.ReviewImpl;
+import com.example.demo.domain.StudyOnceImpl;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

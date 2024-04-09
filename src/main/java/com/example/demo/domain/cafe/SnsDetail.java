@@ -1,6 +1,5 @@
-package com.example.demo.domain;
+package com.example.demo.domain.cafe;
 
-import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,19 +18,16 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
-@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "menu")
-public class Menu {
-
+@Getter
+@Table(name = "sns_detail")
+public class SnsDetail {
 	@Id
 	@GeneratedValue
-	@Column(name = "menu_id")
 	private Long id;
-
 	private String name;
-	private int price;
+	private String url;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cafe_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))

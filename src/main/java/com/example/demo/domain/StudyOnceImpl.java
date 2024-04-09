@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.exception.ExceptionType;
 

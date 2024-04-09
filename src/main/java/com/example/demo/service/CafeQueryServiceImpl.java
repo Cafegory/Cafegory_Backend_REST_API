@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.BusinessHour;
-import com.example.demo.domain.BusinessHourOpenChecker;
-import com.example.demo.domain.CafeImpl;
-import com.example.demo.domain.CafeSearchCondition;
-import com.example.demo.domain.OpenChecker;
+import com.example.demo.domain.cafe.BusinessHour;
+import com.example.demo.domain.cafe.BusinessHourOpenChecker;
+import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.CafeSearchCondition;
+import com.example.demo.domain.cafe.OpenChecker;
 import com.example.demo.dto.CafeResponse;
 import com.example.demo.dto.CafeSearchRequest;
 import com.example.demo.dto.CafeSearchResponse;

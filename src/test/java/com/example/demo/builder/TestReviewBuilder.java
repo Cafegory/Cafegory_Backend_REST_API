@@ -1,8 +1,8 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.CafeImpl;
 import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.ReviewImpl;
+import com.example.demo.domain.cafe.CafeImpl;
 
 public class TestReviewBuilder {
 

@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.demo.builder.TestCafeBuilder;
-import com.example.demo.domain.CafeImpl;
+import com.example.demo.domain.cafe.CafeImpl;
 
 public class CafePersistHelper {
 

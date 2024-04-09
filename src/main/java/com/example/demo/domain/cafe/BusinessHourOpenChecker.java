@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.domain.cafe;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

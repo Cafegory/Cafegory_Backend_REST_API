@@ -3,10 +3,10 @@ package com.example.demo.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.domain.CafeImpl;
 import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyOnceComment;
 import com.example.demo.domain.StudyOnceImpl;
+import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.dto.StudyOnceCommentResponse;
 import com.example.demo.dto.StudyOnceCreateRequest;
 import com.example.demo.dto.StudyOnceForCafeResponse;

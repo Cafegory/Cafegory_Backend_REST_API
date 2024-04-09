@@ -5,9 +5,9 @@ import static com.example.demo.exception.ExceptionType.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.CafeImpl;
 import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.ReviewImpl;
+import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.dto.ReviewSaveRequest;
 import com.example.demo.dto.ReviewUpdateRequest;
 import com.example.demo.exception.CafegoryException;

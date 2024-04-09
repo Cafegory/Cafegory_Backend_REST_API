@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Attendance;
-import com.example.demo.domain.CafeImpl;
 import com.example.demo.domain.MemberImpl;
 import com.example.demo.domain.StudyMember;
 import com.example.demo.domain.StudyMemberId;
 import com.example.demo.domain.StudyOnceImpl;
+import com.example.demo.domain.cafe.CafeImpl;
 import com.example.demo.dto.MemberResponse;
 import com.example.demo.dto.PagedResponse;
 import com.example.demo.dto.StudyMemberStateRequest;

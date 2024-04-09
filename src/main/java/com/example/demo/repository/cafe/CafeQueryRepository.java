@@ -1,7 +1,7 @@
 package com.example.demo.repository.cafe;
 
-import static com.example.demo.domain.QBusinessHour.*;
-import static com.example.demo.domain.QCafeImpl.*;
+import static com.example.demo.domain.cafe.QBusinessHour.*;
+import static com.example.demo.domain.cafe.QCafeImpl.*;
 import static io.hypersistence.utils.hibernate.util.StringUtils.*;
 
 import java.time.LocalDateTime;
@@ -15,10 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.CafeImpl;
-import com.example.demo.domain.CafeSearchCondition;
-import com.example.demo.domain.MaxAllowableStay;
-import com.example.demo.domain.MinMenuPrice;
+import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.CafeSearchCondition;
+import com.example.demo.domain.cafe.MaxAllowableStay;
+import com.example.demo.domain.cafe.MinMenuPrice;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;

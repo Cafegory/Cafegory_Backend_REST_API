@@ -1,8 +1,8 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.Address;
-import com.example.demo.domain.CafeImpl;
-import com.example.demo.domain.MaxAllowableStay;
+import com.example.demo.domain.cafe.Address;
+import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.MaxAllowableStay;
 
 public class TestCafeBuilder {
 

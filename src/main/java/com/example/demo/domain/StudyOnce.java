@@ -2,6 +2,8 @@ package com.example.demo.domain;
 
 import java.time.LocalDateTime;
 
+import com.example.demo.domain.cafe.CafeImpl;
+
 public interface StudyOnce {
 
 	void tryJoin(Member memberThatExpectedToJoin, LocalDateTime requestTime);
