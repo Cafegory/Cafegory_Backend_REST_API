@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.example.demo.domain.auth.CafegoryTokenManager;
-import com.example.demo.dto.EmailSendRequest;
-import com.example.demo.dto.EmailTemplateResponse;
-import com.example.demo.service.MailService;
+import com.example.demo.dto.email.EmailSendRequest;
+import com.example.demo.dto.email.EmailTemplateResponse;
+import com.example.demo.service.email.MailService;
 
 import lombok.RequiredArgsConstructor;
 
