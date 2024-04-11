@@ -35,13 +35,14 @@ class StudyOnceTest {
 	@Test
 	@DisplayName("카공 시작 시간이 잘못된 경우 카공을 생성할 수 없는지 확인")
 	void createStudyOnceFailCauseInvalidStartTime() {
-		Assertions.assertThatThrownBy(() -> {
-				LocalDateTime startDateTime = LocalDateTime.now().plusHours(3).minusSeconds(1);
-				StudyOnce.builder()
-					.startDateTime(startDateTime)
-					.endDateTime(startDateTime.plusHours(4))
-					.build();
-			})
+		Assertions.assertThatThrownBy(
+				() -> {
+					LocalDateTime startDateTime = LocalDateTime.now().plusHours(3).minusSeconds(1);
+					StudyOnce.builder()
+						.startDateTime(startDateTime)
+						.endDateTime(startDateTime.plusHours(4))
+						.build();
+				})
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_WRONG_START_TIME.getErrorMessage());
 	}
@@ -49,13 +50,14 @@ class StudyOnceTest {
 	@Test
 	@DisplayName("카공 진행 시간이 너무 짧은 경우 카공을 생성할 수 없는지 확인")
 	void createStudyOnceFailCauseShortStudyTime() {
-		Assertions.assertThatThrownBy(() -> {
-				LocalDateTime startDateTime = LocalDateTime.now().plusHours(4);
-				StudyOnce.builder()
-					.startDateTime(startDateTime)
-					.endDateTime(startDateTime.plusMinutes(59L))
-					.build();
-			})
+		Assertions.assertThatThrownBy(
+				() -> {
+					LocalDateTime startDateTime = LocalDateTime.now().plusHours(4);
+					StudyOnce.builder()
+						.startDateTime(startDateTime)
+						.endDateTime(startDateTime.plusMinutes(59L))
+						.build();
+				})
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_SHORT_DURATION.getErrorMessage());
 	}
@@ -63,13 +65,14 @@ class StudyOnceTest {
 	@Test
 	@DisplayName("카공 진행 시간이 너무 긴 경우 카공을 생성할 수 없는지 확인")
 	void createStudyOnceFailCauseLongStudyTime() {
-		Assertions.assertThatThrownBy(() -> {
-				LocalDateTime startDateTime = LocalDateTime.now().plusHours(4);
-				StudyOnce.builder()
-					.startDateTime(startDateTime)
-					.endDateTime(startDateTime.plusMinutes(60 * 5 + 1))
-					.build();
-			})
+		Assertions.assertThatThrownBy(
+				() -> {
+					LocalDateTime startDateTime = LocalDateTime.now().plusHours(4);
+					StudyOnce.builder()
+						.startDateTime(startDateTime)
+						.endDateTime(startDateTime.plusMinutes(60 * 5 + 1))
+						.build();
+				})
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_LONG_DURATION.getErrorMessage());
 	}
