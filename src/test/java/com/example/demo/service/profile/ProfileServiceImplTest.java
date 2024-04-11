@@ -3,46 +3,55 @@ package com.example.demo.service.profile;
 import static com.example.demo.exception.ExceptionType.*;
 
 import java.time.LocalDateTime;
-
-import javax.persistence.EntityManager;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Address;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
+import com.example.demo.domain.study.StudyMember;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.profile.ProfileResponse;
 import com.example.demo.dto.profile.ProfileUpdateRequest;
 import com.example.demo.dto.study.StudyOnceCreateRequest;
 import com.example.demo.dto.study.StudyOnceSearchResponse;
 import com.example.demo.exception.CafegoryException;
+import com.example.demo.mapper.StudyMemberMapper;
+import com.example.demo.mapper.StudyOnceMapper;
+import com.example.demo.repository.cafe.InMemoryCafeRepository;
+import com.example.demo.repository.member.InMemoryMemberRepository;
+import com.example.demo.repository.member.MemberRepository;
+import com.example.demo.repository.study.InMemoryStudyMemberRepository;
+import com.example.demo.repository.study.InMemoryStudyOnceRepository;
+import com.example.demo.repository.study.StudyMemberRepository;
+import com.example.demo.repository.study.StudyOnceRepository;
 import com.example.demo.service.study.StudyOnceService;
+import com.example.demo.service.study.StudyOnceServiceImpl;
 
-@SpringBootTest
-@Import(TestConfig.class)
-@Transactional
 class ProfileServiceImplTest {
-	@Autowired
-	private ProfileService profileService;
-	@Autowired
-	private EntityManager em;
-	@Autowired
-	private StudyOnceService studyOnceService;
+	private final StudyOnceRepository studyOnceRepository = new InMemoryStudyOnceRepository();
+	private final MemberRepository memberRepository = new InMemoryMemberRepository();
+	private final StudyMemberRepository studyMemberRepository = new InMemoryStudyMemberRepository();
+	private final StudyOnceMapper studyOnceMapper = new StudyOnceMapper();
+	private final StudyMemberMapper studyMemberMapper = new StudyMemberMapper();
+	private final InMemoryCafeRepository cafeRepository = new InMemoryCafeRepository();
+
+	private final ProfileService profileService = new ProfileServiceImpl(memberRepository, studyOnceRepository,
+		studyMemberRepository);
+	private final StudyOnceService studyOnceService = new StudyOnceServiceImpl(cafeRepository, studyOnceRepository,
+		memberRepository, studyMemberRepository, studyOnceMapper, studyMemberMapper);
 
 	private long initCafe() {
 		Address address = new Address("테스트도 테스트시 테스트구 테스트동 ...", "테스트동");
 		Cafe cafe = Cafe.builder()
 			.address(address).build();
-		em.persist(cafe);
+		cafe = cafeRepository.save(cafe);
 		return cafe.getId();
 	}
 
@@ -52,7 +61,7 @@ class ProfileServiceImplTest {
 			.email("test@test.com")
 			.thumbnailImage(ThumbnailImage.builder().thumbnailImage("testUrl").build())
 			.build();
-		em.persist(member);
+		member = memberRepository.save(member);
 		return member.getId();
 	}
 
@@ -68,7 +77,7 @@ class ProfileServiceImplTest {
 			.nowMemberCount(1)
 			.isEnd(false)
 			.build();
-		em.persist(studyOnce);
+		studyOnce = studyOnceRepository.save(studyOnce);
 		return studyOnce.getId();
 	}
 
@@ -92,15 +101,27 @@ class ProfileServiceImplTest {
 		long requestMemberId = initMember();
 		long targetMemberId = initMember();
 		long studyLeaderId = initMember();
-		Cafe cafe = em.find(Cafe.class, cafeId);
-		Member leader = em.find(Member.class, studyLeaderId);
+		Cafe cafe = cafeRepository.findById(cafeId).orElseThrow();
+		Member leader = memberRepository.findById(studyLeaderId).orElseThrow();
 		long studyId = initStudy(leader, cafe);
 
 		studyOnceService.tryJoin(targetMemberId, studyId);
 		studyOnceService.tryJoin(requestMemberId, studyId);
 
+		syncStudyOnceRepositoryAndStudyMemberRepository();
 		Assertions.assertDoesNotThrow(
 			() -> profileService.get(requestMemberId, targetMemberId, LocalDateTime.now().plusHours(8)));
+	}
+
+	/**
+	 * JPA 의 Cascade 가 InMemory 구현체에서는 작동하지 않으므로 수동 동기화가 필요함.
+	 */
+	private void syncStudyOnceRepositoryAndStudyMemberRepository() {
+		List<StudyMember> allStudyMembers = studyOnceRepository.findAll().stream()
+			.map(StudyOnce::getStudyMembers)
+			.flatMap(Collection::stream)
+			.collect(Collectors.toList());
+		studyMemberRepository.saveAll(allStudyMembers);
 	}
 
 	private static StudyOnceCreateRequest makeStudyOnceCreateRequest(LocalDateTime start, LocalDateTime end,

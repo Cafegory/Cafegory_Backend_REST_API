@@ -14,8 +14,4 @@ public class StudyOnceSearchRequest extends PagedRequest { //ToDo 구현 필요
 	private String area;
 	private TalkAbleState canTalk = TalkAbleState.BOTH;
 	private int maxMemberCount = 0;
-
-	public boolean filterByMaxMemberCount() {
-		return maxMemberCount != 0;
-	}
 }
