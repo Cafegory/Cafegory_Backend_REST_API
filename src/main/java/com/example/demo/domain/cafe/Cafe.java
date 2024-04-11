@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.demo.domain.review.ReviewImpl;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.StudyOnce;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -67,7 +67,7 @@ public class Cafe {
 
 	@OneToMany(mappedBy = "cafe")
 	@Builder.Default
-	private List<StudyOnceImpl> studyOnceGroup = new ArrayList<>();
+	private List<StudyOnce> studyOnceGroup = new ArrayList<>();
 
 	public String showFullAddress() {
 		return address.showFullAddress();

@@ -5,15 +5,15 @@ import javax.persistence.PersistenceContext;
 
 import com.example.demo.builder.TestStudyOnceCommentBuilder;
 import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
-import com.example.demo.domain.study.StudyOnceImpl;
 
 public class StudyOnceCommentPersistHelper {
 
 	@PersistenceContext
 	private EntityManager em;
 
-	public StudyOnceComment persistDefaultStudyOnceQuestion(MemberImpl member, StudyOnceImpl studyOnce) {
+	public StudyOnceComment persistDefaultStudyOnceQuestion(MemberImpl member, StudyOnce studyOnce) {
 		StudyOnceComment studyOnceComment = new TestStudyOnceCommentBuilder().member(member)
 			.studyOnce(studyOnce)
 			.build();
@@ -21,7 +21,7 @@ public class StudyOnceCommentPersistHelper {
 		return studyOnceComment;
 	}
 
-	public StudyOnceComment persistStudyOnceQuestionWithContent(MemberImpl member, StudyOnceImpl studyOnce,
+	public StudyOnceComment persistStudyOnceQuestionWithContent(MemberImpl member, StudyOnce studyOnce,
 		String content) {
 		StudyOnceComment studyOnceComment = new TestStudyOnceCommentBuilder().member(member)
 			.studyOnce(studyOnce)
@@ -31,7 +31,7 @@ public class StudyOnceCommentPersistHelper {
 		return studyOnceComment;
 	}
 
-	public StudyOnceComment persistDefaultStudyOnceReply(MemberImpl member, StudyOnceImpl studyOnce,
+	public StudyOnceComment persistDefaultStudyOnceReply(MemberImpl member, StudyOnce studyOnce,
 		StudyOnceComment parent) {
 		StudyOnceComment reply = new TestStudyOnceCommentBuilder().member(member)
 			.studyOnce(studyOnce)
@@ -41,7 +41,7 @@ public class StudyOnceCommentPersistHelper {
 		return reply;
 	}
 
-	public StudyOnceComment persistStudyOnceReplyWithContent(MemberImpl member, StudyOnceImpl studyOnce,
+	public StudyOnceComment persistStudyOnceReplyWithContent(MemberImpl member, StudyOnce studyOnce,
 		StudyOnceComment parent, String content) {
 		StudyOnceComment reply = new TestStudyOnceCommentBuilder().member(member)
 			.studyOnce(studyOnce)

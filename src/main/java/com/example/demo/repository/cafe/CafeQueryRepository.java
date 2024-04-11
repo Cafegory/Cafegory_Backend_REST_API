@@ -1,7 +1,7 @@
 package com.example.demo.repository.cafe;
 
 import static com.example.demo.domain.cafe.QBusinessHour.*;
-import static com.example.demo.domain.cafe.QCafeImpl.*;
+import static com.example.demo.domain.cafe.QCafe.*;
 import static io.hypersistence.utils.hibernate.util.StringUtils.*;
 
 import java.time.LocalDateTime;
@@ -35,7 +35,7 @@ public class CafeQueryRepository {
 
 	public List<Cafe> findWithDynamicFilterAndNoPaging(CafeSearchCondition searchCondition) {
 		return queryFactory
-			.selectFrom(cafeImpl)
+			.selectFrom(cafe)
 			.where(
 				isAbleToStudy(searchCondition.isAbleToStudy()),
 				regionContains(searchCondition.getRegion()),
@@ -49,7 +49,7 @@ public class CafeQueryRepository {
 
 	public Page<Cafe> findWithDynamicFilter(CafeSearchCondition searchCondition, Pageable pageable) {
 		List<Cafe> content = queryFactory
-			.selectFrom(cafeImpl)
+			.selectFrom(cafe)
 			.where(
 				isAbleToStudy(searchCondition.isAbleToStudy()),
 				regionContains(searchCondition.getRegion()),
@@ -63,8 +63,8 @@ public class CafeQueryRepository {
 			.fetch();
 
 		JPAQuery<Long> countQuery = queryFactory
-			.select(cafeImpl.count())
-			.from(cafeImpl)
+			.select(cafe.count())
+			.from(cafe)
 			.where(
 				isAbleToStudy(searchCondition.isAbleToStudy()),
 				regionContains(searchCondition.getRegion()),
@@ -82,7 +82,7 @@ public class CafeQueryRepository {
 			return null;
 		}
 		String nowDayOfWeek = now.getDayOfWeek().toString();
-		return cafeImpl.id.in(
+		return cafe.id.in(
 			JPAExpressions
 				.select(businessHour.cafe.id)
 				.from(businessHour)
@@ -95,20 +95,20 @@ public class CafeQueryRepository {
 	}
 
 	private BooleanExpression minBeveragePriceLoe(MinMenuPrice minMenuPrice) {
-		return minMenuPrice == null ? null : cafeImpl.minBeveragePrice.loe(minMenuPrice.getRealValue());
+		return minMenuPrice == null ? null : cafe.minBeveragePrice.loe(minMenuPrice.getRealValue());
 	}
 
 	//매개변수인 MaxAllowableStay보다 작거나 같은 MaxAllowableStay의 Enum상수가 in절안에 List로 들어감
 	private BooleanExpression maxAllowableStayInLoe(MaxAllowableStay maxTime) {
 		return maxTime == null
-			? null : cafeImpl.maxAllowableStay.in(MaxAllowableStay.findLoe(maxTime));
+			? null : cafe.maxAllowableStay.in(MaxAllowableStay.findLoe(maxTime));
 	}
 
 	private BooleanExpression regionContains(String region) {
-		return isBlank(region) ? null : cafeImpl.address.region.contains(region);
+		return isBlank(region) ? null : cafe.address.region.contains(region);
 	}
 
 	private BooleanExpression isAbleToStudy(boolean isAbleToStudy) {
-		return cafeImpl.isAbleToStudy.eq(isAbleToStudy);
+		return cafe.isAbleToStudy.eq(isAbleToStudy);
 	}
 }

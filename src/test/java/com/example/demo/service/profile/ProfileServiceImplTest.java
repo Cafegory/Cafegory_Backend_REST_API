@@ -19,7 +19,7 @@ import com.example.demo.domain.cafe.Address;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.profile.ProfileResponse;
 import com.example.demo.dto.profile.ProfileUpdateRequest;
 import com.example.demo.dto.study.StudyOnceCreateRequest;
@@ -58,7 +58,7 @@ class ProfileServiceImplTest {
 
 	private long initStudy(MemberImpl leader, Cafe cafe) {
 		LocalDateTime start = LocalDateTime.now().plusHours(4);
-		StudyOnceImpl studyOnce = StudyOnceImpl.builder()
+		StudyOnce studyOnce = StudyOnce.builder()
 			.leader(leader)
 			.cafe(cafe)
 			.startDateTime(start)

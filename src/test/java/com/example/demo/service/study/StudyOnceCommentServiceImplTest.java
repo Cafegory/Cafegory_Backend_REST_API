@@ -18,8 +18,8 @@ import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
-import com.example.demo.domain.study.StudyOnceImpl;
 import com.example.demo.dto.study.StudyOnceCommentRequest;
 import com.example.demo.dto.study.StudyOnceCommentUpdateRequest;
 import com.example.demo.exception.CafegoryException;
@@ -61,7 +61,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		//when
 		studyOnceCommentService.saveQuestion(otherPerson.getId(), studyOnce.getId(),
 			new StudyOnceCommentRequest("몇시까지 공부하시나요?"));
@@ -79,7 +79,7 @@ class StudyOnceCommentServiceImplTest {
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		//when
 		studyOnceCommentService.saveQuestion(leader.getId(), studyOnce.getId(),
 			new StudyOnceCommentRequest("카페 끝날때까지 공부합니다."));
@@ -98,7 +98,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "등록내용");
 		//when
@@ -119,7 +119,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "등록내용");
 		//when
@@ -137,7 +137,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "등록내용");
 		//when
@@ -156,7 +156,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "댓글");
 		studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
@@ -178,7 +178,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistDefaultStudyOnceQuestion(
 			otherPerson, studyOnce);
 		//when
@@ -198,7 +198,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "댓글");
 		studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
@@ -219,7 +219,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "언제까지 공부하시나요?");
 		//when
@@ -240,7 +240,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "언제까지 공부하시나요?");
 		em.flush();
@@ -258,7 +258,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "언제까지 공부하시나요?");
 		em.flush();
@@ -279,7 +279,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "언제까지 공부하시나요?");
 		StudyOnceComment reply = studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
@@ -302,7 +302,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "언제까지 공부하시나요?");
 		StudyOnceComment reply = studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
@@ -324,7 +324,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "댓글");
 		StudyOnceComment reply = studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
@@ -347,7 +347,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "댓글");
 		StudyOnceComment reply = studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
@@ -369,7 +369,7 @@ class StudyOnceCommentServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "댓글");
 		StudyOnceComment reply = studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,

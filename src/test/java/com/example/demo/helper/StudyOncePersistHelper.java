@@ -8,22 +8,22 @@ import javax.persistence.PersistenceContext;
 import com.example.demo.builder.TestStudyOnceBuilder;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.StudyOnce;
 
 public class StudyOncePersistHelper {
 
 	@PersistenceContext
 	private EntityManager em;
 
-	public StudyOnceImpl persistDefaultStudyOnce(Cafe cafe, MemberImpl leader) {
-		StudyOnceImpl studyOnce = new TestStudyOnceBuilder().cafe(cafe).leader(leader).build();
+	public StudyOnce persistDefaultStudyOnce(Cafe cafe, MemberImpl leader) {
+		StudyOnce studyOnce = new TestStudyOnceBuilder().cafe(cafe).leader(leader).build();
 		em.persist(studyOnce);
 		return studyOnce;
 	}
 
-	public StudyOnceImpl persistStudyOnceWithTime(Cafe cafe, MemberImpl leader, LocalDateTime startDateTime,
+	public StudyOnce persistStudyOnceWithTime(Cafe cafe, MemberImpl leader, LocalDateTime startDateTime,
 		LocalDateTime endDateTime) {
-		StudyOnceImpl studyOnce = new TestStudyOnceBuilder().cafe(cafe)
+		StudyOnce studyOnce = new TestStudyOnceBuilder().cafe(cafe)
 			.leader(leader)
 			.startDateTime(startDateTime)
 			.endDateTime(endDateTime)

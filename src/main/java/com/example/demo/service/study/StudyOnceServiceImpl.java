@@ -15,7 +15,7 @@ import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.study.Attendance;
 import com.example.demo.domain.study.StudyMember;
 import com.example.demo.domain.study.StudyMemberId;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.PagedResponse;
 import com.example.demo.dto.member.MemberResponse;
 import com.example.demo.dto.study.StudyMemberStateRequest;
@@ -50,7 +50,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 
 	@Override
 	public void tryJoin(long memberIdThatExpectedToJoin, long studyId) {
-		StudyOnceImpl studyOnce = studyOnceRepository.findById(studyId)
+		StudyOnce studyOnce = studyOnceRepository.findById(studyId)
 			.orElseThrow(() -> new CafegoryException(STUDY_ONCE_NOT_FOUND));
 		LocalDateTime startDateTime = studyOnce.getStartDateTime();
 		MemberImpl member = getMember(memberIdThatExpectedToJoin, startDateTime);
@@ -61,7 +61,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	public void tryQuit(long memberIdThatExpectedToQuit, long studyId) {
 		MemberImpl member = memberRepository.findById(memberIdThatExpectedToQuit)
 			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
-		StudyOnceImpl studyOnce = studyOnceRepository.findById(studyId)
+		StudyOnce studyOnce = studyOnceRepository.findById(studyId)
 			.orElseThrow(() -> new CafegoryException(STUDY_ONCE_NOT_FOUND));
 		if (studyOnce.getLeader().equals(member)) {
 			deleteStudy(studyOnce);
@@ -70,7 +70,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		studyMemberRepository.delete(needToRemoveStudyMember);
 	}
 
-	private void deleteStudy(StudyOnceImpl studyOnce) {
+	private void deleteStudy(StudyOnce studyOnce) {
 		if (studyOnce.getStudyMembers().size() > 1) {
 			throw new CafegoryException(STUDY_ONCE_LEADER_QUIT_FAIL);
 		}
@@ -100,7 +100,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 
 	@Override
 	public StudyOnceSearchResponse searchByStudyId(long studyId) {
-		StudyOnceImpl searched = studyOnceRepository.findById(studyId)
+		StudyOnce searched = studyOnceRepository.findById(studyId)
 			.orElseThrow(() -> new CafegoryException(STUDY_ONCE_NOT_FOUND));
 		boolean canJoin = searched.canJoin(LocalDateTime.now());
 		return studyOnceMapper.toStudyOnceSearchResponse(searched, canJoin);
@@ -144,7 +144,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 			throw new CafegoryException(STUDY_ONCE_INVALID_LEADER);
 		}
 
-		StudyOnceImpl searched = findStudyOnceById(studyOnceId);
+		StudyOnce searched = findStudyOnceById(studyOnceId);
 		validateEarlyToTakeAttendance(now, searched.getStartDateTime());
 		validateLateToTakeAttendance(now, searched.getStartDateTime(), searched.getEndDateTime());
 
@@ -170,7 +170,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		}
 	}
 
-	private StudyOnceImpl findStudyOnceById(long studyOnceId) {
+	private StudyOnce findStudyOnceById(long studyOnceId) {
 		return studyOnceRepository.findById(studyOnceId)
 			.orElseThrow(() -> new CafegoryException(STUDY_ONCE_NOT_FOUND));
 	}
@@ -182,8 +182,8 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		//ToDo 카페 영업시간 이내인지 확인 하는 작업 추가 필요
 		LocalDateTime startDateTime = studyOnceCreateRequest.getStartDateTime();
 		MemberImpl leader = getMember(leaderId, startDateTime);
-		StudyOnceImpl studyOnce = studyOnceMapper.toNewEntity(studyOnceCreateRequest, cafe, leader);
-		StudyOnceImpl saved = studyOnceRepository.save(studyOnce);
+		StudyOnce studyOnce = studyOnceMapper.toNewEntity(studyOnceCreateRequest, cafe, leader);
+		StudyOnce saved = studyOnceRepository.save(studyOnce);
 		boolean canJoin = true;
 		return studyOnceMapper.toStudyOnceSearchResponse(saved, canJoin);
 	}
@@ -198,7 +198,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 
 	@Override
 	public Long changeCafe(Long requestMemberId, Long studyOnceId, final Long changingCafeId) {
-		final StudyOnceImpl studyOnce = findStudyOnceById(studyOnceId);
+		final StudyOnce studyOnce = findStudyOnceById(studyOnceId);
 		if (!isStudyOnceLeader(requestMemberId, studyOnceId)) {
 			throw new CafegoryException(STUDY_ONCE_LOCATION_CHANGE_PERMISSION_DENIED);
 		}
@@ -208,14 +208,14 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 
 	@Override
 	public StudyMembersResponse findStudyMembersById(Long studyOnceId) {
-		StudyOnceImpl studyOnce = findStudyOnceById(studyOnceId);
+		StudyOnce studyOnce = findStudyOnceById(studyOnceId);
 		List<MemberResponse> memberResponses = studyMemberMapper.toMemberResponses(studyOnce.getStudyMembers());
 		return new StudyMembersResponse(memberResponses);
 	}
 
 	@Override
 	public boolean isStudyOnceLeader(Long memberId, Long studyOnceId) {
-		StudyOnceImpl studyOnce = findStudyOnceById(studyOnceId);
+		StudyOnce studyOnce = findStudyOnceById(studyOnceId);
 		return studyOnce.isLeader(findMemberById(memberId));
 	}
 

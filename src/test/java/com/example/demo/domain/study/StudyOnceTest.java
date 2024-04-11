@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.exception.CafegoryException;
 
-class StudyOnceImplTest {
+class StudyOnceTest {
 	static final LocalDateTime NOW = LocalDateTime.now();
 	static final long LEADER_ID = 1L;
 	static final long MEMBER_ID = 2L;
@@ -27,7 +27,7 @@ class StudyOnceImplTest {
 	@MethodSource("canJoinParameter")
 	@DisplayName("참여 가능 여부 결정 테스트")
 	void canJoin(LocalDateTime base, LocalDateTime start, boolean expected) {
-		StudyOnceImpl studyOnce = StudyOnceImpl.builder()
+		StudyOnce studyOnce = StudyOnce.builder()
 			.startDateTime(start)
 			.endDateTime(start.plusHours(4))
 			.leader(MemberImpl.builder().build())
@@ -41,7 +41,7 @@ class StudyOnceImplTest {
 	void create() {
 		LocalDateTime start = NOW.plusHours(3).plusMinutes(1);
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
-		StudyOnceImpl studyOnce = StudyOnceImpl.builder()
+		StudyOnce studyOnce = StudyOnce.builder()
 			.startDateTime(start)
 			.endDateTime(start.plusHours(4))
 			.leader(leader)
@@ -63,7 +63,7 @@ class StudyOnceImplTest {
 	void tryJoin() {
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
 		MemberImpl member = makeMemberWithStudyOnce(NOW.plusHours(9), NOW.plusHours(13));
-		StudyOnceImpl studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
+		StudyOnce studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
 		studyOnce.tryJoin(member, NOW.plusHours(3).minusSeconds(1));
 		List<MemberImpl> collect = studyOnce.getStudyMembers()
 			.stream()
@@ -72,8 +72,8 @@ class StudyOnceImplTest {
 		org.assertj.core.api.Assertions.assertThat(collect).contains(member);
 	}
 
-	private static StudyOnceImpl makeStudy(MemberImpl leader, LocalDateTime start, LocalDateTime end) {
-		return StudyOnceImpl.builder()
+	private static StudyOnce makeStudy(MemberImpl leader, LocalDateTime start, LocalDateTime end) {
+		return StudyOnce.builder()
 			.startDateTime(start)
 			.endDateTime(end)
 			.leader(leader)
@@ -92,7 +92,7 @@ class StudyOnceImplTest {
 	void tryJoinFailByTimeOver() {
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
 		MemberImpl member = MemberImpl.builder().id(MEMBER_ID).build();
-		StudyOnceImpl studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
+		StudyOnce studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
 		org.assertj.core.api.Assertions.assertThatThrownBy(
 				() -> studyOnce.tryJoin(member, NOW.plusHours(3).plusSeconds(1)))
 			.isInstanceOf(CafegoryException.class)
@@ -104,7 +104,7 @@ class StudyOnceImplTest {
 	void tryJoinFailByConflict() {
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
 		MemberImpl member = makeMemberWithStudyOnce(NOW.plusHours(9), NOW.plusHours(13));
-		StudyOnceImpl studyOnce = makeStudy(leader, NOW.plusHours(5), NOW.plusHours(9));
+		StudyOnce studyOnce = makeStudy(leader, NOW.plusHours(5), NOW.plusHours(9));
 		org.assertj.core.api.Assertions.assertThatThrownBy(() -> studyOnce.tryJoin(member, NOW))
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_CONFLICT_TIME.getErrorMessage());
@@ -115,7 +115,7 @@ class StudyOnceImplTest {
 	void tryJoinFailByDuplicate() {
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
 		MemberImpl member = makeMemberWithStudyOnce(NOW.plusHours(9), NOW.plusHours(13));
-		StudyOnceImpl studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
+		StudyOnce studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
 		studyOnce.tryJoin(member, NOW);
 		org.assertj.core.api.Assertions.assertThatThrownBy(() -> studyOnce.tryJoin(member, NOW))
 			.isInstanceOf(CafegoryException.class)
@@ -127,7 +127,7 @@ class StudyOnceImplTest {
 	void tryQuit() {
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
 		MemberImpl member = MemberImpl.builder().id(MEMBER_ID).build();
-		StudyOnceImpl studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
+		StudyOnce studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
 		studyOnce.tryJoin(member, NOW);
 		studyOnce.tryQuit(member, NOW.plusHours(3).minusSeconds(1));
 	}
@@ -137,7 +137,7 @@ class StudyOnceImplTest {
 	void tryQuitFailByTimeOver() {
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
 		MemberImpl member = MemberImpl.builder().id(MEMBER_ID).build();
-		StudyOnceImpl studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
+		StudyOnce studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
 		studyOnce.tryJoin(member, NOW);
 		org.assertj.core.api.Assertions.assertThatThrownBy(
 				() -> studyOnce.tryQuit(member, NOW.plusHours(3).plusSeconds(1)))
@@ -150,7 +150,7 @@ class StudyOnceImplTest {
 	void tryQuitFailByNotJoin() {
 		MemberImpl leader = MemberImpl.builder().id(LEADER_ID).build();
 		MemberImpl member = MemberImpl.builder().id(MEMBER_ID).build();
-		StudyOnceImpl studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
+		StudyOnce studyOnce = makeStudy(leader, NOW.plusHours(4), NOW.plusHours(8));
 		org.assertj.core.api.Assertions.assertThatThrownBy(
 				() -> studyOnce.tryQuit(member, NOW))
 			.isInstanceOf(CafegoryException.class)

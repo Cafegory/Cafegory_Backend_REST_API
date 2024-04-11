@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.study.StudyMember;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.profile.ProfileResponse;
 import com.example.demo.dto.profile.ProfileUpdateRequest;
 import com.example.demo.exception.CafegoryException;
@@ -85,16 +85,16 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	private boolean isAllowedCauseStudyLeader(Long requestMemberID, Long targetMemberID) {
-		List<StudyOnceImpl> studyOnceByLeaderID = findStudyOnceByLeaderID(requestMemberID);
+		List<StudyOnce> studyOnceByLeaderID = findStudyOnceByLeaderID(requestMemberID);
 		Set<Long> memberIdInStudyOnce = getMemberIdInStudyOnce(studyOnceByLeaderID);
 		return memberIdInStudyOnce.contains(targetMemberID);
 	}
 
-	private List<StudyOnceImpl> findStudyOnceByLeaderID(Long requestMemberID) {
+	private List<StudyOnce> findStudyOnceByLeaderID(Long requestMemberID) {
 		return studyOnceRepository.findByLeaderId(requestMemberID);
 	}
 
-	private Set<Long> getMemberIdInStudyOnce(List<StudyOnceImpl> byLeaderId) {
+	private Set<Long> getMemberIdInStudyOnce(List<StudyOnce> byLeaderId) {
 		return mapToMemberId(byLeaderId.stream()
 			.flatMap(studyOnce -> studyOnce.getStudyMembers().stream())
 			.collect(Collectors.toList()));

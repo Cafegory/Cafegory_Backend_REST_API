@@ -1,14 +1,14 @@
 package com.example.demo.builder;
 
 import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
-import com.example.demo.domain.study.StudyOnceImpl;
 
 public class TestStudyOnceCommentBuilder {
 	private Long id;
 	private String content = "몇시까지 공부하시나요?";
 	private MemberImpl member;
-	private StudyOnceImpl studyOnce;
+	private StudyOnce studyOnce;
 	private StudyOnceComment parent;
 
 	public TestStudyOnceCommentBuilder id(Long id) {
@@ -26,7 +26,7 @@ public class TestStudyOnceCommentBuilder {
 		return this;
 	}
 
-	public TestStudyOnceCommentBuilder studyOnce(StudyOnceImpl studyOnce) {
+	public TestStudyOnceCommentBuilder studyOnce(StudyOnce studyOnce) {
 		this.studyOnce = studyOnce;
 		return this;
 	}

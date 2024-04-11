@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
-import com.example.demo.domain.study.StudyOnceImpl;
 import com.example.demo.dto.study.StudyOnceCommentSearchResponse;
 import com.example.demo.dto.study.StudyOnceCommentsSearchResponse;
 import com.example.demo.exception.CafegoryException;
@@ -59,7 +59,7 @@ public class StudyOnceCommentQueryServiceImpl implements StudyOnceCommentQuerySe
 		return response;
 	}
 
-	private StudyOnceImpl findStudyOnceById(long studyOnceId) {
+	private StudyOnce findStudyOnceById(long studyOnceId) {
 		return studyOnceRepository.findById(studyOnceId)
 			.orElseThrow(() -> new CafegoryException(STUDY_ONCE_NOT_FOUND));
 	}

@@ -38,13 +38,13 @@ public class StudyMember extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "study_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@MapsId("studyId")
-	private StudyOnceImpl study;
+	private StudyOnce study;
 	@Enumerated(EnumType.STRING)
 	@Setter
 	private Attendance attendance;
 
 	@Builder
-	public StudyMember(MemberImpl member, StudyOnceImpl study) {
+	public StudyMember(MemberImpl member, StudyOnce study) {
 		this.member = member;
 		this.study = study;
 		id = new StudyMemberId(member.getId(), study.getId());

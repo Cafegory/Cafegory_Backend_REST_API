@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.StudyOnce;
 
 public class TestStudyOnceBuilder {
 
@@ -69,8 +69,8 @@ public class TestStudyOnceBuilder {
 		return this;
 	}
 
-	public StudyOnceImpl build() {
-		StudyOnceImpl studyOnce = StudyOnceImpl.builder()
+	public StudyOnce build() {
+		StudyOnce studyOnce = StudyOnce.builder()
 			.id(id)
 			.name(name)
 			.cafe(cafe)

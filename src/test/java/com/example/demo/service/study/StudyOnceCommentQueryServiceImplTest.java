@@ -17,8 +17,8 @@ import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
-import com.example.demo.domain.study.StudyOnceImpl;
 import com.example.demo.dto.member.MemberResponse;
 import com.example.demo.dto.study.StudyOnceCommentSearchResponse;
 import com.example.demo.dto.study.StudyOnceCommentsSearchResponse;
@@ -56,7 +56,7 @@ class StudyOnceCommentQueryServiceImplTest {
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question1 = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
 			otherPerson, studyOnce, "댓글1");
 		StudyOnceComment question2 = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(

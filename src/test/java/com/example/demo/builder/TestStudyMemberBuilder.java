@@ -3,12 +3,12 @@ package com.example.demo.builder;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.study.Attendance;
 import com.example.demo.domain.study.StudyMember;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.StudyOnce;
 
 public class TestStudyMemberBuilder {
 
 	private MemberImpl member;
-	private StudyOnceImpl study;
+	private StudyOnce study;
 	private Attendance attendance = Attendance.YES;
 
 	public TestStudyMemberBuilder member(MemberImpl member) {
@@ -16,7 +16,7 @@ public class TestStudyMemberBuilder {
 		return this;
 	}
 
-	public TestStudyMemberBuilder study(StudyOnceImpl study) {
+	public TestStudyMemberBuilder study(StudyOnce study) {
 		this.study = study;
 		return this;
 	}
@@ -26,7 +26,7 @@ public class TestStudyMemberBuilder {
 		return this;
 	}
 
-	public StudyMember build(MemberImpl member, StudyOnceImpl study) {
+	public StudyMember build(MemberImpl member, StudyOnce study) {
 		return StudyMember.builder()
 			.member(member)
 			.study(study)

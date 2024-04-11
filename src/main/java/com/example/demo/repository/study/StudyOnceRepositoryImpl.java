@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.study.QStudyOnceImpl;
-import com.example.demo.domain.study.StudyOnceImpl;
+import com.example.demo.domain.study.QStudyOnce;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.study.StudyOnceSearchRequest;
 import com.example.demo.dto.study.TalkAbleState;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,10 +18,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StudyOnceRepositoryImpl implements StudyOnceRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
-	private final QStudyOnceImpl qStudyOnce = QStudyOnceImpl.studyOnceImpl;
+	private final QStudyOnce qStudyOnce = QStudyOnce.studyOnce;
 
 	@Override
-	public List<StudyOnceImpl> findAllByStudyOnceSearchRequest(StudyOnceSearchRequest studyOnceSearchRequest) {
+	public List<StudyOnce> findAllByStudyOnceSearchRequest(StudyOnceSearchRequest studyOnceSearchRequest) {
 		int maxMemberCount = studyOnceSearchRequest.getMaxMemberCount();
 		TalkAbleState canTalk = studyOnceSearchRequest.getCanTalk();
 		int sizePerPage = studyOnceSearchRequest.getSizePerPage();

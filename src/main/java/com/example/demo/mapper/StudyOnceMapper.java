@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
-import com.example.demo.domain.study.StudyOnceImpl;
 import com.example.demo.dto.WriterResponse;
 import com.example.demo.dto.study.StudyOnceCommentResponse;
 import com.example.demo.dto.study.StudyOnceCreateRequest;
@@ -32,9 +32,9 @@ public class StudyOnceMapper {
 			.collect(Collectors.toList());
 	}
 
-	public StudyOnceImpl toNewEntity(StudyOnceCreateRequest studyOnceCreateRequest, Cafe cafe,
+	public StudyOnce toNewEntity(StudyOnceCreateRequest studyOnceCreateRequest, Cafe cafe,
 		MemberImpl leader) {
-		return StudyOnceImpl.builder()
+		return StudyOnce.builder()
 			.name(studyOnceCreateRequest.getName())
 			.startDateTime(studyOnceCreateRequest.getStartDateTime())
 			.endDateTime(studyOnceCreateRequest.getEndDateTime())
@@ -47,7 +47,7 @@ public class StudyOnceMapper {
 			.build();
 	}
 
-	public StudyOnceSearchResponse toStudyOnceSearchResponse(StudyOnceImpl saved, boolean canJoin) {
+	public StudyOnceSearchResponse toStudyOnceSearchResponse(StudyOnce saved, boolean canJoin) {
 		return StudyOnceSearchResponse.builder()
 			.cafeId(saved.getCafe().getId())
 			.area(saved.getCafe().getRegion())
