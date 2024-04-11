@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.exception.CafegoryException;
 
@@ -45,14 +45,14 @@ public class ReviewImpl implements Review {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cafe_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private CafeImpl cafe;
+	private Cafe cafe;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private MemberImpl member;
 
 	@Builder
-	private ReviewImpl(Long id, String content, double rate, CafeImpl cafe, MemberImpl member) {
+	private ReviewImpl(Long id, String content, double rate, Cafe cafe, MemberImpl member) {
 		validateEmptyOrWhitespace(content);
 		validateRateRange(rate);
 		this.id = id;

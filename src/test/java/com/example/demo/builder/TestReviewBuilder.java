@@ -1,6 +1,6 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.review.ReviewImpl;
 
@@ -9,7 +9,7 @@ public class TestReviewBuilder {
 	private Long id;
 	private String content = "커피가 맛있고 공부하기 좋아요!!";
 	private double rate = 4.9;
-	private CafeImpl cafe;
+	private Cafe cafe;
 	private MemberImpl member;
 
 	public TestReviewBuilder id(Long id) {
@@ -27,7 +27,7 @@ public class TestReviewBuilder {
 		return this;
 	}
 
-	public TestReviewBuilder cafe(CafeImpl cafe) {
+	public TestReviewBuilder cafe(Cafe cafe) {
 		this.cafe = cafe;
 		return this;
 	}

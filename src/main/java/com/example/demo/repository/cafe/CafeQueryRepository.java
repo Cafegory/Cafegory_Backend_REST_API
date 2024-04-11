@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.MaxAllowableStay;
 import com.example.demo.domain.cafe.MinMenuPrice;
@@ -33,7 +33,7 @@ public class CafeQueryRepository {
 	private final EntityManager em;
 	private final JPAQueryFactory queryFactory;
 
-	public List<CafeImpl> findWithDynamicFilterAndNoPaging(CafeSearchCondition searchCondition) {
+	public List<Cafe> findWithDynamicFilterAndNoPaging(CafeSearchCondition searchCondition) {
 		return queryFactory
 			.selectFrom(cafeImpl)
 			.where(
@@ -47,8 +47,8 @@ public class CafeQueryRepository {
 			.fetch();
 	}
 
-	public Page<CafeImpl> findWithDynamicFilter(CafeSearchCondition searchCondition, Pageable pageable) {
-		List<CafeImpl> content = queryFactory
+	public Page<Cafe> findWithDynamicFilter(CafeSearchCondition searchCondition, Pageable pageable) {
+		List<Cafe> content = queryFactory
 			.selectFrom(cafeImpl)
 			.where(
 				isAbleToStudy(searchCondition.isAbleToStudy()),

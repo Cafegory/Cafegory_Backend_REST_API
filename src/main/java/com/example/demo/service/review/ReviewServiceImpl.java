@@ -5,7 +5,7 @@ import static com.example.demo.exception.ExceptionType.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.review.ReviewImpl;
 import com.example.demo.dto.review.ReviewSaveRequest;
@@ -74,7 +74,7 @@ public class ReviewServiceImpl implements ReviewService {
 			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
 	}
 
-	private CafeImpl findCafeById(Long cafeId) {
+	private Cafe findCafeById(Long cafeId) {
 		return cafeRepository.findById(cafeId)
 			.orElseThrow(() -> new CafegoryException(CAFE_NOT_FOUND));
 	}

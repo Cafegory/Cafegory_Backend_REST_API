@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Address;
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.StudyOnceImpl;
@@ -40,7 +40,7 @@ class ProfileServiceImplTest {
 
 	private long initCafe() {
 		Address address = new Address("테스트도 테스트시 테스트구 테스트동 ...", "테스트동");
-		CafeImpl cafe = CafeImpl.builder()
+		Cafe cafe = Cafe.builder()
 			.address(address).build();
 		em.persist(cafe);
 		return cafe.getId();
@@ -56,7 +56,7 @@ class ProfileServiceImplTest {
 		return member.getId();
 	}
 
-	private long initStudy(MemberImpl leader, CafeImpl cafe) {
+	private long initStudy(MemberImpl leader, Cafe cafe) {
 		LocalDateTime start = LocalDateTime.now().plusHours(4);
 		StudyOnceImpl studyOnce = StudyOnceImpl.builder()
 			.leader(leader)
@@ -92,7 +92,7 @@ class ProfileServiceImplTest {
 		long requestMemberId = initMember();
 		long targetMemberId = initMember();
 		long studyLeaderId = initMember();
-		CafeImpl cafe = em.find(CafeImpl.class, cafeId);
+		Cafe cafe = em.find(Cafe.class, cafeId);
 		MemberImpl leader = em.find(MemberImpl.class, studyLeaderId);
 		long studyId = initStudy(leader, cafe);
 

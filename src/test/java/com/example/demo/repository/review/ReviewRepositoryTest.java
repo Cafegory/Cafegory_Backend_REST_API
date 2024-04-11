@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.QueryDslConfig;
 import com.example.demo.config.TestConfig;
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.review.ReviewImpl;
@@ -47,7 +47,7 @@ class ReviewRepositoryTest {
 	@Test
 	void findAllByCafeId() {
 		//given
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member = memberPersistHelper.persistDefaultMember(thumb);
 		reviewPersistHelper.persistDefaultReview(cafe, member);
@@ -64,7 +64,7 @@ class ReviewRepositoryTest {
 	@DisplayName("페이징 기본값")
 	void findAllWithPagingByCafeId() {
 		//given
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member = memberPersistHelper.persistDefaultMember(thumb);
 

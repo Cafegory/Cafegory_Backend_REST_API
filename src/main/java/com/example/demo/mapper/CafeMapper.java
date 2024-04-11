@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.example.demo.domain.cafe.BusinessHour;
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.OpenChecker;
 import com.example.demo.dto.cafe.BusinessHourResponse;
@@ -20,7 +20,7 @@ import com.example.demo.dto.study.StudyOnceForCafeResponse;
 
 public class CafeMapper {
 
-	public List<CafeSearchResponse> toCafeSearchResponses(List<CafeImpl> cafes,
+	public List<CafeSearchResponse> toCafeSearchResponses(List<Cafe> cafes,
 		OpenChecker<BusinessHour> openChecker) {
 		return cafes.stream()
 			.map(cafe ->
@@ -29,7 +29,7 @@ public class CafeMapper {
 			.collect(Collectors.toList());
 	}
 
-	private CafeSearchResponse produceCafeSearchResponse(CafeImpl cafe, OpenChecker<BusinessHour> openChecker) {
+	private CafeSearchResponse produceCafeSearchResponse(Cafe cafe, OpenChecker<BusinessHour> openChecker) {
 		return new CafeSearchResponse(
 			cafe.getId(),
 			cafe.getName(),
@@ -50,11 +50,11 @@ public class CafeMapper {
 		);
 	}
 
-	public CafeSearchResponse toCafeSearchResponse(CafeImpl cafe, OpenChecker<BusinessHour> openChecker) {
+	public CafeSearchResponse toCafeSearchResponse(Cafe cafe, OpenChecker<BusinessHour> openChecker) {
 		return produceCafeSearchResponse(cafe, openChecker);
 	}
 
-	public CafeBasicInfoResponse toCafeBasicInfoResponse(CafeImpl cafe,
+	public CafeBasicInfoResponse toCafeBasicInfoResponse(Cafe cafe,
 		List<BusinessHourResponse> businessHourResponses,
 		List<SnsResponse> snsResponses,
 		OpenChecker<BusinessHour> openChecker) {
@@ -83,7 +83,7 @@ public class CafeMapper {
 	}
 
 	public CafeResponse toCafeResponse(
-		CafeImpl findCafe,
+		Cafe findCafe,
 		List<BusinessHourResponse> businessHourResponses,
 		List<SnsResponse> snsResponses,
 		List<ReviewResponse> reviewResponses,
@@ -110,7 +110,7 @@ public class CafeMapper {
 	}
 
 	public CafeResponse toCafeResponseWithEmptyInfo(
-		CafeImpl findCafe,
+		Cafe findCafe,
 		List<BusinessHourResponse> businessHourResponses,
 		List<SnsResponse> snsResponses,
 		List<ReviewResponse> reviewResponses,

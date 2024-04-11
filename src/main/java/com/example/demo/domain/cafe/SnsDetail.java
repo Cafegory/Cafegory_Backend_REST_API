@@ -31,6 +31,6 @@ public class SnsDetail {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cafe_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private CafeImpl cafe;
+	private Cafe cafe;
 
 }

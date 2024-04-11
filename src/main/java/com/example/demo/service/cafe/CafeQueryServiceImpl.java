@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.cafe.BusinessHour;
 import com.example.demo.domain.cafe.BusinessHourOpenChecker;
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.OpenChecker;
 import com.example.demo.dto.PagedResponse;
@@ -51,7 +51,7 @@ public class CafeQueryServiceImpl implements CafeQueryService {
 		Pageable pageable = PageRequestCustom.of(request.getPage(), request.getSizePerPage());
 		CafeSearchCondition cafeSearchCondition = cafeMapper.toCafeSearchCondition(request);
 
-		Page<CafeImpl> pagedCafes = cafeQueryRepository.findWithDynamicFilter(cafeSearchCondition,
+		Page<Cafe> pagedCafes = cafeQueryRepository.findWithDynamicFilter(cafeSearchCondition,
 			pageable);
 		return createPagedResponse(pagedCafes,
 			cafeMapper.toCafeSearchResponses(pagedCafes.getContent(), openChecker));
@@ -59,7 +59,7 @@ public class CafeQueryServiceImpl implements CafeQueryService {
 
 	@Override
 	public CafeResponse searchCafeById(Long cafeId) {
-		CafeImpl findCafe = findCafeById(cafeId);
+		Cafe findCafe = findCafeById(cafeId);
 		return cafeMapper.toCafeResponse(
 			findCafe,
 			businessHourMapper.toBusinessHourResponses(findCafe.getBusinessHours()),
@@ -75,14 +75,14 @@ public class CafeQueryServiceImpl implements CafeQueryService {
 		return cafeMapper.toCafeSearchResponse(findCafeById(cafeId), openChecker);
 	}
 
-	private CafeImpl findCafeById(Long cafeId) {
+	private Cafe findCafeById(Long cafeId) {
 		return cafeRepository.findById(cafeId)
 			.orElseThrow(() -> new CafegoryException(CAFE_NOT_FOUND));
 	}
 
 	@Override
 	public CafeResponse searchCafeForMemberByCafeId(Long cafeId, Long memberId) {
-		CafeImpl findCafe = findCafeById(cafeId);
+		Cafe findCafe = findCafeById(cafeId);
 		if (!memberRepository.existsById(memberId)) {
 			throw new CafegoryException(MEMBER_NOT_FOUND);
 		}
@@ -98,7 +98,7 @@ public class CafeQueryServiceImpl implements CafeQueryService {
 
 	@Override
 	public CafeResponse searchCafeForNotMemberByCafeId(Long cafeId) {
-		CafeImpl findCafe = findCafeById(cafeId);
+		Cafe findCafe = findCafeById(cafeId);
 		return cafeMapper.toCafeResponseWithEmptyInfo(
 			findCafe,
 			businessHourMapper.toBusinessHourResponses(findCafe.getBusinessHours()),
@@ -108,7 +108,7 @@ public class CafeQueryServiceImpl implements CafeQueryService {
 		);
 	}
 
-	private PagedResponse<CafeSearchResponse> createPagedResponse(Page<CafeImpl> pagedCafes,
+	private PagedResponse<CafeSearchResponse> createPagedResponse(Page<Cafe> pagedCafes,
 		List<CafeSearchResponse> cafeSearchResponses) {
 		return PagedResponse.createWithFirstPageAsOne(
 			pagedCafes.getNumber(),

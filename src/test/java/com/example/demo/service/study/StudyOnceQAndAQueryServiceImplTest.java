@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.StudyOnceComment;
@@ -49,7 +49,7 @@ class StudyOnceQAndAQueryServiceImplTest {
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnceImpl studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment studyOnceComment = studyOnceCommentPersistHelper.persistDefaultStudyOnceQuestion(
 			otherPerson, studyOnce);

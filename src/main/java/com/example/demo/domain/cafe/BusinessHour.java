@@ -42,7 +42,7 @@ public class BusinessHour {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cafe_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private CafeImpl cafe;
+	private Cafe cafe;
 
 	public boolean existsMatchingDayOfWeek(LocalDateTime now) {
 		try {

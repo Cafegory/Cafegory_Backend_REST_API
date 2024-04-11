@@ -1,7 +1,7 @@
 package com.example.demo.builder;
 
 import com.example.demo.domain.cafe.Address;
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.cafe.MaxAllowableStay;
 
 public class TestCafeBuilder {
@@ -55,8 +55,8 @@ public class TestCafeBuilder {
 		return this;
 	}
 
-	public CafeImpl build() {
-		return CafeImpl.builder()
+	public Cafe build() {
+		return Cafe.builder()
 			.id(id)
 			.name(name)
 			.address(address)

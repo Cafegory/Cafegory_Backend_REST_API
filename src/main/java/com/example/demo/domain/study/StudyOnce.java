@@ -2,7 +2,7 @@ package com.example.demo.domain.study;
 
 import java.time.LocalDateTime;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberImpl;
 
@@ -19,7 +19,7 @@ public interface StudyOnce {
 
 	void updateAttendance(Member leader, Member member, boolean attendance);
 
-	void changeCafe(CafeImpl cafe);
+	void changeCafe(Cafe cafe);
 
 	boolean isLeader(MemberImpl member);
 

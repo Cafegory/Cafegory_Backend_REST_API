@@ -3,7 +3,7 @@ package com.example.demo.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.study.StudyOnceComment;
 import com.example.demo.domain.study.StudyOnceImpl;
@@ -15,7 +15,7 @@ import com.example.demo.dto.study.StudyOnceSearchResponse;
 
 public class StudyOnceMapper {
 
-	public List<StudyOnceForCafeResponse> toStudyOnceForCafeResponse(CafeImpl findCafe) {
+	public List<StudyOnceForCafeResponse> toStudyOnceForCafeResponse(Cafe findCafe) {
 		return findCafe.getStudyOnceGroup().stream()
 			.map(studyOnce ->
 				StudyOnceForCafeResponse.builder()
@@ -32,7 +32,7 @@ public class StudyOnceMapper {
 			.collect(Collectors.toList());
 	}
 
-	public StudyOnceImpl toNewEntity(StudyOnceCreateRequest studyOnceCreateRequest, CafeImpl cafe,
+	public StudyOnceImpl toNewEntity(StudyOnceCreateRequest studyOnceCreateRequest, Cafe cafe,
 		MemberImpl leader) {
 		return StudyOnceImpl.builder()
 			.name(studyOnceCreateRequest.getName())

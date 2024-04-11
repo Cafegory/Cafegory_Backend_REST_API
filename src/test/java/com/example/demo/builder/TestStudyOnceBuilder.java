@@ -2,7 +2,7 @@ package com.example.demo.builder;
 
 import java.time.LocalDateTime;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.study.StudyOnceImpl;
 
@@ -10,7 +10,7 @@ public class TestStudyOnceBuilder {
 
 	private Long id;
 	private String name = "카페 스터디";
-	private CafeImpl cafe;
+	private Cafe cafe;
 	private LocalDateTime startDateTime = LocalDateTime.of(2999, 2, 16, 12, 0);
 	private LocalDateTime endDateTime = LocalDateTime.of(2999, 2, 16, 15, 0);
 	private int maxMemberCount = 5;
@@ -29,7 +29,7 @@ public class TestStudyOnceBuilder {
 		return this;
 	}
 
-	public TestStudyOnceBuilder cafe(CafeImpl cafe) {
+	public TestStudyOnceBuilder cafe(Cafe cafe) {
 		this.cafe = cafe;
 		return this;
 	}

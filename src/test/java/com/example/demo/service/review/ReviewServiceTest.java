@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.review.ReviewImpl;
@@ -46,7 +46,7 @@ class ReviewServiceTest {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
 		List<ReviewImpl> findReviews = reviewRepository.findAllByCafeId(cafe.getId());
@@ -60,7 +60,7 @@ class ReviewServiceTest {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
 		//then
@@ -75,7 +75,7 @@ class ReviewServiceTest {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
 		//then
@@ -90,7 +90,7 @@ class ReviewServiceTest {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		Long savedReviewId = reviewService.saveReview(member1.getId(), cafe.getId(),
 			new ReviewSaveRequest("커피가 맛있어요", 4.5));
 		//when
@@ -121,7 +121,7 @@ class ReviewServiceTest {
 		ThumbnailImage thumbnailImage2 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
 		MemberImpl member2 = memberPersistHelper.persistDefaultMember(thumbnailImage2);
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 
 		Long savedReviewId = reviewService.saveReview(member2.getId(), cafe.getId(),
 			new ReviewSaveRequest("커피가 맛있어요", 4.5));
@@ -137,7 +137,7 @@ class ReviewServiceTest {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
-		CafeImpl cafe = cafePersistHelper.persistDefaultCafe();
+		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 
 		Long savedReviewId = reviewService.saveReview(member1.getId(), cafe.getId(),
 			new ReviewSaveRequest("커피가 맛있어요", 4.5));

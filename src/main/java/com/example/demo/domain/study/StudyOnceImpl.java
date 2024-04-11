@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.exception.CafegoryException;
@@ -46,7 +46,7 @@ public class StudyOnceImpl implements StudyOnce {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cafe_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private CafeImpl cafe;
+	private Cafe cafe;
 
 	private LocalDateTime startDateTime;
 	private LocalDateTime endDateTime;
@@ -61,7 +61,7 @@ public class StudyOnceImpl implements StudyOnce {
 	private List<StudyMember> studyMembers;
 
 	@Builder
-	private StudyOnceImpl(Long id, String name, CafeImpl cafe, LocalDateTime startDateTime, LocalDateTime endDateTime,
+	private StudyOnceImpl(Long id, String name, Cafe cafe, LocalDateTime startDateTime, LocalDateTime endDateTime,
 		int maxMemberCount, int nowMemberCount, boolean isEnd, boolean ableToTalk, MemberImpl leader) {
 		validateStartDateTime(startDateTime);
 		validateStudyOnceTime(startDateTime, endDateTime);
@@ -156,7 +156,7 @@ public class StudyOnceImpl implements StudyOnce {
 	}
 
 	@Override
-	public void changeCafe(CafeImpl cafe) {
+	public void changeCafe(Cafe cafe) {
 		this.cafe = cafe;
 		cafe.getStudyOnceGroup().add(this);
 	}

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.cafe.CafeImpl;
+import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.study.Attendance;
 import com.example.demo.domain.study.StudyMember;
@@ -177,7 +177,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 
 	@Override
 	public StudyOnceSearchResponse createStudy(long leaderId, StudyOnceCreateRequest studyOnceCreateRequest) {
-		CafeImpl cafe = cafeRepository.findById(studyOnceCreateRequest.getCafeId())
+		Cafe cafe = cafeRepository.findById(studyOnceCreateRequest.getCafeId())
 			.orElseThrow(() -> new CafegoryException(CAFE_NOT_FOUND));
 		//ToDo 카페 영업시간 이내인지 확인 하는 작업 추가 필요
 		LocalDateTime startDateTime = studyOnceCreateRequest.getStartDateTime();
@@ -224,7 +224,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
 	}
 
-	private CafeImpl findCafeById(Long cafeId) {
+	private Cafe findCafeById(Long cafeId) {
 		return cafeRepository.findById(cafeId)
 			.orElseThrow(() -> new CafegoryException(CAFE_NOT_FOUND));
 	}
