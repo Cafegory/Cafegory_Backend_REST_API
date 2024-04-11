@@ -1,36 +1,36 @@
 package com.example.demo.helper;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import com.example.demo.builder.TestStudyOnceCommentBuilder;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
+import com.example.demo.repository.study.StudyOnceCommentRepository;
 
-public class StudyOnceCommentPersistHelper {
+public class StudyOnceCommentPersistHelperImpl extends StudyOnceCommentPersistHelper {
+	private final StudyOnceCommentRepository studyOnceCommentRepository;
 
-	@PersistenceContext
-	private EntityManager em;
+	public StudyOnceCommentPersistHelperImpl(StudyOnceCommentRepository studyOnceCommentRepository) {
+		this.studyOnceCommentRepository = studyOnceCommentRepository;
+	}
 
+	@Override
 	public StudyOnceComment persistDefaultStudyOnceQuestion(Member member, StudyOnce studyOnce) {
 		StudyOnceComment studyOnceComment = new TestStudyOnceCommentBuilder().member(member)
 			.studyOnce(studyOnce)
 			.build();
-		em.persist(studyOnceComment);
-		return studyOnceComment;
+		return studyOnceCommentRepository.save(studyOnceComment);
 	}
 
-	public StudyOnceComment persistStudyOnceQuestionWithContent(Member member, StudyOnce studyOnce,
-		String content) {
+	@Override
+	public StudyOnceComment persistStudyOnceQuestionWithContent(Member member, StudyOnce studyOnce, String content) {
 		StudyOnceComment studyOnceComment = new TestStudyOnceCommentBuilder().member(member)
 			.studyOnce(studyOnce)
 			.content(content)
 			.build();
-		em.persist(studyOnceComment);
-		return studyOnceComment;
+		return studyOnceCommentRepository.save(studyOnceComment);
 	}
 
+	@Override
 	public StudyOnceComment persistStudyOnceReplyWithContent(Member member, StudyOnce studyOnce,
 		StudyOnceComment parent, String content) {
 		StudyOnceComment reply = new TestStudyOnceCommentBuilder().member(member)
@@ -38,8 +38,6 @@ public class StudyOnceCommentPersistHelper {
 			.parent(parent)
 			.content(content)
 			.build();
-		em.persist(reply);
-		return reply;
+		return studyOnceCommentRepository.save(reply);
 	}
-
 }
