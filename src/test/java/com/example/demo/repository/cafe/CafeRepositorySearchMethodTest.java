@@ -35,14 +35,14 @@ import com.example.demo.util.PageRequestCustom;
 
 // @SpringBootTest
 @DataJpaTest
-@Import({QueryDslConfig.class, CafeQueryRepository.class})
+@Import({QueryDslConfig.class, CafeQueryDslRepository.class})
 @Transactional
 class CafeRepositorySearchMethodTest {
 
 	@Autowired
 	private EntityManager em;
 	@Autowired
-	private CafeQueryRepository cafeRepository;
+	private CafeQueryDslRepository cafeRepository;
 
 	void setUp(String region, MaxAllowableStay maxAllowableStay, boolean isAbleToStudy,
 		int minBeveragePrice, LocalTime startTime, LocalTime endTime) {

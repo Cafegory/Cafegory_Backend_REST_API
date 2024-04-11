@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.domain.cafe.Cafe;
 
-public interface CafeRepository extends JpaRepository<Cafe, Long>, CafeRepositoryCustom {
+public interface CafeRepository extends JpaRepository<Cafe, Long> {
 }

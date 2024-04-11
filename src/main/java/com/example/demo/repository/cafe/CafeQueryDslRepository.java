@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -28,9 +26,8 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class CafeQueryRepository {
+public class CafeQueryDslRepository {
 
-	private final EntityManager em;
 	private final JPAQueryFactory queryFactory;
 
 	public List<Cafe> findWithDynamicFilterAndNoPaging(CafeSearchCondition searchCondition) {

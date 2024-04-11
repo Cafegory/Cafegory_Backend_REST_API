@@ -32,7 +32,7 @@ import com.example.demo.dto.study.StudyOnceSearchResponse;
 import com.example.demo.dto.study.UpdateAttendanceRequest;
 import com.example.demo.dto.study.UpdateAttendanceResponse;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.service.cafe.CafeQueryService;
+import com.example.demo.service.cafe.CafeService;
 import com.example.demo.service.study.StudyOnceCommentQueryService;
 import com.example.demo.service.study.StudyOnceCommentService;
 import com.example.demo.service.study.StudyOnceQAndAQueryService;
@@ -46,7 +46,7 @@ import lombok.RequiredArgsConstructor;
 public class StudyOnceController {
 	private final StudyOnceService studyOnceService;
 	private final CafegoryTokenManager cafegoryTokenManager;
-	private final CafeQueryService cafeQueryService;
+	private final CafeService cafeService;
 	private final StudyOnceCommentService studyOnceCommentService;
 	private final StudyOnceQAndAQueryService studyOnceQAndAQueryService;
 	private final StudyOnceCommentQueryService studyOnceCommentQueryService;
@@ -106,7 +106,7 @@ public class StudyOnceController {
 		@RequestBody Long cafeId) {
 		long leaderId = cafegoryTokenManager.getIdentityId(authorization);
 		Long changedCafeId = studyOnceService.changeCafe(leaderId, studyOnceId, cafeId);
-		CafeSearchResponse response = cafeQueryService.searchCafeBasicInfoById(changedCafeId);
+		CafeSearchResponse response = cafeService.searchCafeBasicInfoById(changedCafeId);
 		return ResponseEntity.ok(response);
 	}
 

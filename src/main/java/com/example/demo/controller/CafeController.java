@@ -14,7 +14,7 @@ import com.example.demo.dto.PagedResponse;
 import com.example.demo.dto.cafe.CafeResponse;
 import com.example.demo.dto.cafe.CafeSearchRequest;
 import com.example.demo.dto.cafe.CafeSearchResponse;
-import com.example.demo.service.cafe.CafeQueryService;
+import com.example.demo.service.cafe.CafeService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,13 +22,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CafeController {
 
-	private final CafeQueryService cafeQueryService;
+	private final CafeService cafeService;
 	private final CafegoryTokenManager cafegoryTokenManager;
 
 	@GetMapping("/cafe/list")
 	public ResponseEntity<PagedResponse<CafeSearchResponse>> searchCafeList(
 		@ModelAttribute CafeSearchRequest cafeSearchRequest) {
-		PagedResponse<CafeSearchResponse> response = cafeQueryService.searchWithPagingByDynamicFilter(
+		PagedResponse<CafeSearchResponse> response = cafeService.searchWithPagingByDynamicFilter(
 			cafeSearchRequest);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -38,10 +38,10 @@ public class CafeController {
 		@RequestHeader(value = "Authorization", required = false) String authorization) {
 		if (!StringUtils.hasText(authorization)) {
 			long memberId = cafegoryTokenManager.getIdentityId(authorization);
-			CafeResponse response = cafeQueryService.searchCafeForMemberByCafeId(cafeId, memberId);
+			CafeResponse response = cafeService.searchCafeForMemberByCafeId(cafeId, memberId);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
-		CafeResponse response = cafeQueryService.searchCafeForNotMemberByCafeId(cafeId);
+		CafeResponse response = cafeService.searchCafeForNotMemberByCafeId(cafeId);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
