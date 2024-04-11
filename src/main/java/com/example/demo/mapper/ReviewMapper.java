@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.example.demo.domain.member.MemberImpl;
-import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.domain.review.Review;
 import com.example.demo.dto.WriterResponse;
 import com.example.demo.dto.review.ReviewResponse;
 import com.example.demo.dto.review.ReviewSearchResponse;
 
 public class ReviewMapper {
 
-	public List<ReviewSearchResponse> toReviewSearchResponses(List<ReviewImpl> reviews) {
+	public List<ReviewSearchResponse> toReviewSearchResponses(List<Review> reviews) {
 		return reviews.stream()
 			.map(review ->
 				new ReviewSearchResponse(
@@ -30,7 +30,7 @@ public class ReviewMapper {
 		return new WriterResponse(memberId, name, thumbnailImg);
 	}
 
-	public ReviewResponse toReviewResponse(ReviewImpl findReview) {
+	public ReviewResponse toReviewResponse(Review findReview) {
 		return ReviewResponse.builder()
 			.reviewId(findReview.getId())
 			.writer(
@@ -44,7 +44,7 @@ public class ReviewMapper {
 			.build();
 	}
 
-	public List<ReviewResponse> toReviewResponses(List<ReviewImpl> reviews) {
+	public List<ReviewResponse> toReviewResponses(List<Review> reviews) {
 		return reviews.stream()
 			.map(review ->
 				produceReviewResponse(

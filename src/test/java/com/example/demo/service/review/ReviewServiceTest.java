@@ -15,7 +15,7 @@ import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
-import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.domain.review.Review;
 import com.example.demo.dto.review.ReviewSaveRequest;
 import com.example.demo.dto.review.ReviewUpdateRequest;
 import com.example.demo.exception.CafegoryException;
@@ -49,7 +49,7 @@ class ReviewServiceTest {
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
-		List<ReviewImpl> findReviews = reviewRepository.findAllByCafeId(cafe.getId());
+		List<Review> findReviews = reviewRepository.findAllByCafeId(cafe.getId());
 		//then
 		assertThat(findReviews.size()).isEqualTo(1);
 	}
@@ -95,7 +95,7 @@ class ReviewServiceTest {
 			new ReviewSaveRequest("커피가 맛있어요", 4.5));
 		//when
 		reviewService.updateReview(member1.getId(), savedReviewId, new ReviewUpdateRequest("주차하기 편해요!", 5));
-		ReviewImpl findReview = reviewRepository.findById(savedReviewId).get();
+		Review findReview = reviewRepository.findById(savedReviewId).get();
 		//then
 		assertThat(findReview.getContent()).isEqualTo("주차하기 편해요!");
 		assertThat(findReview.getRate()).isEqualTo(5);
@@ -143,7 +143,7 @@ class ReviewServiceTest {
 			new ReviewSaveRequest("커피가 맛있어요", 4.5));
 		//when
 		reviewService.deleteReview(member1.getId(), savedReviewId);
-		ReviewImpl review = reviewRepository.findById(savedReviewId).orElse(null);
+		Review review = reviewRepository.findById(savedReviewId).orElse(null);
 		//then
 		assertThat(review).isNull();
 	}

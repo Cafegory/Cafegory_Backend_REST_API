@@ -30,7 +30,7 @@ import com.example.demo.domain.cafe.MaxAllowableStay;
 import com.example.demo.domain.cafe.Menu;
 import com.example.demo.domain.cafe.SnsDetail;
 import com.example.demo.domain.member.MemberImpl;
-import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.domain.review.Review;
 import com.example.demo.util.PageRequestCustom;
 
 // @SpringBootTest
@@ -89,14 +89,14 @@ class CafeRepositorySearchMethodTest {
 			em.persist(member1);
 			em.persist(member2);
 
-			ReviewImpl review1 = ReviewImpl.builder()
+			Review review1 = Review.builder()
 				.content("카페가 너무 이뻐요")
 				.rate(5)
 				.cafe(cafe)
 				.member(member1)
 				.build();
 
-			ReviewImpl review2 = ReviewImpl.builder()
+			Review review2 = Review.builder()
 				.content("콘센트가 있어서 좋아요")
 				.rate(4.5)
 				.cafe(cafe)

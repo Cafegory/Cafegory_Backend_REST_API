@@ -19,7 +19,7 @@ import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.domain.member.ThumbnailImage;
-import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.domain.review.Review;
 import com.example.demo.helper.CafePersistHelper;
 import com.example.demo.helper.MemberPersistHelper;
 import com.example.demo.helper.ReviewPersistHelper;
@@ -55,7 +55,7 @@ class ReviewRepositoryTest {
 		em.flush();
 		em.clear();
 		//when
-		List<ReviewImpl> reviews = reviewRepository.findAllByCafeId(cafe.getId());
+		List<Review> reviews = reviewRepository.findAllByCafeId(cafe.getId());
 		//then
 		assertThat(reviews.size()).isEqualTo(2);
 	}
@@ -75,7 +75,7 @@ class ReviewRepositoryTest {
 		em.flush();
 		em.clear();
 		//when
-		Page<ReviewImpl> pagedReviews = reviewRepository.findAllWithPagingByCafeId(cafe.getId(),
+		Page<Review> pagedReviews = reviewRepository.findAllWithPagingByCafeId(cafe.getId(),
 			PageRequestCustom.createByDefault());
 		//then
 		assertThat(pagedReviews.getContent().size()).isEqualTo(10);

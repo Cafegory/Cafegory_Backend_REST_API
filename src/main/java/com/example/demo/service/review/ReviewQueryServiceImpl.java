@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.domain.review.Review;
 import com.example.demo.dto.PagedResponse;
 import com.example.demo.dto.review.ReviewResponse;
 import com.example.demo.dto.review.ReviewSearchRequest;
@@ -35,7 +35,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 	public PagedResponse<ReviewSearchResponse> searchWithPagingByCafeId(ReviewSearchRequest request) {
 		validateExistCafe(request.getCafeId());
 		Pageable pageable = PageRequestCustom.of(request.getPage(), request.getSizePerPage());
-		Page<ReviewImpl> pagedReviews = reviewRepository.findAllWithPagingByCafeId(request.getCafeId(),
+		Page<Review> pagedReviews = reviewRepository.findAllWithPagingByCafeId(request.getCafeId(),
 			pageable);
 		return createPagedResponse(pagedReviews,
 			reviewMapper.toReviewSearchResponses(pagedReviews.getContent()));
@@ -46,7 +46,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 		return reviewMapper.toReviewResponse(findReviewById(reviewId));
 	}
 
-	private ReviewImpl findReviewById(Long reviewId) {
+	private Review findReviewById(Long reviewId) {
 		return reviewRepository.findById(reviewId)
 			.orElseThrow(() -> new CafegoryException(REVIEW_NOT_FOUND));
 	}
@@ -57,7 +57,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 		}
 	}
 
-	private PagedResponse<ReviewSearchResponse> createPagedResponse(Page<ReviewImpl> pagedReviews,
+	private PagedResponse<ReviewSearchResponse> createPagedResponse(Page<Review> pagedReviews,
 		List<ReviewSearchResponse> reviewSearchResponse) {
 		return PagedResponse.createWithFirstPageAsOne(
 			pagedReviews.getNumber(),

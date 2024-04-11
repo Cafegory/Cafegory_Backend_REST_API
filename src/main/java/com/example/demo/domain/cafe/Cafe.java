@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.domain.review.Review;
 import com.example.demo.domain.study.StudyOnce;
 
 import lombok.AccessLevel;
@@ -59,7 +59,7 @@ public class Cafe {
 
 	@OneToMany(mappedBy = "cafe")
 	@Builder.Default
-	private List<ReviewImpl> reviews = new ArrayList<>();
+	private List<Review> reviews = new ArrayList<>();
 
 	@OneToMany(mappedBy = "cafe")
 	@Builder.Default

@@ -2,7 +2,7 @@ package com.example.demo.builder;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.MemberImpl;
-import com.example.demo.domain.review.ReviewImpl;
+import com.example.demo.domain.review.Review;
 
 public class TestReviewBuilder {
 
@@ -37,8 +37,8 @@ public class TestReviewBuilder {
 		return this;
 	}
 
-	public ReviewImpl build() {
-		return ReviewImpl.builder()
+	public Review build() {
+		return Review.builder()
 			.id(id)
 			.content(content)
 			.rate(rate)
