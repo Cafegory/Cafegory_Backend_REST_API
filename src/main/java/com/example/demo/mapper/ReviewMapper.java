@@ -3,7 +3,7 @@ package com.example.demo.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.review.Review;
 import com.example.demo.dto.WriterResponse;
 import com.example.demo.dto.review.ReviewResponse;
@@ -67,7 +67,7 @@ public class ReviewMapper {
 			.build();
 	}
 
-	private WriterResponse productWriterResponse(MemberImpl member) {
+	private WriterResponse productWriterResponse(Member member) {
 		return new WriterResponse(member.getId(),
 			member.getName(),
 			member.getThumbnailImage().getThumbnailImage()

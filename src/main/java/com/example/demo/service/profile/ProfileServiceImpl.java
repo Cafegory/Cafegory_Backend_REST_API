@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.study.StudyMember;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.profile.ProfileResponse;
@@ -50,7 +50,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public ProfileResponse update(Long requestMemberId, Long targetMemberId,
 		ProfileUpdateRequest profileUpdateRequest) {
 		validateProfileUpdatePermission(requestMemberId, targetMemberId);
-		MemberImpl targetMember = findTargetMember(targetMemberId);
+		Member targetMember = findTargetMember(targetMemberId);
 		String name = profileUpdateRequest.getName();
 		String introduction = profileUpdateRequest.getIntroduction();
 		targetMember.updateProfile(name, introduction);
@@ -63,8 +63,8 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 	}
 
-	private MemberImpl findTargetMember(Long targetMemberId) {
-		Optional<MemberImpl> targetMember = memberRepository.findById(targetMemberId);
+	private Member findTargetMember(Long targetMemberId) {
+		Optional<Member> targetMember = memberRepository.findById(targetMemberId);
 		if (targetMember.isEmpty()) {
 			throw new CafegoryException(MEMBER_NOT_FOUND);
 		}
@@ -72,7 +72,7 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	private ProfileResponse makeProfileResponse(Long targetMemberID) {
-		MemberImpl member = memberRepository.findById(targetMemberID).orElseThrow();
+		Member member = memberRepository.findById(targetMemberID).orElseThrow();
 		return new ProfileResponse(member.getName(), member.getThumbnailImage().getThumbnailImage(),
 			member.getIntroduction());
 	}
@@ -103,18 +103,18 @@ public class ProfileServiceImpl implements ProfileService {
 	private static Set<Long> mapToMemberId(List<StudyMember> studyMembers) {
 		return studyMembers.stream()
 			.map(StudyMember::getMember)
-			.map(MemberImpl::getId)
+			.map(Member::getId)
 			.collect(Collectors.toSet());
 	}
 
 	private boolean isAllowedCauseSameStudyOnceMember(Long requestMemberID, Long targetMemberID, LocalDateTime base) {
-		MemberImpl requestMember = memberRepository.findById(requestMemberID).orElseThrow();
+		Member requestMember = memberRepository.findById(requestMemberID).orElseThrow();
 		List<StudyMember> studyMembers = findAllSameStudyOnceStudyMembersWith(requestMember, base);
 		Set<Long> memberIdsThatJoinWithRequestMember = mapToMemberId(studyMembers);
 		return memberIdsThatJoinWithRequestMember.contains(targetMemberID);
 	}
 
-	private List<StudyMember> findAllSameStudyOnceStudyMembersWith(MemberImpl requestMember, LocalDateTime base) {
+	private List<StudyMember> findAllSameStudyOnceStudyMembersWith(Member requestMember, LocalDateTime base) {
 		LocalDate baseDate = LocalDate.from(base);
 		return studyMemberRepository.findByMemberAndStudyDate(requestMember, baseDate)
 			.stream()

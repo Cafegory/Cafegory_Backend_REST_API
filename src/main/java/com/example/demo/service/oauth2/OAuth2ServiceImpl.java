@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.domain.auth.CafegoryTokenManager;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.oauth2.OAuth2ProfileRequester;
 import com.example.demo.domain.oauth2.OAuth2TokenRequester;
@@ -30,9 +30,9 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 	@Override
 	public CafegoryToken joinOrLogin(OAuth2TokenRequest oAuth2TokenRequest) {
 		OAuth2Profile oAuth2Profile = callOAuth2Api(oAuth2TokenRequest);
-		Optional<MemberImpl> byEmail = memberRepository.findByEmail(oAuth2Profile.getEmailAddress());
+		Optional<Member> byEmail = memberRepository.findByEmail(oAuth2Profile.getEmailAddress());
 		if (byEmail.isEmpty()) {
-			MemberImpl save = memberRepository.save(makeNewMember(oAuth2Profile));
+			Member save = memberRepository.save(makeNewMember(oAuth2Profile));
 			return makeCafegoryToken(save.getId());
 		}
 		return makeCafegoryToken(byEmail.get().getId());
@@ -43,11 +43,11 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 		return cafegoryTokenManager.createToken(claims);
 	}
 
-	private static MemberImpl makeNewMember(OAuth2Profile oAuth2Profile) {
+	private static Member makeNewMember(OAuth2Profile oAuth2Profile) {
 		ThumbnailImage thumbnailImage = new ThumbnailImage(null, oAuth2Profile.getProfileImgUrl());
 		String nickName = oAuth2Profile.getNickName();
 		String emailAddress = oAuth2Profile.getEmailAddress();
-		return MemberImpl.builder()
+		return Member.builder()
 			.name(nickName)
 			.thumbnailImage(thumbnailImage)
 			.email(emailAddress)

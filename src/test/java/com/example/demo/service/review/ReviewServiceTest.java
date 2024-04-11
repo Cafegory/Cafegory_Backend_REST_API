@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.review.Review;
 import com.example.demo.dto.review.ReviewSaveRequest;
@@ -45,7 +45,7 @@ class ReviewServiceTest {
 	void saveReview() {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
+		Member member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
@@ -59,7 +59,7 @@ class ReviewServiceTest {
 	void saveReview_cafe_exception() {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
+		Member member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
@@ -74,7 +74,7 @@ class ReviewServiceTest {
 	void saveReview_member_exception() {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
+		Member member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
@@ -89,7 +89,7 @@ class ReviewServiceTest {
 	void update_content() {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
+		Member member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		Long savedReviewId = reviewService.saveReview(member1.getId(), cafe.getId(),
 			new ReviewSaveRequest("커피가 맛있어요", 4.5));
@@ -106,7 +106,7 @@ class ReviewServiceTest {
 	void update_content_review_exception() {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
+		Member member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
 		//then
 		assertThatThrownBy(() ->
 			reviewService.updateReview(member1.getId(), 100L, new ReviewUpdateRequest("주차하기 편해요!", 5))
@@ -119,8 +119,8 @@ class ReviewServiceTest {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
 		ThumbnailImage thumbnailImage2 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
-		MemberImpl member2 = memberPersistHelper.persistDefaultMember(thumbnailImage2);
+		Member member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
+		Member member2 = memberPersistHelper.persistDefaultMember(thumbnailImage2);
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 
 		Long savedReviewId = reviewService.saveReview(member2.getId(), cafe.getId(),
@@ -136,7 +136,7 @@ class ReviewServiceTest {
 	void delete_review() {
 		//given
 		ThumbnailImage thumbnailImage1 = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
+		Member member1 = memberPersistHelper.persistDefaultMember(thumbnailImage1);
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 
 		Long savedReviewId = reviewService.saveReview(member1.getId(), cafe.getId(),

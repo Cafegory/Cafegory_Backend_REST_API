@@ -5,7 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import com.example.demo.builder.TestReviewBuilder;
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.review.Review;
 
 public class ReviewPersistHelper {
@@ -13,7 +13,7 @@ public class ReviewPersistHelper {
 	@PersistenceContext
 	private EntityManager em;
 
-	public Review persistDefaultReview(Cafe cafe, MemberImpl member) {
+	public Review persistDefaultReview(Cafe cafe, Member member) {
 		Review review = new TestReviewBuilder().cafe(cafe).member(member).build();
 		em.persist(review);
 		return review;

@@ -22,7 +22,6 @@ import javax.persistence.Table;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.MemberImpl;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.exception.ExceptionType;
 
@@ -56,13 +55,13 @@ public class StudyOnce {
 	private boolean ableToTalk;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "leader_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private MemberImpl leader;
+	private Member leader;
 	@OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<StudyMember> studyMembers;
 
 	@Builder
 	private StudyOnce(Long id, String name, Cafe cafe, LocalDateTime startDateTime, LocalDateTime endDateTime,
-		int maxMemberCount, int nowMemberCount, boolean isEnd, boolean ableToTalk, MemberImpl leader) {
+		int maxMemberCount, int nowMemberCount, boolean isEnd, boolean ableToTalk, Member leader) {
 		validateStartDateTime(startDateTime);
 		validateStudyOnceTime(startDateTime, endDateTime);
 		this.id = id;
@@ -102,7 +101,7 @@ public class StudyOnce {
 		validateJoinRequestTime(requestTime);
 		validateDuplicateJoin(memberThatExpectedToJoin);
 		validateConflictJoin(memberThatExpectedToJoin);
-		StudyMember studyMember = new StudyMember((MemberImpl)memberThatExpectedToJoin, this);
+		StudyMember studyMember = new StudyMember(memberThatExpectedToJoin, this);
 		studyMembers.add(studyMember);
 		memberThatExpectedToJoin.addStudyMember(studyMember);
 	}
@@ -148,16 +147,12 @@ public class StudyOnce {
 		}
 	}
 
-	public void updateAttendance(Member leader, Member member, boolean attendance) {
-
-	}
-
 	public void changeCafe(Cafe cafe) {
 		this.cafe = cafe;
 		cafe.getStudyOnceGroup().add(this);
 	}
 
-	public boolean isLeader(MemberImpl member) {
+	public boolean isLeader(Member member) {
 		return leader.getId().equals(member.getId());
 	}
 

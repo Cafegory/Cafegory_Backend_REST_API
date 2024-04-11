@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.config.QueryDslConfig;
 import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.review.Review;
 import com.example.demo.helper.CafePersistHelper;
@@ -49,7 +49,7 @@ class ReviewRepositoryTest {
 		//given
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member = memberPersistHelper.persistDefaultMember(thumb);
+		Member member = memberPersistHelper.persistDefaultMember(thumb);
 		reviewPersistHelper.persistDefaultReview(cafe, member);
 		reviewPersistHelper.persistDefaultReview(cafe, member);
 		em.flush();
@@ -66,7 +66,7 @@ class ReviewRepositoryTest {
 		//given
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl member = memberPersistHelper.persistDefaultMember(thumb);
+		Member member = memberPersistHelper.persistDefaultMember(thumb);
 
 		for (int i = 0; i < 20; i++) {
 			reviewPersistHelper.persistDefaultReview(cafe, member);

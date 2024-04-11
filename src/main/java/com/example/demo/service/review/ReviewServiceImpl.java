@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.review.Review;
 import com.example.demo.dto.review.ReviewSaveRequest;
 import com.example.demo.dto.review.ReviewUpdateRequest;
@@ -42,14 +42,14 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void updateReview(Long memberId, Long reviewId, ReviewUpdateRequest request) {
 		Review findReview = findReviewById(reviewId);
-		MemberImpl findMember = findMemberById(memberId);
+		Member findMember = findMemberById(memberId);
 		validateReviewer(findReview, findMember);
 
 		findReview.updateContent(request.getContent());
 		findReview.updateRate(request.getRate());
 	}
 
-	private static void validateReviewer(Review findReview, MemberImpl findMember) {
+	private static void validateReviewer(Review findReview, Member findMember) {
 		if (!findReview.isValidMember(findMember)) {
 			throw new CafegoryException(ExceptionType.REVIEW_INVALID_MEMBER);
 		}
@@ -63,13 +63,13 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void deleteReview(Long memberId, Long reviewId) {
 		Review findReview = findReviewById(reviewId);
-		MemberImpl findMember = findMemberById(memberId);
+		Member findMember = findMemberById(memberId);
 		validateReviewer(findReview, findMember);
 
 		reviewRepository.delete(findReview);
 	}
 
-	private MemberImpl findMemberById(Long memberId) {
+	private Member findMemberById(Long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
 	}

@@ -15,7 +15,7 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import com.example.demo.domain.BaseEntity;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,7 +34,7 @@ public class StudyMember extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@MapsId("memberId")
-	private MemberImpl member;
+	private Member member;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "study_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@MapsId("studyId")
@@ -44,7 +44,7 @@ public class StudyMember extends BaseEntity {
 	private Attendance attendance;
 
 	@Builder
-	public StudyMember(MemberImpl member, StudyOnce study) {
+	public StudyMember(Member member, StudyOnce study) {
 		this.member = member;
 		this.study = study;
 		id = new StudyMemberId(member.getId(), study.getId());

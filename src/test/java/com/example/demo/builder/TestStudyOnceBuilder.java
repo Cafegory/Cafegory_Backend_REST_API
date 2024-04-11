@@ -3,7 +3,7 @@ package com.example.demo.builder;
 import java.time.LocalDateTime;
 
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.study.StudyOnce;
 
 public class TestStudyOnceBuilder {
@@ -17,7 +17,7 @@ public class TestStudyOnceBuilder {
 	private int nowMemberCount = 0;
 	private boolean isEnd = false;
 	private boolean ableToTalk = true;
-	private MemberImpl leader;
+	private Member leader;
 
 	public TestStudyOnceBuilder id(Long id) {
 		this.id = id;
@@ -64,7 +64,7 @@ public class TestStudyOnceBuilder {
 		return this;
 	}
 
-	public TestStudyOnceBuilder leader(MemberImpl leader) {
+	public TestStudyOnceBuilder leader(Member leader) {
 		this.leader = leader;
 		return this;
 	}

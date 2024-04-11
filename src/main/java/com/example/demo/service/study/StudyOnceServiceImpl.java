@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.study.Attendance;
 import com.example.demo.domain.study.StudyMember;
 import com.example.demo.domain.study.StudyMemberId;
@@ -53,13 +53,13 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		StudyOnce studyOnce = studyOnceRepository.findById(studyId)
 			.orElseThrow(() -> new CafegoryException(STUDY_ONCE_NOT_FOUND));
 		LocalDateTime startDateTime = studyOnce.getStartDateTime();
-		MemberImpl member = getMember(memberIdThatExpectedToJoin, startDateTime);
+		Member member = getMember(memberIdThatExpectedToJoin, startDateTime);
 		studyOnce.tryJoin(member, LocalDateTime.now());
 	}
 
 	@Override
 	public void tryQuit(long memberIdThatExpectedToQuit, long studyId) {
-		MemberImpl member = memberRepository.findById(memberIdThatExpectedToQuit)
+		Member member = memberRepository.findById(memberIdThatExpectedToQuit)
 			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
 		StudyOnce studyOnce = studyOnceRepository.findById(studyId)
 			.orElseThrow(() -> new CafegoryException(STUDY_ONCE_NOT_FOUND));
@@ -181,15 +181,15 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 			.orElseThrow(() -> new CafegoryException(CAFE_NOT_FOUND));
 		//ToDo 카페 영업시간 이내인지 확인 하는 작업 추가 필요
 		LocalDateTime startDateTime = studyOnceCreateRequest.getStartDateTime();
-		MemberImpl leader = getMember(leaderId, startDateTime);
+		Member leader = getMember(leaderId, startDateTime);
 		StudyOnce studyOnce = studyOnceMapper.toNewEntity(studyOnceCreateRequest, cafe, leader);
 		StudyOnce saved = studyOnceRepository.save(studyOnce);
 		boolean canJoin = true;
 		return studyOnceMapper.toStudyOnceSearchResponse(saved, canJoin);
 	}
 
-	private MemberImpl getMember(long leaderId, LocalDateTime startDateTime) {
-		MemberImpl leader = memberRepository.findById(leaderId)
+	private Member getMember(long leaderId, LocalDateTime startDateTime) {
+		Member leader = memberRepository.findById(leaderId)
 			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
 		var studyMembers = studyMemberRepository.findByMemberAndStudyDate(leader, startDateTime.toLocalDate());
 		leader.setStudyMembers(studyMembers);
@@ -219,7 +219,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		return studyOnce.isLeader(findMemberById(memberId));
 	}
 
-	private MemberImpl findMemberById(Long memberId) {
+	private Member findMemberById(Long memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
 	}

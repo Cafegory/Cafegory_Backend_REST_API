@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.demo.domain.BaseEntity;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -49,14 +49,14 @@ public class StudyOnceComment extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private MemberImpl member;
+	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "study_once_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private StudyOnce studyOnce;
 
 	@Builder
-	private StudyOnceComment(Long id, String content, MemberImpl member, StudyOnce studyOnce) {
+	private StudyOnceComment(Long id, String content, Member member, StudyOnce studyOnce) {
 		//todo content에 대한 검증 추가
 		this.id = id;
 		this.content = content;
@@ -74,7 +74,7 @@ public class StudyOnceComment extends BaseEntity {
 		this.content = content;
 	}
 
-	public boolean isPersonAsked(MemberImpl member) {
+	public boolean isPersonAsked(Member member) {
 		return this.member.getId().equals(member.getId());
 	}
 

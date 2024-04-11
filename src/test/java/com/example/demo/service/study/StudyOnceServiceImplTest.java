@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Address;
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.Attendance;
 import com.example.demo.domain.study.StudyMember;
@@ -78,7 +78,7 @@ class StudyOnceServiceImplTest {
 	}
 
 	private long initMember() {
-		MemberImpl member = MemberImpl.builder()
+		Member member = Member.builder()
 			.name("테스트")
 			.email("test@test.com")
 			.thumbnailImage(ThumbnailImage.builder().thumbnailImage("testUrl").build())
@@ -374,11 +374,11 @@ class StudyOnceServiceImplTest {
 	void take_attendance(LocalDateTime startDateTime, LocalDateTime endDateTime, LocalDateTime now) {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistStudyOnceWithTime(cafe, leader,
 			startDateTime, endDateTime);
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//when
 		studyOnceService.updateAttendance(leader.getId(), studyOnce.getId(), member.getId(), Attendance.NO,
@@ -422,10 +422,10 @@ class StudyOnceServiceImplTest {
 	void take_attendance_study_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//then
 		assertThatThrownBy(() ->
@@ -440,12 +440,12 @@ class StudyOnceServiceImplTest {
 	void take_attendance_memberId_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistStudyOnceWithTime(cafe, leader,
 			LocalDateTime.of(2999, 2, 17, 18, 0),
 			LocalDateTime.of(2999, 2, 17, 21, 0));
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//then
 		assertThatThrownBy(() ->
@@ -460,10 +460,10 @@ class StudyOnceServiceImplTest {
 	void take_attendance_leaderId_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//then
 		assertThatThrownBy(() ->
@@ -478,12 +478,12 @@ class StudyOnceServiceImplTest {
 	void can_take_attendance_from_start_time_in_10min() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistStudyOnceWithTime(cafe, leader,
 			LocalDateTime.of(2999, 2, 17, 18, 0),
 			LocalDateTime.of(2999, 2, 17, 21, 0));
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//then
 		studyOnceService.updateAttendance(leader.getId(), studyOnce.getId(), member.getId(), Attendance.NO,
@@ -502,13 +502,13 @@ class StudyOnceServiceImplTest {
 	void can_take_attendance_from_start_time_in_10min_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistStudyOnceWithTime(cafe, leader,
 			LocalDateTime.of(2999, 2, 17, 18, 0),
 			LocalDateTime.of(2999, 2, 17, 21, 0));
 
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//then
 		assertThatThrownBy(() ->
@@ -523,13 +523,13 @@ class StudyOnceServiceImplTest {
 	void can_take_attendance_until_half_whole_study_time() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistStudyOnceWithTime(cafe, leader,
 			LocalDateTime.of(2999, 2, 17, 18, 0),
 			LocalDateTime.of(2999, 2, 17, 21, 0)
 		);
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//when
 		studyOnceService.updateAttendance(leader.getId(), studyOnce.getId(), member.getId(), Attendance.NO,
@@ -548,12 +548,12 @@ class StudyOnceServiceImplTest {
 	void can_take_attendance_until_half_whole_study_time_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistStudyOnceWithTime(cafe, leader,
 			LocalDateTime.of(2999, 2, 17, 18, 0),
 			LocalDateTime.of(2999, 2, 17, 21, 0));
-		MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
+		Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버");
 		studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 		//then
 		assertThatThrownBy(() ->
@@ -568,7 +568,7 @@ class StudyOnceServiceImplTest {
 	void can_take_attendances() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistStudyOnceWithTime(cafe, leader,
 			LocalDateTime.of(2999, 2, 17, 18, 0),
@@ -576,7 +576,7 @@ class StudyOnceServiceImplTest {
 
 		List<StudyMemberStateRequest> memberStateRequests = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
-			MemberImpl member = memberPersistHelper.persistMemberWithName(thumb, "멤버" + i);
+			Member member = memberPersistHelper.persistMemberWithName(thumb, "멤버" + i);
 			studyMemberPersistHelper.persistDefaultStudyMember(member, studyOnce);
 			memberStateRequests.add(
 				new StudyMemberStateRequest(member.getId(), false, LocalDateTime.of(2999, 2, 17, 12, 0)));
@@ -603,7 +603,7 @@ class StudyOnceServiceImplTest {
 	void change_cafe() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		Cafe changingCafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
@@ -618,7 +618,7 @@ class StudyOnceServiceImplTest {
 	void change_cafe_by_leader_only() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		Cafe changingCafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
@@ -631,7 +631,7 @@ class StudyOnceServiceImplTest {
 	void change_cafe_if_not_exist_requestMember() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		Cafe changingCafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
@@ -646,8 +646,8 @@ class StudyOnceServiceImplTest {
 	void change_cafe_if_not_leader() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "카공장이아닌사람");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "카공장이아닌사람");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		Cafe changingCafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
@@ -663,9 +663,9 @@ class StudyOnceServiceImplTest {
 	void findStudyMembers() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl member1 = memberPersistHelper.persistMemberWithName(thumb, "김동현");
-		MemberImpl member2 = memberPersistHelper.persistMemberWithName(thumb, "임수빈");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member member1 = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member member2 = memberPersistHelper.persistMemberWithName(thumb, "임수빈");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		studyMemberPersistHelper.persistDefaultStudyMember(member1, studyOnce);

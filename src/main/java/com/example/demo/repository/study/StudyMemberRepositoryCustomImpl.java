@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.study.StudyMember;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,7 +20,7 @@ public class StudyMemberRepositoryCustomImpl implements StudyMemberRepositoryCus
 	private final JPAQueryFactory queryFactory;
 
 	@Override
-	public List<StudyMember> findByMemberAndStudyDate(MemberImpl member, LocalDate studyDate) {
+	public List<StudyMember> findByMemberAndStudyDate(Member member, LocalDate studyDate) {
 		return queryFactory.selectFrom(studyMember)
 			.where(studyMember.member.eq(member), makeStudyDateCondition(studyDate))
 			.fetch();

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import org.thymeleaf.util.StringUtils;
 
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.exception.CafegoryException;
 
 import lombok.AccessLevel;
@@ -49,10 +49,10 @@ public class Review {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private MemberImpl member;
+	private Member member;
 
 	@Builder
-	private Review(Long id, String content, double rate, Cafe cafe, MemberImpl member) {
+	private Review(Long id, String content, double rate, Cafe cafe, Member member) {
 		validateEmptyOrWhitespace(content);
 		validateRateRange(rate);
 		this.id = id;
@@ -90,7 +90,7 @@ public class Review {
 		this.rate = rate;
 	}
 
-	public boolean isValidMember(MemberImpl member) {
+	public boolean isValidMember(Member member) {
 		return this.member.equals(member);
 	}
 

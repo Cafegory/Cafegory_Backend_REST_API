@@ -29,7 +29,7 @@ import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.MaxAllowableStay;
 import com.example.demo.domain.cafe.Menu;
 import com.example.demo.domain.cafe.SnsDetail;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.review.Review;
 import com.example.demo.util.PageRequestCustom;
 
@@ -80,10 +80,10 @@ class CafeRepositorySearchMethodTest {
 				.build();
 			em.persist(instagram);
 
-			MemberImpl member1 = MemberImpl.builder()
+			Member member1 = Member.builder()
 				.name("김동현")
 				.build();
-			MemberImpl member2 = MemberImpl.builder()
+			Member member2 = Member.builder()
 				.name("임수빈")
 				.build();
 			em.persist(member1);

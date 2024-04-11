@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
@@ -58,8 +58,8 @@ class StudyOnceCommentServiceImplTest {
 	void save_question() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		//when
@@ -77,7 +77,7 @@ class StudyOnceCommentServiceImplTest {
 	void save_question_by_leader() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		//when
@@ -95,8 +95,8 @@ class StudyOnceCommentServiceImplTest {
 	void update_question() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -116,8 +116,8 @@ class StudyOnceCommentServiceImplTest {
 	void update_question_by_member_who_asked_the_question() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -134,8 +134,8 @@ class StudyOnceCommentServiceImplTest {
 	void update_question_by_member_who_not_asked_the_question_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -153,8 +153,8 @@ class StudyOnceCommentServiceImplTest {
 	void update_question_when_reply_already_existed_then_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -175,8 +175,8 @@ class StudyOnceCommentServiceImplTest {
 	void delete_question() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistDefaultStudyOnceQuestion(
@@ -195,8 +195,8 @@ class StudyOnceCommentServiceImplTest {
 	void delete_question_when_reply_already_existed_then_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -216,8 +216,8 @@ class StudyOnceCommentServiceImplTest {
 	void save_reply() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -237,8 +237,8 @@ class StudyOnceCommentServiceImplTest {
 	void save_reply_by_leader() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -255,8 +255,8 @@ class StudyOnceCommentServiceImplTest {
 	void save_reply_by_not_leader_then_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -276,8 +276,8 @@ class StudyOnceCommentServiceImplTest {
 	void save_reply_second_times_then_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -299,8 +299,8 @@ class StudyOnceCommentServiceImplTest {
 	void save_reply_when_top_level_comment_try_to_have_two_replies() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -321,8 +321,8 @@ class StudyOnceCommentServiceImplTest {
 	void update_reply() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -344,8 +344,8 @@ class StudyOnceCommentServiceImplTest {
 	void remove_reply() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
@@ -366,8 +366,8 @@ class StudyOnceCommentServiceImplTest {
 	void update_reply_by_member_who_not_asked_the_reply_exception() {
 		//given
 		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		MemberImpl leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		MemberImpl otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
+		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
+		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 		StudyOnceComment question = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(

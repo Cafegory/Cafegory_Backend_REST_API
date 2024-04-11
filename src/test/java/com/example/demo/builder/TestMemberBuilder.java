@@ -1,6 +1,6 @@
 package com.example.demo.builder;
 
-import com.example.demo.domain.member.MemberImpl;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
 
 public class TestMemberBuilder {
@@ -31,8 +31,8 @@ public class TestMemberBuilder {
 		return this;
 	}
 
-	public MemberImpl build() {
-		return MemberImpl.builder()
+	public Member build() {
+		return Member.builder()
 			.id(id)
 			.name(name)
 			.email(email)
