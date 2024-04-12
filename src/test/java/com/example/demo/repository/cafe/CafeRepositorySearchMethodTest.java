@@ -2,13 +2,13 @@ package com.example.demo.repository.cafe;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
-
-import javax.persistence.EntityManager;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.config.QueryDslConfig;
@@ -27,10 +28,8 @@ import com.example.demo.domain.cafe.BusinessHour;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.MaxAllowableStay;
-import com.example.demo.domain.cafe.Menu;
-import com.example.demo.domain.cafe.SnsDetail;
-import com.example.demo.domain.member.Member;
-import com.example.demo.domain.review.Review;
+import com.example.demo.repository.member.MemberRepository;
+import com.example.demo.repository.review.ReviewRepository;
 import com.example.demo.util.PageRequestCustom;
 
 // @SpringBootTest
@@ -40,86 +39,70 @@ import com.example.demo.util.PageRequestCustom;
 class CafeRepositorySearchMethodTest {
 
 	@Autowired
-	private EntityManager em;
+	private CafeQueryDslRepository cafeQueryDslRepository;
 	@Autowired
-	private CafeQueryDslRepository cafeRepository;
+	private CafeRepository cafeRepository;
+	@Autowired
+	private MemberRepository memberRepository;
+	@Autowired
+	private ReviewRepository reviewRepository;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	long id = 1000;
 
 	void setUp(String region, MaxAllowableStay maxAllowableStay, boolean isAbleToStudy,
 		int minBeveragePrice, LocalTime startTime, LocalTime endTime) {
-
+		List<Cafe> cafes = new ArrayList<>();
+		List<BusinessHour> businessHours = new ArrayList<>();
 		for (int i = 0; i < 20; i++) {
 			Cafe cafe = Cafe.builder()
+				.id(id++)
 				.name("카페고리" + i)
 				.address(new Address("서울 마포구 " + region, region))
-				.phone("010-1234-5678")
+				.phone("010-1234-" + i)
 				.maxAllowableStay(maxAllowableStay)
 				.isAbleToStudy(isAbleToStudy)
 				.minBeveragePrice(minBeveragePrice)
 				.build();
-			em.persist(cafe);
+			cafes.add(cafe);
 
 			BusinessHour monday = BusinessHour.builder()
+				.id(id++)
 				.day("MONDAY")
 				.startTime(startTime)
 				.endTime(endTime)
 				.cafe(cafe)
 				.build();
 			BusinessHour tuesday = BusinessHour.builder()
+				.id(id++)
 				.day("TUESDAY")
 				.startTime(startTime)
 				.endTime(endTime)
 				.cafe(cafe)
 				.build();
-			em.persist(monday);
-			em.persist(tuesday);
-
-			SnsDetail instagram = SnsDetail.builder()
-				.name("인스타그램")
-				.url("https://www.instagram.com/cafegory/" + i)
-				.cafe(cafe)
-				.build();
-			em.persist(instagram);
-
-			Member member1 = Member.builder()
-				.name("김동현")
-				.build();
-			Member member2 = Member.builder()
-				.name("임수빈")
-				.build();
-			em.persist(member1);
-			em.persist(member2);
-
-			Review review1 = Review.builder()
-				.content("카페가 너무 이뻐요")
-				.rate(5)
-				.cafe(cafe)
-				.member(member1)
-				.build();
-
-			Review review2 = Review.builder()
-				.content("콘센트가 있어서 좋아요")
-				.rate(4.5)
-				.cafe(cafe)
-				.member(member2)
-				.build();
-			em.persist(review1);
-			em.persist(review2);
-
-			Menu menu1 = Menu.builder()
-				.name("아메리카노")
-				.price(2000)
-				.cafe(cafe)
-				.build();
-			Menu menu2 = Menu.builder()
-				.name("카페라떼")
-				.price(2500)
-				.cafe(cafe)
-				.build();
-			em.persist(menu1);
-			em.persist(menu2);
-
+			businessHours.add(monday);
+			businessHours.add(tuesday);
 		}
-
+		jdbcTemplate.batchUpdate("insert into cafe VALUES (?,?,?,?,?,?,?,?,?)", cafes, cafes.size(), (ps, argument) -> {
+			ps.setLong(1, argument.getId());
+			ps.setString(2, argument.showFullAddress());
+			ps.setString(3, argument.getAddress().getRegion());
+			ps.setDouble(4, argument.getAvgReviewRate());
+			ps.setBoolean(5, argument.isAbleToStudy());
+			ps.setString(6, argument.getMaxAllowableStay().name());
+			ps.setInt(7, argument.getMinBeveragePrice());
+			ps.setString(8, argument.getName());
+			ps.setString(9, argument.getPhone());
+		});
+		jdbcTemplate.batchUpdate("insert into business_hour values (?,?,?,?,?)", businessHours, businessHours.size(),
+			(ps, argument) -> {
+				ps.setLong(1, argument.getId());
+				ps.setString(2, argument.getDay());
+				ps.setTime(3, Time.valueOf(argument.getEndTime()));
+				ps.setTime(4, Time.valueOf(argument.getStartTime()));
+				ps.setLong(5, argument.getCafe().getId());
+			});
 	}
 
 	private CafeSearchCondition createSearchConditionByRequirements(boolean isAbleToStudy, String region) {
@@ -130,7 +113,7 @@ class CafeRepositorySearchMethodTest {
 	@Test
 	@DisplayName("데이터가 없으면 빈값을 반환한다")
 	void search_Cafes_When_No_Data_Then_EmptyList() {
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(
 			createSearchConditionByRequirements(true, "상수동"));
 		assertThat(cafes).isEqualTo(Collections.emptyList());
 	}
@@ -143,7 +126,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(20);
 	}
@@ -156,7 +139,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(false, "상수동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(0);
 	}
@@ -169,7 +152,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(0);
 	}
@@ -182,7 +165,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(false, "상수동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(20);
 	}
@@ -196,7 +179,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(false, "상수동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(20);
 	}
@@ -210,7 +193,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(20);
 	}
@@ -224,7 +207,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(20);
 	}
@@ -238,7 +221,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(20);
 	}
@@ -251,7 +234,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "쌍수100동");
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(0);
 	}
@@ -267,7 +250,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition1 = createSearchConditionByRequirements(isAbleToStudy, region);
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition1);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition1);
 		//then
 		assertThat(cafes.size()).isEqualTo(expected);
 	}
@@ -298,7 +281,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByMaxTime(isAbleToStudy, region, maxTime);
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(expected);
 	}
@@ -333,7 +316,7 @@ class CafeRepositorySearchMethodTest {
 
 		//when
 		CafeSearchCondition searchCondition = createSearchConditionByMinMenuPrice(isAbleToStudy, region, minMenuPrice);
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(searchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(searchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(expected);
 	}
@@ -369,7 +352,7 @@ class CafeRepositorySearchMethodTest {
 		CafeSearchCondition cafeSearchCondition = createSearchConditionByFilteringTime(isAbleToStudy, region,
 			filteringStartTime, filteringEndTime, now);
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(cafeSearchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(cafeSearchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(expected);
 	}
@@ -400,7 +383,7 @@ class CafeRepositorySearchMethodTest {
 		CafeSearchCondition cafeSearchCondition = createSearchConditionByFilteringTime(true, "상수동", 0, 24,
 			LocalDateTime.of(2024, 1, 29, 8, 0));
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(cafeSearchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(cafeSearchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(40);
 	}
@@ -417,7 +400,7 @@ class CafeRepositorySearchMethodTest {
 		CafeSearchCondition cafeSearchCondition = createSearchConditionByFilteringTime(isAbleToStudy, region,
 			filteringStartTime, filteringEndTime, now);
 		//when
-		List<Cafe> cafes = cafeRepository.findWithDynamicFilterAndNoPaging(cafeSearchCondition);
+		List<Cafe> cafes = cafeQueryDslRepository.findWithDynamicFilterAndNoPaging(cafeSearchCondition);
 		//then
 		assertThat(cafes.size()).isEqualTo(expected);
 	}
@@ -454,7 +437,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수동");
 		//when
-		Page<Cafe> pagedCafes = cafeRepository.findWithDynamicFilter(searchCondition,
+		Page<Cafe> pagedCafes = cafeQueryDslRepository.findWithDynamicFilter(searchCondition,
 			PageRequestCustom.createByDefault());
 		//then
 		assertThat(pagedCafes.getContent().size()).isEqualTo(10);
@@ -474,7 +457,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수동");
 		//when
-		Page<Cafe> pagedCafes = cafeRepository.findWithDynamicFilter(searchCondition,
+		Page<Cafe> pagedCafes = cafeQueryDslRepository.findWithDynamicFilter(searchCondition,
 			PageRequestCustom.of(page, size));
 		//then
 		assertThat(pagedCafes.getContent().size()).isEqualTo(expected);
@@ -499,7 +482,7 @@ class CafeRepositorySearchMethodTest {
 		//given
 		CafeSearchCondition searchCondition = createSearchConditionByRequirements(true, "상수동");
 		//when
-		Page<Cafe> pagedCafes = cafeRepository.findWithDynamicFilter(searchCondition,
+		Page<Cafe> pagedCafes = cafeQueryDslRepository.findWithDynamicFilter(searchCondition,
 			PageRequestCustom.of(1, 20));
 		//then
 		assertThat(pagedCafes.getTotalElements()).isEqualTo(40);
