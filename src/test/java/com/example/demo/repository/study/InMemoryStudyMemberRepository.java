@@ -62,7 +62,11 @@ public class InMemoryStudyMemberRepository implements StudyMemberRepository {
 
 	@Override
 	public List<StudyMember> findAllById(Iterable<StudyMemberId> studyMemberIds) {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
+		List<StudyMember> result = new ArrayList<>();
+		for (StudyMemberId studyMemberId : studyMemberIds) {
+			findById(studyMemberId).ifPresent(result::add);
+		}
+		return result;
 	}
 
 	@Override

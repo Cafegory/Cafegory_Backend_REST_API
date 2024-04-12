@@ -82,8 +82,9 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		int totalCount = Math.toIntExact(studyOnceRepository.count(studyOnceSearchRequest));
 		int sizePerPage = studyOnceSearchRequest.getSizePerPage();
 		int maxPage = calculateMaxPage(totalCount, sizePerPage);
-		List<StudyOnceSearchResponse> searchResults = studyOnceRepository.findAllByStudyOnceSearchRequest(
-				studyOnceSearchRequest)
+		List<StudyOnce> allByStudyOnceSearchRequest = studyOnceRepository.findAllByStudyOnceSearchRequest(
+			studyOnceSearchRequest);
+		List<StudyOnceSearchResponse> searchResults = allByStudyOnceSearchRequest
 			.stream()
 			.map(studyOnce -> studyOnceMapper.toStudyOnceSearchResponse(studyOnce,
 				studyOnce.canJoin(LocalDateTime.now())))
@@ -140,11 +141,10 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	@Override
 	public void updateAttendance(long leaderId, long studyOnceId, long memberId, Attendance attendance,
 		LocalDateTime now) {
+		StudyOnce searched = findStudyOnceById(studyOnceId);
 		if (!studyOnceRepository.existsByLeaderId(leaderId)) {
 			throw new CafegoryException(STUDY_ONCE_INVALID_LEADER);
 		}
-
-		StudyOnce searched = findStudyOnceById(studyOnceId);
 		validateEarlyToTakeAttendance(now, searched.getStartDateTime());
 		validateLateToTakeAttendance(now, searched.getStartDateTime(), searched.getEndDateTime());
 
@@ -188,14 +188,6 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		return studyOnceMapper.toStudyOnceSearchResponse(saved, canJoin);
 	}
 
-	private Member getMember(long leaderId, LocalDateTime startDateTime) {
-		Member leader = memberRepository.findById(leaderId)
-			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
-		var studyMembers = studyMemberRepository.findByMemberAndStudyDate(leader, startDateTime.toLocalDate());
-		leader.setStudyMembers(studyMembers);
-		return leader;
-	}
-
 	@Override
 	public Long changeCafe(Long requestMemberId, Long studyOnceId, final Long changingCafeId) {
 		final StudyOnce studyOnce = findStudyOnceById(studyOnceId);
@@ -227,5 +219,13 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	private Cafe findCafeById(Long cafeId) {
 		return cafeRepository.findById(cafeId)
 			.orElseThrow(() -> new CafegoryException(CAFE_NOT_FOUND));
+	}
+
+	private Member getMember(long leaderId, LocalDateTime startDateTime) {
+		Member leader = memberRepository.findById(leaderId)
+			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
+		var studyMembers = studyMemberRepository.findByMemberAndStudyDate(leader, startDateTime.toLocalDate());
+		leader.setStudyMembers(studyMembers);
+		return leader;
 	}
 }

@@ -12,7 +12,7 @@ public class UpdateAttendanceRequest {
 	public UpdateAttendanceRequest() {
 	}
 
-	public UpdateAttendanceRequest(List<StudyMemberStateRequest> states) {
-		this.states = states;
+	public UpdateAttendanceRequest(StudyMemberStateRequest... states) {
+		this.states = List.of(states);
 	}
 }

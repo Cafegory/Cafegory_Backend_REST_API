@@ -18,6 +18,21 @@ import lombok.NonNull;
 public class InMemoryCafeRepository implements CafeRepository {
 	private final List<Cafe> cafes = new ArrayList<>();
 
+	@Override
+	public Page<Cafe> findAll(Pageable pageable) {
+		throw new UnsupportedOperationException("필요하면 구현하세요!");
+	}
+
+	@Override
+	public <S extends Cafe> Optional<S> findOne(Example<S> example) {
+		throw new UnsupportedOperationException("필요하면 구현하세요!");
+	}
+
+	@Override
+	public <S extends Cafe> Page<S> findAll(Example<S> example, Pageable pageable) {
+		throw new UnsupportedOperationException("필요하면 구현하세요!");
+	}
+
 	private Cafe makeCafeWithId(Cafe cafe) {
 		if (cafe.getId() == null) {
 			return Cafe.builder()
@@ -40,6 +55,22 @@ public class InMemoryCafeRepository implements CafeRepository {
 	}
 
 	@Override
+	public <S extends Cafe> long count(Example<S> example) {
+		throw new UnsupportedOperationException("필요하면 구현하세요!");
+	}
+
+	@Override
+	public <S extends Cafe> boolean exists(Example<S> example) {
+		throw new UnsupportedOperationException("필요하면 구현하세요!");
+	}
+
+	@Override
+	public <S extends Cafe, R> R findBy(Example<S> example,
+		Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+		throw new UnsupportedOperationException("필요하면 구현하세요!");
+	}
+
+	@Override
 	public List<Cafe> findAll() {
 		return List.copyOf(cafes);
 	}
@@ -47,11 +78,6 @@ public class InMemoryCafeRepository implements CafeRepository {
 	@Override
 	public List<Cafe> findAll(Sort sort) {
 		return findAll();
-	}
-
-	@Override
-	public Page<Cafe> findAll(Pageable pageable) {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
 	}
 
 	@Override
@@ -88,7 +114,7 @@ public class InMemoryCafeRepository implements CafeRepository {
 
 	@Override
 	public void deleteAll() {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
+		cafes.clear();
 	}
 
 	@Override
@@ -165,11 +191,6 @@ public class InMemoryCafeRepository implements CafeRepository {
 	}
 
 	@Override
-	public <S extends Cafe> Optional<S> findOne(Example<S> example) {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
-	}
-
-	@Override
 	public <S extends Cafe> List<S> findAll(Example<S> example) {
 		throw new UnsupportedOperationException("필요하면 구현하세요!");
 	}
@@ -179,24 +200,4 @@ public class InMemoryCafeRepository implements CafeRepository {
 		throw new UnsupportedOperationException("필요하면 구현하세요!");
 	}
 
-	@Override
-	public <S extends Cafe> Page<S> findAll(Example<S> example, Pageable pageable) {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
-	}
-
-	@Override
-	public <S extends Cafe> long count(Example<S> example) {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
-	}
-
-	@Override
-	public <S extends Cafe> boolean exists(Example<S> example) {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
-	}
-
-	@Override
-	public <S extends Cafe, R> R findBy(Example<S> example,
-		Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
-		throw new UnsupportedOperationException("필요하면 구현하세요!");
-	}
 }
