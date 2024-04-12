@@ -28,11 +28,8 @@ import com.example.demo.domain.cafe.BusinessHour;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.cafe.CafeSearchCondition;
 import com.example.demo.domain.cafe.MaxAllowableStay;
-import com.example.demo.repository.member.MemberRepository;
-import com.example.demo.repository.review.ReviewRepository;
 import com.example.demo.util.PageRequestCustom;
 
-// @SpringBootTest
 @DataJpaTest
 @Import({QueryDslConfig.class, CafeQueryDslRepository.class})
 @Transactional
@@ -40,12 +37,6 @@ class CafeRepositorySearchMethodTest {
 
 	@Autowired
 	private CafeQueryDslRepository cafeQueryDslRepository;
-	@Autowired
-	private CafeRepository cafeRepository;
-	@Autowired
-	private MemberRepository memberRepository;
-	@Autowired
-	private ReviewRepository reviewRepository;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
