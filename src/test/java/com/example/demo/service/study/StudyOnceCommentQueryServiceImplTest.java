@@ -2,86 +2,106 @@ package com.example.demo.service.study;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.config.TestConfig;
+import com.example.demo.domain.cafe.Address;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
-import com.example.demo.domain.study.StudyOnce;
-import com.example.demo.domain.study.StudyOnceComment;
-import com.example.demo.dto.member.MemberResponse;
+import com.example.demo.dto.study.StudyOnceCommentRequest;
 import com.example.demo.dto.study.StudyOnceCommentSearchResponse;
-import com.example.demo.dto.study.StudyOnceCommentsSearchResponse;
-import com.example.demo.helper.CafePersistHelper;
-import com.example.demo.helper.MemberPersistHelper;
-import com.example.demo.helper.StudyOnceCommentPersistHelper;
-import com.example.demo.helper.StudyOncePersistHelper;
-import com.example.demo.helper.ThumbnailImagePersistHelper;
+import com.example.demo.dto.study.StudyOnceCreateRequest;
+import com.example.demo.dto.study.StudyOnceReplyResponse;
+import com.example.demo.dto.study.StudyOnceSearchResponse;
+import com.example.demo.mapper.MemberMapper;
+import com.example.demo.mapper.StudyMemberMapper;
+import com.example.demo.mapper.StudyOnceCommentMapper;
+import com.example.demo.mapper.StudyOnceMapper;
+import com.example.demo.repository.cafe.CafeRepository;
+import com.example.demo.repository.cafe.InMemoryCafeRepository;
+import com.example.demo.repository.member.InMemoryMemberRepository;
+import com.example.demo.repository.member.MemberRepository;
+import com.example.demo.repository.study.InMemoryStudyMemberRepository;
+import com.example.demo.repository.study.InMemoryStudyOnceCommentRepository;
+import com.example.demo.repository.study.InMemoryStudyOnceRepository;
+import com.example.demo.repository.study.StudyOnceCommentRepository;
+import com.example.demo.repository.study.StudyOnceRepository;
 
-@SpringBootTest
-@Import(TestConfig.class)
-@Transactional
 class StudyOnceCommentQueryServiceImplTest {
 
-	@Autowired
-	private StudyOnceCommentQueryService studyOnceCommentQueryService;
-	@Autowired
-	private MemberPersistHelper memberPersistHelper;
-	@Autowired
-	private ThumbnailImagePersistHelper thumbnailImagePersistHelper;
-	@Autowired
-	private StudyOncePersistHelper studyOncePersistHelper;
-	@Autowired
-	private CafePersistHelper cafePersistHelper;
-	@Autowired
-	private StudyOnceCommentPersistHelper studyOnceCommentPersistHelper;
-	@Autowired
-	private EntityManager em;
+	private final StudyOnceCommentRepository studyOnceCommentRepository = new InMemoryStudyOnceCommentRepository();
+	private final StudyOnceRepository studyOnceRepository = new InMemoryStudyOnceRepository();
+	private final CafeRepository cafeRepository = new InMemoryCafeRepository();
+	private final MemberRepository memberRepository = new InMemoryMemberRepository();
+	private final InMemoryStudyMemberRepository studyMemberRepository = new InMemoryStudyMemberRepository();
+
+	private final StudyOnceCommentService studyOnceCommentService = new StudyOnceCommentServiceImpl(
+		studyOnceCommentRepository, memberRepository, studyOnceRepository);
+	private final StudyOnceCommentQueryService studyOnceCommentQueryService = new StudyOnceCommentQueryServiceImpl(
+		studyOnceCommentRepository, studyOnceRepository, new MemberMapper(), new StudyOnceCommentMapper());
+	private final StudyOnceService studyOnceService = new StudyOnceServiceImpl(cafeRepository, studyOnceRepository,
+		memberRepository,
+		studyMemberRepository, new StudyOnceMapper(), new StudyMemberMapper());
 
 	@Test
-	@DisplayName("하나의 댓글에 하나의 답글만 가능하다. 댓글,대댓글 목록 조회 기능 ")
+	@DisplayName("댓글,대댓글 목록 조회 기능 ")
 	void searchCommentsSortedByStudyOnceId() {
-		//given
-		ThumbnailImage thumb = thumbnailImagePersistHelper.persistDefaultThumbnailImage();
-		Member leader = memberPersistHelper.persistMemberWithName(thumb, "카공장");
-		Member otherPerson = memberPersistHelper.persistMemberWithName(thumb, "김동현");
-		Cafe cafe = cafePersistHelper.persistDefaultCafe();
-		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
-		StudyOnceComment question1 = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
-			otherPerson, studyOnce, "댓글1");
-		StudyOnceComment question2 = studyOnceCommentPersistHelper.persistStudyOnceQuestionWithContent(
-			otherPerson, studyOnce, "댓글2");
-		studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
-			studyOnce, question1, "대댓글1");
-		studyOnceCommentPersistHelper.persistStudyOnceReplyWithContent(leader,
-			studyOnce, question2, "대댓글2");
-		em.flush();
-		em.clear();
-		//when
-		StudyOnceCommentsSearchResponse response = studyOnceCommentQueryService.searchSortedCommentsByStudyOnceId(
-			studyOnce.getId());
+		long leaderId = initMember();
+		long studyOnceId = initStudyOnce(leaderId);
+		StudyOnceCommentRequest questionRequest = new StudyOnceCommentRequest("질문");
+		long memberId = initMember();
+		Long questionId = studyOnceCommentService.saveQuestion(memberId, studyOnceId, questionRequest);
+		StudyOnceCommentRequest replyRequest = new StudyOnceCommentRequest("답변");
+		studyOnceCommentService.saveReply(leaderId, studyOnceId, questionId, replyRequest);
 
-		MemberResponse replyWriter = response.getReplyWriter();
-		List<StudyOnceCommentSearchResponse> parentComments = response.getComments();
-		StudyOnceCommentSearchResponse firstParentComment = parentComments.get(0);
-		StudyOnceCommentSearchResponse secondParentComment = parentComments.get(1);
-		//then
-		assertThat(replyWriter.getMemberId()).isEqualTo(leader.getId());
-		assertThat(parentComments.size()).isEqualTo(2);
-		assertThat(firstParentComment.getQuestionInfo().getComment()).isEqualTo("댓글1");
-		assertThat(secondParentComment.getQuestionInfo().getComment()).isEqualTo("댓글2");
-		assertThat(firstParentComment.getReplies().get(0).getComment()).isEqualTo("대댓글1");
-		assertThat(secondParentComment.getReplies().get(0).getComment()).isEqualTo("대댓글2");
+		var commentsSearchResponse = studyOnceCommentQueryService.searchSortedCommentsByStudyOnceId(studyOnceId);
+		List<StudyOnceCommentSearchResponse> comments = commentsSearchResponse.getComments();
+		StudyOnceCommentSearchResponse actualQuestion = comments.get(0);
+		StudyOnceReplyResponse actualReply = actualQuestion.getReplies().get(0);
+
+		Assertions.assertAll(
+			() -> assertThat(actualQuestion.getQuestionWriter().getMemberId()).isEqualTo(memberId),
+			() -> assertThat(actualQuestion.getQuestionInfo().getComment()).isEqualTo(questionRequest.getContent()),
+			() -> assertThat(actualReply.getComment()).isEqualTo(replyRequest.getContent())
+		);
 	}
 
+	private long initMember() {
+		Member member = Member.builder()
+			.name("테스트")
+			.email("test@test.com")
+			.thumbnailImage(ThumbnailImage.builder().thumbnailImage("testUrl").build())
+			.build();
+		member = memberRepository.save(member);
+		return member.getId();
+	}
+
+	private long initStudyOnce(long leaderId) {
+		LocalDateTime start = LocalDateTime.now().plusHours(4);
+		LocalDateTime end = start.plusHours(4);
+		long cafeId = initCafe();
+		StudyOnceCreateRequest studyOnceCreateRequest = makeStudyOnceCreateRequest(start, end, cafeId);
+		StudyOnceSearchResponse searchResponse = studyOnceService.createStudy(leaderId, studyOnceCreateRequest);
+		return searchResponse.getStudyOnceId();
+	}
+
+	private long initCafe() {
+		Address address = new Address("테스트도 테스트시 테스트구 테스트동 ...", "테스트동");
+		Cafe cafe = Cafe.builder()
+			.address(address)
+			.name("테스트 카페")
+			.build();
+		cafe = cafeRepository.save(cafe);
+		return cafe.getId();
+	}
+
+	private StudyOnceCreateRequest makeStudyOnceCreateRequest(LocalDateTime start, LocalDateTime end,
+		long cafeId) {
+		return new StudyOnceCreateRequest(cafeId, "테스트 스터디", start, end, 4, true);
+	}
 }
