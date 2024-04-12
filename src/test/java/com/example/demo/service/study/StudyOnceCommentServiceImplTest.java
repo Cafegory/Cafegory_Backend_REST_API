@@ -10,21 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
 import com.example.demo.dto.study.StudyOnceCommentRequest;
 import com.example.demo.dto.study.StudyOnceCommentUpdateRequest;
 import com.example.demo.exception.CafegoryException;
 import com.example.demo.exception.ExceptionType;
-import com.example.demo.helper.CafePersistHelper;
-import com.example.demo.helper.CafePersistHelperImpl;
-import com.example.demo.helper.MemberPersistHelper;
-import com.example.demo.helper.MemberPersistHelperImpl;
-import com.example.demo.helper.StudyOnceCommentPersistHelper;
-import com.example.demo.helper.StudyOnceCommentPersistHelperImpl;
-import com.example.demo.helper.StudyOncePersistHelper;
-import com.example.demo.helper.StudyOncePersistHelperImpl;
 import com.example.demo.repository.member.InMemoryMemberRepository;
 import com.example.demo.repository.member.MemberRepository;
 import com.example.demo.repository.study.InMemoryStudyOnceCommentRepository;
@@ -34,17 +25,11 @@ import com.example.demo.repository.study.StudyOnceRepository;
 import com.example.demo.service.ServiceTest;
 
 class StudyOnceCommentServiceImplTest extends ServiceTest {
-	public static final ThumbnailImage THUMBNAIL_IMAGE = new ThumbnailImage(1L, "a");
 	private final StudyOnceCommentRepository studyOnceCommentRepository = InMemoryStudyOnceCommentRepository.INSTANCE;
 	private final MemberRepository memberRepository = InMemoryMemberRepository.INSTANCE;
 	private final StudyOnceRepository studyOnceRepository = InMemoryStudyOnceRepository.INSTANCE;
 	private final StudyOnceCommentService studyOnceCommentService = new StudyOnceCommentServiceImpl(
 		studyOnceCommentRepository, memberRepository, studyOnceRepository);
-
-	private final MemberPersistHelper memberPersistHelper = new MemberPersistHelperImpl();
-	private final StudyOncePersistHelper studyOncePersistHelper = new StudyOncePersistHelperImpl();
-	private final CafePersistHelper cafePersistHelper = new CafePersistHelperImpl();
-	private final StudyOnceCommentPersistHelper studyOnceCommentPersistHelper = new StudyOnceCommentPersistHelperImpl();
 
 	@Test
 	@DisplayName("카공 질문을 저장한다.")

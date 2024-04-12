@@ -19,7 +19,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.Attendance;
 import com.example.demo.domain.study.StudyMember;
 import com.example.demo.domain.study.StudyOnce;
@@ -32,11 +31,6 @@ import com.example.demo.dto.study.StudyOnceSearchRequest;
 import com.example.demo.dto.study.StudyOnceSearchResponse;
 import com.example.demo.dto.study.UpdateAttendanceRequest;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.helper.CafePersistHelperImpl;
-import com.example.demo.helper.MemberPersistHelperImpl;
-import com.example.demo.helper.StudyOncePersistHelperImpl;
-import com.example.demo.mapper.StudyMemberMapper;
-import com.example.demo.mapper.StudyOnceMapper;
 import com.example.demo.repository.cafe.CafeRepository;
 import com.example.demo.repository.cafe.InMemoryCafeRepository;
 import com.example.demo.repository.member.InMemoryMemberRepository;
@@ -48,18 +42,13 @@ import com.example.demo.repository.study.StudyOnceRepository;
 import com.example.demo.service.ServiceTest;
 
 class StudyOnceServiceImplTest extends ServiceTest {
-	public static final ThumbnailImage THUMBNAIL_IMAGE = new ThumbnailImage(1L, "testUrl");
 	private final MemberRepository memberRepository = InMemoryMemberRepository.INSTANCE;
 	private final StudyOnceRepository studyOnceRepository = InMemoryStudyOnceRepository.INSTANCE;
 	private final StudyMemberRepository studyMemberRepository = InMemoryStudyMemberRepository.INSTANCE;
 	private final CafeRepository cafeRepository = InMemoryCafeRepository.INSTANCE;
 
 	StudyOnceServiceImpl studyOnceService = new StudyOnceServiceImpl(cafeRepository, studyOnceRepository,
-		memberRepository, studyMemberRepository, new StudyOnceMapper(), new StudyMemberMapper());
-
-	private final MemberPersistHelperImpl memberPersistHelper = new MemberPersistHelperImpl();
-	private final CafePersistHelperImpl cafePersistHelper = new CafePersistHelperImpl();
-	private final StudyOncePersistHelperImpl studyOncePersistHelper = new StudyOncePersistHelperImpl();
+		memberRepository, studyMemberRepository, studyOnceMapper, studyMemberMapper);
 
 	static Stream<Arguments> createFailByAlreadyStudyLeaderParameters() {
 		LocalDateTime start = LocalDateTime.now().plusYears(1);

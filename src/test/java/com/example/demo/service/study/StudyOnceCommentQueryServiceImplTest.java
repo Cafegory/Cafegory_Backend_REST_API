@@ -10,16 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.study.StudyOnceCommentRequest;
 import com.example.demo.dto.study.StudyOnceCommentSearchResponse;
 import com.example.demo.dto.study.StudyOnceReplyResponse;
-import com.example.demo.helper.CafePersistHelperImpl;
-import com.example.demo.helper.MemberPersistHelperImpl;
-import com.example.demo.helper.StudyOncePersistHelperImpl;
-import com.example.demo.mapper.MemberMapper;
-import com.example.demo.mapper.StudyOnceCommentMapper;
 import com.example.demo.repository.member.InMemoryMemberRepository;
 import com.example.demo.repository.member.MemberRepository;
 import com.example.demo.repository.study.InMemoryStudyOnceCommentRepository;
@@ -30,7 +24,6 @@ import com.example.demo.service.ServiceTest;
 
 class StudyOnceCommentQueryServiceImplTest extends ServiceTest {
 
-	public static final ThumbnailImage THUMBNAIL_IMAGE = new ThumbnailImage(1L, "testUrl");
 	private final StudyOnceCommentRepository studyOnceCommentRepository = InMemoryStudyOnceCommentRepository.INSTANCE;
 	private final StudyOnceRepository studyOnceRepository = InMemoryStudyOnceRepository.INSTANCE;
 	private final MemberRepository memberRepository = InMemoryMemberRepository.INSTANCE;
@@ -38,10 +31,7 @@ class StudyOnceCommentQueryServiceImplTest extends ServiceTest {
 	private final StudyOnceCommentService studyOnceCommentService = new StudyOnceCommentServiceImpl(
 		studyOnceCommentRepository, memberRepository, studyOnceRepository);
 	private final StudyOnceCommentQueryService studyOnceCommentQueryService = new StudyOnceCommentQueryServiceImpl(
-		studyOnceCommentRepository, studyOnceRepository, new MemberMapper(), new StudyOnceCommentMapper());
-	private final MemberPersistHelperImpl memberPersistHelper = new MemberPersistHelperImpl();
-	private final CafePersistHelperImpl cafePersistHelper = new CafePersistHelperImpl();
-	private final StudyOncePersistHelperImpl studyOncePersistHelper = new StudyOncePersistHelperImpl();
+		studyOnceCommentRepository, studyOnceRepository, memberMapper, studyOnceCommentMapper);
 
 	@Test
 	@DisplayName("댓글,대댓글 목록 조회 기능 ")

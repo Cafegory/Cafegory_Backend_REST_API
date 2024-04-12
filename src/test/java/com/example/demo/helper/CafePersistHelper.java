@@ -1,26 +1,24 @@
 package com.example.demo.helper;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import com.example.demo.builder.TestCafeBuilder;
 import com.example.demo.domain.cafe.Cafe;
+import com.example.demo.helper.entitymanager.EntityManagerForPersistHelper;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class CafePersistHelper {
 
-	@PersistenceContext
-	private EntityManager em;
+	private final EntityManagerForPersistHelper<Cafe> em;
 
 	public Cafe persistDefaultCafe() {
 		Cafe cafe = new TestCafeBuilder().build();
-		em.persist(cafe);
-		return cafe;
+		return em.save(cafe);
 	}
 
 	public Cafe persistCafeWithImpossibleStudy() {
 		Cafe cafe = new TestCafeBuilder().isNotAbleToStudy().build();
-		em.persist(cafe);
-		return cafe;
+		return em.save(cafe);
 	}
 
 }

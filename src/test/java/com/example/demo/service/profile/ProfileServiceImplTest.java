@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.ThumbnailImage;
 import com.example.demo.domain.study.StudyMember;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.profile.ProfileResponse;
@@ -21,12 +20,6 @@ import com.example.demo.dto.profile.ProfileUpdateRequest;
 import com.example.demo.dto.study.StudyOnceCreateRequest;
 import com.example.demo.dto.study.StudyOnceSearchResponse;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.helper.CafePersistHelper;
-import com.example.demo.helper.CafePersistHelperImpl;
-import com.example.demo.helper.MemberPersistHelperImpl;
-import com.example.demo.helper.StudyOncePersistHelperImpl;
-import com.example.demo.mapper.StudyMemberMapper;
-import com.example.demo.mapper.StudyOnceMapper;
 import com.example.demo.repository.cafe.InMemoryCafeRepository;
 import com.example.demo.repository.member.InMemoryMemberRepository;
 import com.example.demo.repository.member.MemberRepository;
@@ -39,20 +32,15 @@ import com.example.demo.service.study.StudyOnceService;
 import com.example.demo.service.study.StudyOnceServiceImpl;
 
 class ProfileServiceImplTest extends ServiceTest {
-	public static final ThumbnailImage THUMBNAIL_IMAGE = new ThumbnailImage(1L, "testUrl");
 	private final StudyOnceRepository studyOnceRepository = InMemoryStudyOnceRepository.INSTANCE;
 	private final MemberRepository memberRepository = InMemoryMemberRepository.INSTANCE;
 	private final StudyMemberRepository studyMemberRepository = InMemoryStudyMemberRepository.INSTANCE;
-	private final StudyOnceMapper studyOnceMapper = new StudyOnceMapper();
-	private final StudyMemberMapper studyMemberMapper = new StudyMemberMapper();
 	private final InMemoryCafeRepository cafeRepository = InMemoryCafeRepository.INSTANCE;
 
 	private final ProfileService profileService = new ProfileServiceImpl(memberRepository, studyOnceRepository,
 		studyMemberRepository);
 	private final StudyOnceService studyOnceService = new StudyOnceServiceImpl(cafeRepository, studyOnceRepository,
 		memberRepository, studyMemberRepository, studyOnceMapper, studyMemberMapper);
-	private final CafePersistHelper cafePersistHelper = new CafePersistHelperImpl();
-	private final MemberPersistHelperImpl memberPersistHelper = new MemberPersistHelperImpl();
 
 	@Test
 	@DisplayName("자신이 스터디 장인 카공의 멤버면 프로필 조회 성공")
@@ -74,7 +62,7 @@ class ProfileServiceImplTest extends ServiceTest {
 		long requestMemberId = memberPersistHelper.persistDefaultMember(THUMBNAIL_IMAGE).getId();
 		long targetMemberId = memberPersistHelper.persistDefaultMember(THUMBNAIL_IMAGE).getId();
 		Member leader = memberPersistHelper.persistDefaultMember(THUMBNAIL_IMAGE);
-		StudyOnce studyOnce = new StudyOncePersistHelperImpl().persistDefaultStudyOnce(cafe, leader);
+		StudyOnce studyOnce = studyOncePersistHelper.persistDefaultStudyOnce(cafe, leader);
 
 		studyOnceService.tryJoin(targetMemberId, studyOnce.getId());
 		studyOnceService.tryJoin(requestMemberId, studyOnce.getId());

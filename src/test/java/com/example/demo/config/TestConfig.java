@@ -10,42 +10,48 @@ import com.example.demo.helper.StudyMemberPersistHelper;
 import com.example.demo.helper.StudyOnceCommentPersistHelper;
 import com.example.demo.helper.StudyOncePersistHelper;
 import com.example.demo.helper.ThumbnailImagePersistHelper;
+import com.example.demo.helper.entitymanager.RealEntityManagerAdaptor;
 
 @TestConfiguration
 public class TestConfig {
 
 	@Bean
 	public ThumbnailImagePersistHelper thumbnailImagePersistHelper() {
-		return new ThumbnailImagePersistHelper();
+		return new ThumbnailImagePersistHelper(realEntityManagerAdaptor());
 	}
 
 	@Bean
 	public MemberPersistHelper memberPersistHelper() {
-		return new MemberPersistHelper();
+		return new MemberPersistHelper(realEntityManagerAdaptor());
 	}
 
 	@Bean
 	public CafePersistHelper cafePersistHelper() {
-		return new CafePersistHelper();
+		return new CafePersistHelper(realEntityManagerAdaptor());
 	}
 
 	@Bean
 	public ReviewPersistHelper reviewPersistHelper() {
-		return new ReviewPersistHelper();
+		return new ReviewPersistHelper(realEntityManagerAdaptor());
 	}
 
 	@Bean
 	public StudyMemberPersistHelper studyMemberPersistHelper() {
-		return new StudyMemberPersistHelper();
+		return new StudyMemberPersistHelper(realEntityManagerAdaptor());
 	}
 
 	@Bean
 	public StudyOncePersistHelper studyOncePersistHelper() {
-		return new StudyOncePersistHelper();
+		return new StudyOncePersistHelper(realEntityManagerAdaptor());
 	}
 
 	@Bean
 	public StudyOnceCommentPersistHelper studyOnceCommentPersistHelper() {
-		return new StudyOnceCommentPersistHelper();
+		return new StudyOnceCommentPersistHelper(realEntityManagerAdaptor());
+	}
+
+	@Bean
+	public RealEntityManagerAdaptor realEntityManagerAdaptor() {
+		return new RealEntityManagerAdaptor();
 	}
 }

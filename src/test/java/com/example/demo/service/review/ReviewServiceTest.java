@@ -14,10 +14,6 @@ import com.example.demo.domain.review.Review;
 import com.example.demo.dto.review.ReviewSaveRequest;
 import com.example.demo.dto.review.ReviewUpdateRequest;
 import com.example.demo.exception.CafegoryException;
-import com.example.demo.helper.CafePersistHelper;
-import com.example.demo.helper.CafePersistHelperImpl;
-import com.example.demo.helper.MemberPersistHelper;
-import com.example.demo.helper.MemberPersistHelperImpl;
 import com.example.demo.repository.cafe.CafeRepository;
 import com.example.demo.repository.cafe.InMemoryCafeRepository;
 import com.example.demo.repository.member.InMemoryMemberRepository;
@@ -33,15 +29,11 @@ class ReviewServiceTest extends ServiceTest {
 	private final ReviewService reviewService = new ReviewServiceImpl(cafeRepository, memberRepository,
 		reviewRepository);
 
-	private final MemberPersistHelper memberPersistHelper = new MemberPersistHelperImpl();
-
-	private final CafePersistHelper cafePersistHelper = new CafePersistHelperImpl();
-
 	@Test
 	@DisplayName("리뷰 저장")
 	void saveReview() {
 		//given
-		Member member1 = memberPersistHelper.persistDefaultMember(new ThumbnailImage(1L, "a"));
+		Member member1 = memberPersistHelper.persistDefaultMember(THUMBNAIL_IMAGE);
 		Cafe cafe = cafePersistHelper.persistDefaultCafe();
 		//when
 		reviewService.saveReview(member1.getId(), cafe.getId(), new ReviewSaveRequest("커피가 맛있어요", 4.5));
