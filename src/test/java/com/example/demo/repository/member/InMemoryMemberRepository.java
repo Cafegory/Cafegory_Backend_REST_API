@@ -13,10 +13,14 @@ import org.springframework.data.repository.query.FluentQuery;
 
 import com.example.demo.domain.member.Member;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InMemoryMemberRepository implements MemberRepository {
 	private final List<Member> members = new ArrayList<>();
+	public static final InMemoryMemberRepository INSTANCE = new InMemoryMemberRepository();
 
 	private Member makeMemberWithId(Member member) {
 		if (member.getId() != null) {

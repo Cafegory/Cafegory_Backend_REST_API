@@ -24,17 +24,18 @@ import com.example.demo.repository.member.InMemoryMemberRepository;
 import com.example.demo.repository.member.MemberRepository;
 import com.example.demo.repository.review.InMemoryReviewRepository;
 import com.example.demo.repository.review.ReviewRepository;
+import com.example.demo.service.ServiceTest;
 
-class ReviewServiceTest {
-	private final CafeRepository cafeRepository = new InMemoryCafeRepository();
-	private final MemberRepository memberRepository = new InMemoryMemberRepository();
-	private final ReviewRepository reviewRepository = new InMemoryReviewRepository();
+class ReviewServiceTest extends ServiceTest {
+	private final CafeRepository cafeRepository = InMemoryCafeRepository.INSTANCE;
+	private final MemberRepository memberRepository = InMemoryMemberRepository.INSTANCE;
+	private final ReviewRepository reviewRepository = InMemoryReviewRepository.INSTANCE;
 	private final ReviewService reviewService = new ReviewServiceImpl(cafeRepository, memberRepository,
 		reviewRepository);
 
-	private final MemberPersistHelper memberPersistHelper = new MemberPersistHelperImpl(memberRepository);
+	private final MemberPersistHelper memberPersistHelper = new MemberPersistHelperImpl();
 
-	private final CafePersistHelper cafePersistHelper = new CafePersistHelperImpl(cafeRepository);
+	private final CafePersistHelper cafePersistHelper = new CafePersistHelperImpl();
 
 	@Test
 	@DisplayName("리뷰 저장")

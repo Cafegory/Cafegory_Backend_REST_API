@@ -25,27 +25,26 @@ import com.example.demo.helper.StudyOnceCommentPersistHelper;
 import com.example.demo.helper.StudyOnceCommentPersistHelperImpl;
 import com.example.demo.helper.StudyOncePersistHelper;
 import com.example.demo.helper.StudyOncePersistHelperImpl;
-import com.example.demo.repository.cafe.InMemoryCafeRepository;
 import com.example.demo.repository.member.InMemoryMemberRepository;
 import com.example.demo.repository.member.MemberRepository;
 import com.example.demo.repository.study.InMemoryStudyOnceCommentRepository;
 import com.example.demo.repository.study.InMemoryStudyOnceRepository;
 import com.example.demo.repository.study.StudyOnceCommentRepository;
 import com.example.demo.repository.study.StudyOnceRepository;
+import com.example.demo.service.ServiceTest;
 
-class StudyOnceCommentServiceImplTest {
+class StudyOnceCommentServiceImplTest extends ServiceTest {
 	public static final ThumbnailImage THUMBNAIL_IMAGE = new ThumbnailImage(1L, "a");
-	private final StudyOnceCommentRepository studyOnceCommentRepository = new InMemoryStudyOnceCommentRepository();
-	private final MemberRepository memberRepository = new InMemoryMemberRepository();
-	private final StudyOnceRepository studyOnceRepository = new InMemoryStudyOnceRepository();
+	private final StudyOnceCommentRepository studyOnceCommentRepository = InMemoryStudyOnceCommentRepository.INSTANCE;
+	private final MemberRepository memberRepository = InMemoryMemberRepository.INSTANCE;
+	private final StudyOnceRepository studyOnceRepository = InMemoryStudyOnceRepository.INSTANCE;
 	private final StudyOnceCommentService studyOnceCommentService = new StudyOnceCommentServiceImpl(
 		studyOnceCommentRepository, memberRepository, studyOnceRepository);
 
-	private final MemberPersistHelper memberPersistHelper = new MemberPersistHelperImpl(memberRepository);
-	private final StudyOncePersistHelper studyOncePersistHelper = new StudyOncePersistHelperImpl(studyOnceRepository);
-	private final CafePersistHelper cafePersistHelper = new CafePersistHelperImpl(new InMemoryCafeRepository());
-	private final StudyOnceCommentPersistHelper studyOnceCommentPersistHelper = new StudyOnceCommentPersistHelperImpl(
-		studyOnceCommentRepository);
+	private final MemberPersistHelper memberPersistHelper = new MemberPersistHelperImpl();
+	private final StudyOncePersistHelper studyOncePersistHelper = new StudyOncePersistHelperImpl();
+	private final CafePersistHelper cafePersistHelper = new CafePersistHelperImpl();
+	private final StudyOnceCommentPersistHelper studyOnceCommentPersistHelper = new StudyOnceCommentPersistHelperImpl();
 
 	@Test
 	@DisplayName("카공 질문을 저장한다.")

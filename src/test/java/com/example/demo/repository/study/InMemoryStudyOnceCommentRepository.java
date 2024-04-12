@@ -14,11 +14,15 @@ import org.springframework.data.repository.query.FluentQuery;
 
 import com.example.demo.domain.study.StudyOnceComment;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InMemoryStudyOnceCommentRepository
 	implements StudyOnceCommentRepository {
 	private final List<StudyOnceComment> memory = new ArrayList<>();
+	public static final InMemoryStudyOnceCommentRepository INSTANCE = new InMemoryStudyOnceCommentRepository();
 
 	private StudyOnceComment makeStudyOnceCommentWithId(StudyOnceComment studyOnceComment) {
 		if (studyOnceComment.getId() != null) {

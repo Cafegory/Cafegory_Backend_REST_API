@@ -6,10 +6,15 @@ import com.example.demo.builder.TestStudyOnceBuilder;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.study.StudyOnce;
+import com.example.demo.repository.study.InMemoryStudyOnceRepository;
 import com.example.demo.repository.study.StudyOnceRepository;
 
 public class StudyOncePersistHelperImpl extends StudyOncePersistHelper {
 	private final StudyOnceRepository studyOnceRepository;
+
+	public StudyOncePersistHelperImpl() {
+		this(InMemoryStudyOnceRepository.INSTANCE);
+	}
 
 	public StudyOncePersistHelperImpl(StudyOnceRepository studyOnceRepository) {
 		this.studyOnceRepository = studyOnceRepository;

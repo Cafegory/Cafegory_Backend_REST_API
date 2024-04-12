@@ -19,10 +19,14 @@ import com.example.demo.domain.study.StudyMember;
 import com.example.demo.domain.study.StudyMemberId;
 import com.example.demo.domain.study.StudyOnce;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InMemoryStudyMemberRepository implements StudyMemberRepository {
 	private final List<StudyMember> studyMembers = new ArrayList<>();
+	public static final InMemoryStudyMemberRepository INSTANCE = new InMemoryStudyMemberRepository();
 
 	@Override
 	public List<StudyMember> findByMemberAndStudyDate(Member member, LocalDate studyDate) {

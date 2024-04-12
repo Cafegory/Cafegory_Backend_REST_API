@@ -17,10 +17,14 @@ import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.dto.study.StudyOnceSearchRequest;
 import com.example.demo.dto.study.TalkAbleState;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InMemoryStudyOnceRepository implements StudyOnceRepository {
 	private final List<StudyOnce> memory = new ArrayList<>();
+	public static final InMemoryStudyOnceRepository INSTANCE = new InMemoryStudyOnceRepository();
 
 	private StudyOnce makeStudyOnceWithId(StudyOnce studyOnce) {
 		return StudyOnce.builder()

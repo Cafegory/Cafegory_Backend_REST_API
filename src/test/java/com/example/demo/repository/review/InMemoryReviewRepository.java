@@ -15,10 +15,14 @@ import org.springframework.data.repository.query.FluentQuery;
 
 import com.example.demo.domain.review.Review;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InMemoryReviewRepository implements ReviewRepository {
 	private final List<Review> reviews = new ArrayList<>();
+	public static final InMemoryReviewRepository INSTANCE = new InMemoryReviewRepository();
 
 	private Review makeReviewWitId(Review review) {
 		return Review.builder()

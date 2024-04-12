@@ -3,10 +3,15 @@ package com.example.demo.helper;
 import com.example.demo.builder.TestMemberBuilder;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
+import com.example.demo.repository.member.InMemoryMemberRepository;
 import com.example.demo.repository.member.MemberRepository;
 
 public class MemberPersistHelperImpl extends MemberPersistHelper {
 	private final MemberRepository memberRepository;
+
+	public MemberPersistHelperImpl() {
+		this(InMemoryMemberRepository.INSTANCE);
+	}
 
 	public MemberPersistHelperImpl(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;

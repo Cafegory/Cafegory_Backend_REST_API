@@ -13,10 +13,14 @@ import org.springframework.data.repository.query.FluentQuery;
 
 import com.example.demo.domain.cafe.Cafe;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InMemoryCafeRepository implements CafeRepository {
 	private final List<Cafe> cafes = new ArrayList<>();
+	public static final InMemoryCafeRepository INSTANCE = new InMemoryCafeRepository();
 
 	@Override
 	public Page<Cafe> findAll(Pageable pageable) {

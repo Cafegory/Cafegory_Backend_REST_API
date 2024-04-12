@@ -4,10 +4,15 @@ import com.example.demo.builder.TestStudyOnceCommentBuilder;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.study.StudyOnce;
 import com.example.demo.domain.study.StudyOnceComment;
+import com.example.demo.repository.study.InMemoryStudyOnceCommentRepository;
 import com.example.demo.repository.study.StudyOnceCommentRepository;
 
 public class StudyOnceCommentPersistHelperImpl extends StudyOnceCommentPersistHelper {
 	private final StudyOnceCommentRepository studyOnceCommentRepository;
+
+	public StudyOnceCommentPersistHelperImpl() {
+		this(InMemoryStudyOnceCommentRepository.INSTANCE);
+	}
 
 	public StudyOnceCommentPersistHelperImpl(StudyOnceCommentRepository studyOnceCommentRepository) {
 		this.studyOnceCommentRepository = studyOnceCommentRepository;
