@@ -13,7 +13,8 @@ import com.example.demo.repository.study.InMemoryStudyOnceCommentRepository;
 import com.example.demo.service.ServiceTest;
 
 class StudyOnceQAndAQueryServiceImplTest extends ServiceTest {
-	private final InMemoryStudyOnceCommentRepository studyOnceCommentRepository = InMemoryStudyOnceCommentRepository.INSTANCE;
+	private final InMemoryStudyOnceCommentRepository studyOnceCommentRepository =
+		InMemoryStudyOnceCommentRepository.INSTANCE;
 	private final StudyOnceQAndAQueryService studyOnceQAndAQueryService = new StudyOnceQAndAQueryServiceImpl(
 		studyOnceCommentRepository, memberMapper, studyOnceMapper);
 
