@@ -187,7 +187,7 @@ class StudyOnceServiceImplTest extends ServiceTest {
 
 	private static StudyOnceCreateResponse makeExpectedStudyOnceCreateResult(long cafeId,
 		StudyOnceCreateRequest studyOnceCreateRequest, StudyOnceCreateResponse result) {
-		int nowMemberCount = 0;
+		int nowMemberCount = 1;
 		boolean canJoin = true;
 		boolean isEnd = false;
 		return StudyOnceCreateResponse.builder()

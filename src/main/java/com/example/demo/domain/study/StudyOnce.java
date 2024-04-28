@@ -88,6 +88,7 @@ public class StudyOnce {
 		validateConflictJoin(leader);
 		studyMembers = new ArrayList<>();
 		studyMembers.add(new StudyMember(leader, this));
+		this.nowMemberCount = 1;
 	}
 
 	private static void validateStartDateTime(LocalDateTime startDateTime) {
@@ -124,9 +125,17 @@ public class StudyOnce {
 		validateJoinRequestTime(requestTime);
 		validateDuplicateJoin(memberThatExpectedToJoin);
 		validateConflictJoin(memberThatExpectedToJoin);
+		validateStudyMemberIsFull();
 		StudyMember studyMember = new StudyMember(memberThatExpectedToJoin, this);
 		studyMembers.add(studyMember);
 		memberThatExpectedToJoin.addStudyMember(studyMember);
+		nowMemberCount = studyMembers.size();
+	}
+
+	private void validateStudyMemberIsFull() {
+		if (nowMemberCount == maxMemberCount) {
+			throw new CafegoryException(STUDY_ONCE_FULL);
+		}
 	}
 
 	private void validateConflictJoin(Member memberThatExpectedToJoin) {

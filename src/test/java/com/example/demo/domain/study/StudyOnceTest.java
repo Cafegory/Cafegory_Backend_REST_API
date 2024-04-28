@@ -151,6 +151,7 @@ class StudyOnceTest {
 			.leader(leader)
 			.name(studyName)
 			.openChatUrl(openChatUrl)
+			.maxMemberCount(5)
 			.build();
 	}
 
@@ -193,6 +194,22 @@ class StudyOnceTest {
 		Assertions.assertThatThrownBy(() -> studyOnce.tryJoin(member, NOW))
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_DUPLICATE.getErrorMessage());
+	}
+
+	@Test
+	@DisplayName("카공 신청시 최대 인원이 넘어서 실패하는 테스트")
+	void tryJoinFailByFullMember() {
+		Member leader = Member.builder().id(LEADER_ID).build();
+
+		StudyOnce studyOnce = makeStudy(leader, "스터디 이름", NOW.plusHours(4), NOW.plusHours(7), "오픈채팅링크");
+		for (int index = 0; index < 4; index++) {
+			Member member = Member.builder().id(MEMBER_ID + index).build();
+			studyOnce.tryJoin(member, NOW.plusSeconds(index));
+		}
+		Member failMember = Member.builder().id(MEMBER_ID + 4).build();
+		Assertions.assertThatThrownBy(() -> studyOnce.tryJoin(failMember, NOW.plusSeconds(4)))
+			.isInstanceOf(CafegoryException.class)
+			.hasMessage(STUDY_ONCE_FULL.getErrorMessage());
 	}
 
 	@Test
@@ -356,5 +373,31 @@ class StudyOnceTest {
 
 		boolean isAttendance = studyOnce.isAttendance(member);
 		assertThat(isAttendance).isFalse();
+	}
+
+	@Test
+	@DisplayName("카공 생성시 카공장이 인원에 잘 반영되는지 확인")
+	void validateNowMemberCountWhenCreate() {
+		Member leader = Member.builder().id(LEADER_ID).build();
+		StudyOnce studyOnce = makeStudy(leader, "스터디 이름", NOW.plusHours(4), NOW.plusHours(7), "오픈채팅링크");
+
+		int nowMemberCount = studyOnce.getNowMemberCount();
+
+		Assertions.assertThat(nowMemberCount)
+			.isEqualTo(1);
+	}
+
+	@Test
+	@DisplayName("카공 신청시 인원에 잘 반영되는지 확인")
+	void validateNowMemberCountWhenJoin() {
+		Member leader = Member.builder().id(LEADER_ID).build();
+		Member member = Member.builder().id(MEMBER_ID).build();
+		StudyOnce studyOnce = makeStudy(leader, "스터디 이름", NOW.plusHours(4), NOW.plusHours(7), "오픈채팅링크");
+
+		studyOnce.tryJoin(member, NOW.plusHours(3));
+		int nowMemberCount = studyOnce.getNowMemberCount();
+
+		Assertions.assertThat(nowMemberCount)
+			.isEqualTo(2);
 	}
 }
