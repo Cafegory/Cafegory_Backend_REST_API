@@ -1,6 +1,7 @@
 package com.example.demo.service.study;
 
 import static com.example.demo.exception.ExceptionType.*;
+import static com.example.demo.util.TruncatedTimeUtil.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -158,17 +159,19 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	@Override
 	public void updateAttendance(long leaderId, long studyOnceId, long memberId, Attendance attendance,
 		LocalDateTime now) {
+		LocalDateTime microNow = truncateDateTimeToSecond(now);
 		StudyOnce searched = findStudyOnceById(studyOnceId);
+
 		if (!studyOnceRepository.existsByLeaderId(leaderId)) {
 			throw new CafegoryException(STUDY_ONCE_INVALID_LEADER);
 		}
-		validateEarlyToTakeAttendance(now, searched.getStartDateTime());
-		validateLateToTakeAttendance(now, searched.getStartDateTime(), searched.getEndDateTime());
+		validateEarlyToTakeAttendance(microNow, searched.getStartDateTime());
+		validateLateToTakeAttendance(microNow, searched.getStartDateTime(), searched.getEndDateTime());
 
 		StudyMember findStudyMember = studyMemberRepository.findById(new StudyMemberId(memberId, studyOnceId))
 			.orElseThrow(() -> new CafegoryException(STUDY_MEMBER_NOT_FOUND));
 		findStudyMember.setAttendance(attendance);
-		findStudyMember.setLastModifiedDate(now);
+		findStudyMember.setLastModifiedDate(microNow);
 	}
 
 	private void validateLateToTakeAttendance(LocalDateTime now, LocalDateTime startDateTime,
@@ -196,10 +199,15 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	public StudyOnceCreateResponse createStudy(long leaderId, StudyOnceCreateRequest request) {
 		Cafe cafe = findCafeById(request.getCafeId());
 		BusinessHour businessHour = cafe.findBusinessHour(request.getStartDateTime().getDayOfWeek());
-		validateBetweenBusinessHour(request.getStartDateTime().toLocalTime(), request.getEndDateTime().toLocalTime(),
+		validateBetweenBusinessHour(
+			request.getStartDateTime().toLocalTime(),
+			request.getEndDateTime().toLocalTime(),
 			businessHour);
 		Member leader = findMemberById(leaderId);
-		validateStudyScheduleConflict(request.getStartDateTime(), request.getEndDateTime(), leader);
+		validateStudyScheduleConflict(
+			truncateDateTimeToSecond(request.getStartDateTime()),
+			truncateDateTimeToSecond(request.getEndDateTime()),
+			leader);
 		StudyOnce studyOnce = studyOnceMapper.toNewEntity(request, cafe, leader);
 		StudyOnce saved = studyOnceRepository.save(studyOnce);
 		return studyOnceMapper.toStudyOnceCreateResponse(saved, true);
@@ -237,7 +245,8 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 		if (request.getStartDateTime() != null && request.getEndDateTime() != null) {
 			Cafe cafe = studyOnce.getCafe();
 			validateBetweenBusinessHour(request.getStartDateTime().toLocalTime(),
-				request.getEndDateTime().toLocalTime(), cafe.findBusinessHour(now.getDayOfWeek()));
+				request.getEndDateTime().toLocalTime(),
+				cafe.findBusinessHour(truncateDateTimeToSecond(now).getDayOfWeek()));
 			studyOnce.changeStudyOnceTime(request.getStartDateTime(), request.getEndDateTime());
 		}
 		if (request.getOpenChatUrl() != null) {
@@ -248,8 +257,7 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	}
 
 	@Override
-	public void updateStudyOncePartially(long requestedMemberId, long studyOnceId, StudyOnceUpdateRequest request,
-		LocalDateTime now) {
+	public void updateStudyOncePartially(long requestedMemberId, long studyOnceId, StudyOnceUpdateRequest request) {
 		StudyOnce studyOnce = findStudyOnceById(studyOnceId);
 		if (!isStudyOnceLeader(requestedMemberId, studyOnceId)) {
 			throw new CafegoryException(STUDY_ONCE_LEADER_PERMISSION_DENIED);
@@ -280,7 +288,8 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	@Override
 	public StudyOnceResponse findStudyOnce(Long studyOnceId, LocalDateTime now) {
 		StudyOnce studyOnce = findStudyOnceById(studyOnceId);
-		return studyOnceMapper.toStudyOnceResponse(studyOnce, studyOnce.canJoin(now));
+		return studyOnceMapper.toStudyOnceResponse(studyOnce,
+			studyOnce.canJoin(truncateDateTimeToSecond(now)));
 	}
 
 	@Override
@@ -303,13 +312,5 @@ public class StudyOnceServiceImpl implements StudyOnceService {
 	private Cafe findCafeById(Long cafeId) {
 		return cafeRepository.findById(cafeId)
 			.orElseThrow(() -> new CafegoryException(CAFE_NOT_FOUND));
-	}
-
-	private Member getMember(long leaderId, LocalDateTime startDateTime) {
-		Member leader = memberRepository.findById(leaderId)
-			.orElseThrow(() -> new CafegoryException(MEMBER_NOT_FOUND));
-		var studyMembers = studyMemberRepository.findByMemberAndStudyDate(leader, startDateTime.toLocalDate());
-		// leader.setStudyMembers(studyMembers);
-		return leader;
 	}
 }

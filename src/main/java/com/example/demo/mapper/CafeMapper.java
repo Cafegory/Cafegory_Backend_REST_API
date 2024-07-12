@@ -14,7 +14,6 @@ import com.example.demo.dto.cafe.CafeSearchBusinessHourResponse;
 import com.example.demo.dto.cafe.CafeSearchListRequest;
 import com.example.demo.dto.cafe.CafeSearchListResponse;
 import com.example.demo.dto.cafe.CafeSearchResponse;
-import com.example.demo.dto.cafe.CafeSearchReviewResponse;
 import com.example.demo.dto.cafe.CafeSearchSnsResponse;
 import com.example.demo.dto.cafe.CafeSearchStudyOnceResponse;
 import com.example.demo.dto.cafe.SnsResponse;
@@ -90,7 +89,6 @@ public class CafeMapper {
 		Cafe findCafe,
 		List<CafeSearchBusinessHourResponse> cafeSearchBusinessHourResponses,
 		List<CafeSearchSnsResponse> cafeSearchSnsResponses,
-		List<CafeSearchReviewResponse> cafeSearchReviewResponses,
 		List<CafeSearchStudyOnceResponse> cafeSearchStudyOnceResponses,
 		OpenChecker<BusinessHour> openChecker) {
 		return CafeSearchResponse.builder()
@@ -117,7 +115,6 @@ public class CafeMapper {
 		Cafe findCafe,
 		List<CafeSearchBusinessHourResponse> businessHourResponses,
 		List<CafeSearchSnsResponse> snsResponses,
-		List<CafeSearchReviewResponse> reviewResponses,
 		OpenChecker<BusinessHour> openChecker
 	) {
 		return CafeSearchResponse.builder()

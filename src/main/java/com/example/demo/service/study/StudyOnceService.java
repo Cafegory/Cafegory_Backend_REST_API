@@ -45,6 +45,5 @@ public interface StudyOnceService {
 
 	void updateStudyOnce(long requestedMemberId, long studyOnceId, StudyOnceUpdateRequest request, LocalDateTime now);
 
-	void updateStudyOncePartially(long requestedMemberId, long studyOnceId, StudyOnceUpdateRequest request,
-		LocalDateTime now);
+	void updateStudyOncePartially(long requestedMemberId, long studyOnceId, StudyOnceUpdateRequest request);
 }

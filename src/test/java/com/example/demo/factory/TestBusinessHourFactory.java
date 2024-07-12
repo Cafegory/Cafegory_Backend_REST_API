@@ -1,5 +1,7 @@
 package com.example.demo.factory;
 
+import static com.example.demo.util.TruncatedTimeUtil.*;
+
 import java.time.LocalTime;
 
 import com.example.demo.domain.cafe.BusinessHour;
@@ -10,7 +12,26 @@ public class TestBusinessHourFactory {
 	public static BusinessHour createBusinessHourWithDayAnd24For7(String day) {
 		return BusinessHour.builder()
 			.startTime(LocalTime.MIN)
-			.endTime(LocalTime.MAX)
+			.endTime(MAX_LOCAL_TIME)
+			.day(day)
+			.build();
+	}
+
+	public static BusinessHour createBusinessHourWithDayAnd24For7(Cafe cafe, String day) {
+		return BusinessHour.builder()
+			.cafe(cafe)
+			.startTime(LocalTime.MIN)
+			.endTime(MAX_LOCAL_TIME)
+			.day(day)
+			.build();
+	}
+
+	public static BusinessHour createBusinessHourWithDayAndTime(Cafe cafe, String day, LocalTime startTime,
+		LocalTime endTime) {
+		return BusinessHour.builder()
+			.cafe(cafe)
+			.startTime(startTime)
+			.endTime(endTime)
 			.day(day)
 			.build();
 	}

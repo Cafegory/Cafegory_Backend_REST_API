@@ -77,7 +77,6 @@ public class CafeServiceImpl implements CafeService {
 			findCafe,
 			businessHourMapper.toCafeSearchBusinessHourResponses(findCafe.getBusinessHours()),
 			snsDetailMapper.toCafeSearchSnsResponses(findCafe.getSnsDetails()),
-			reviewMapper.toCafeSearchReviewResponses(findCafe.getReviews()),
 			studyOnceMapper.toCafeSearchStudyOnceResponse(findCafe),
 			openChecker
 		);
@@ -90,7 +89,6 @@ public class CafeServiceImpl implements CafeService {
 			findCafe,
 			businessHourMapper.toCafeSearchBusinessHourResponses(findCafe.getBusinessHours()),
 			snsDetailMapper.toCafeSearchSnsResponses(findCafe.getSnsDetails()),
-			reviewMapper.toCafeSearchReviewResponses(findCafe.getReviews()),
 			openChecker
 		);
 	}

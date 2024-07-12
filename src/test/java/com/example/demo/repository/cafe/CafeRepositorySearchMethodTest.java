@@ -2,6 +2,7 @@ package com.example.demo.repository.cafe;
 
 import static com.example.demo.factory.TestBusinessHourFactory.*;
 import static com.example.demo.factory.TestCafeFactory.*;
+import static com.example.demo.util.TruncatedTimeUtil.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.sql.Time;
@@ -351,8 +352,8 @@ class CafeRepositorySearchMethodTest {
 	@Test
 	@DisplayName("영업시간이 24시간인 경우, 영업시간으로 필터링")
 	void search_cafes_with_24hours_businessHours_() {
-		setUp("상수동", MaxAllowableStay.TWO_HOUR, true, 2_500, LocalTime.of(0, 0), LocalTime.MAX);
-		setUp("상수동", MaxAllowableStay.TWO_HOUR, true, 2_500, LocalTime.of(0, 0), LocalTime.MAX);
+		setUp("상수동", MaxAllowableStay.TWO_HOUR, true, 2_500, LocalTime.of(0, 0), MAX_LOCAL_TIME);
+		setUp("상수동", MaxAllowableStay.TWO_HOUR, true, 2_500, LocalTime.of(0, 0), MAX_LOCAL_TIME);
 
 		//given
 		CafeSearchCondition cafeSearchCondition = createSearchConditionByFilteringTime(true, "상수동", 0, 24,

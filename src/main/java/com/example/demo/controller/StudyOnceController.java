@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import static com.example.demo.exception.ExceptionType.*;
+import static com.example.demo.util.TruncatedTimeUtil.*;
 
 import java.time.LocalDateTime;
 
@@ -96,7 +97,7 @@ public class StudyOnceController {
 		if (studyOnceService.doesOnlyStudyLeaderExist(studyOnceId)) {
 			studyOnceService.updateStudyOnce(leaderId, studyOnceId, request, LocalDateTime.now());
 		} else {
-			studyOnceService.updateStudyOncePartially(leaderId, studyOnceId, request, LocalDateTime.now());
+			studyOnceService.updateStudyOncePartially(leaderId, studyOnceId, request);
 		}
 		StudyOnceResponse response = studyOnceService.findStudyOnce(studyOnceId, LocalDateTime.now());
 		return ResponseEntity.ok(response);
@@ -106,9 +107,8 @@ public class StudyOnceController {
 	public ResponseEntity<StudyOnceJoinResult> tryJoin(@PathVariable Long studyOnceId,
 		@RequestHeader("Authorization") String authorization) {
 		long memberId = cafegoryTokenManager.getIdentityId(authorization);
-		LocalDateTime requestTime = LocalDateTime.now();
 		studyOnceService.tryJoin(memberId, studyOnceId);
-		return ResponseEntity.ok(new StudyOnceJoinResult(requestTime, true));
+		return ResponseEntity.ok(new StudyOnceJoinResult(LOCAL_DATE_TIME_NOW, true));
 	}
 
 	@DeleteMapping("/{studyOnceId:[0-9]+}")
@@ -117,7 +117,8 @@ public class StudyOnceController {
 		long memberId = cafegoryTokenManager.getIdentityId(authorization);
 		LocalDateTime requestTime = LocalDateTime.now();
 		studyOnceService.tryQuit(memberId, studyOnceId);
-		return ResponseEntity.ok(new StudyOnceQuitResponse(requestTime, true));
+		return ResponseEntity.ok(
+			new StudyOnceQuitResponse(truncateDateTimeToSecond(requestTime), true));
 	}
 
 	@PatchMapping("/{studyOnceId:[0-9]+}/attendance")
@@ -126,7 +127,7 @@ public class StudyOnceController {
 		@RequestBody UpdateAttendanceRequest request) {
 		long leaderId = cafegoryTokenManager.getIdentityId(authorization);
 		UpdateAttendanceResponse response = studyOnceService.updateAttendances(leaderId, studyOnceId,
-			request, LocalDateTime.now());
+			request, LOCAL_DATE_TIME_NOW);
 		return ResponseEntity.ok(response);
 	}
 

@@ -1,6 +1,7 @@
 package com.example.demo.domain.cafe;
 
 import static com.example.demo.exception.ExceptionType.*;
+import static com.example.demo.util.TruncatedTimeUtil.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,7 +41,7 @@ public class CafeSearchCondition {
 		private MinMenuPrice minMenuPrice;
 		private LocalTime startTime;
 		private LocalTime endTime;
-		private LocalDateTime now = LocalDateTime.now();
+		private LocalDateTime now = LOCAL_DATE_TIME_NOW;
 
 		public Builder(boolean isAbleToStudy, String region) {
 			this.isAbleToStudy = isAbleToStudy;
@@ -80,7 +81,7 @@ public class CafeSearchCondition {
 
 		private LocalTime calcLocalTime(int time) {
 			if (time == END_TIME) {
-				return LocalTime.MAX;
+				return MAX_LOCAL_TIME;
 			}
 			return LocalTime.of(time, 0);
 		}

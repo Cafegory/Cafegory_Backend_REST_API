@@ -2,16 +2,11 @@ package com.example.demo.service.study;
 
 import static com.example.demo.domain.study.Attendance.*;
 import static com.example.demo.exception.ExceptionType.*;
-import static com.example.demo.factory.TestBusinessHourFactory.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -21,12 +16,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.config.TestConfig;
-import com.example.demo.domain.cafe.BusinessHour;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
@@ -48,11 +38,9 @@ import com.example.demo.helper.StudyOnceSaveHelper;
 import com.example.demo.helper.ThumbnailImageSaveHelper;
 import com.example.demo.repository.study.StudyMemberRepository;
 import com.example.demo.repository.study.StudyOnceRepository;
+import com.example.demo.service.ServiceTest;
 
-@SpringBootTest
-@Import({TestConfig.class})
-@Transactional
-class StudyOnceServiceImplTest {
+class StudyOnceServiceImplTest extends ServiceTest {
 
 	private static final LocalDateTime NOW = LocalDateTime.now();
 	@Autowired
@@ -79,14 +67,6 @@ class StudyOnceServiceImplTest {
 	private StudyOnceCreateRequest makeStudyOnceCreateRequest(LocalDateTime start, LocalDateTime end,
 		long cafeId) {
 		return new StudyOnceCreateRequest(cafeId, "테스트 스터디", start, end, 4, true, "오픈채팅방 링크");
-	}
-
-	private void syncStudyOnceRepositoryAndStudyMemberRepository() {
-		List<StudyMember> allStudyMembers = studyOnceRepository.findAll().stream()
-			.map(StudyOnce::getStudyMembers)
-			.flatMap(Collection::stream)
-			.collect(Collectors.toList());
-		studyMemberRepository.saveAll(allStudyMembers);
 	}
 
 	@Test
@@ -120,7 +100,6 @@ class StudyOnceServiceImplTest {
 		long studyOnceId = searchResponse.getStudyOnceId();
 		long memberId = memberSaveHelper.saveMember(thumbnailImage).getId();
 		sut.tryJoin(memberId, studyOnceId);
-		syncStudyOnceRepositoryAndStudyMemberRepository();
 
 		StudyOnceSearchResponse response = sut.searchStudyOnceWithMemberParticipation(
 			studyOnceId, memberId);
@@ -148,18 +127,27 @@ class StudyOnceServiceImplTest {
 		assertThat(response.isAttendance()).isFalse();
 	}
 
-	@Test
-	@DisplayName("카공 시작시간이 23시이고 종료시간이 24시(23시 59분 59초 999_999_999초)이면 카공이 생성된다.")
-	void exception_case1() {
+	@ParameterizedTest
+	@MethodSource("provideLocalDateTime")
+	@DisplayName("카공 시작시간이 23시이고 종료시간이 24시(23시 59분 59초)이면 카공이 생성된다.")
+	void exception_case1(LocalDateTime end) {
 		//given
 		LocalDateTime start = LocalDateTime.of(2999, 1, 1, 23, 0);
-		LocalDateTime end = LocalDateTime.of(2999, 1, 1, 23, 59, 59, 999_999_999);
+		// LocalDateTime end = LocalDateTime.of(2999, 1, 1, 23, 59, 59);
 		ThumbnailImage thumbnailImage = thumbnailImageSaveHelper.saveThumbnailImage();
 		Member leader = memberSaveHelper.saveMember(thumbnailImage);
 		Cafe cafe = cafeSaveHelper.saveCafeWith24For7();
 		StudyOnceCreateRequest studyOnceCreateRequest = makeStudyOnceCreateRequest(start, end, cafe.getId());
 		//then
 		assertDoesNotThrow(() -> sut.createStudy(leader.getId(), studyOnceCreateRequest));
+	}
+
+	static Stream<Arguments> provideLocalDateTime() {
+		return Stream.of(
+			Arguments.of(LocalDateTime.of(2999, 1, 1, 23, 59, 59))
+			// 밑의 테스트 케이스는 마이그레이션 후 BusinessHour의 종료 시간이 999_999_000로 들어갈 때 성공한다.
+			// Arguments.of(LocalDateTime.of(2999, 1, 1, 23, 59, 59, 999_999_000))
+		);
 	}
 
 	@Test
@@ -297,8 +285,7 @@ class StudyOnceServiceImplTest {
 	@DisplayName("카페 영업시간 밖의 시간에 카공을 만들 수 없다.")
 	void study_can_not_start_outside_cafe_business_hours(LocalDateTime start, LocalDateTime end) {
 		//given
-		List<BusinessHour> businessHours = makeBusinessHourWith7daysFrom9To21();
-		Cafe cafe = cafeSaveHelper.saveCafeWithBusinessHour(businessHours);
+		Cafe cafe = cafeSaveHelper.saveCafeWith7daysFrom9To21();
 		ThumbnailImage thumbnailImage = thumbnailImageSaveHelper.saveThumbnailImage();
 		Member leader = memberSaveHelper.saveMember(thumbnailImage);
 		StudyOnceCreateRequest studyOnceCreateRequest = makeStudyOnceCreateRequest(start, end, cafe.getId());
@@ -320,7 +307,7 @@ class StudyOnceServiceImplTest {
 			),
 			Arguments.of(
 				LocalDateTime.of(2999, 1, 1, 20, 0),
-				LocalDateTime.of(2999, 1, 1, 21, 0, 0, 1)
+				LocalDateTime.of(2999, 1, 1, 21, 0, 1)
 			),
 			Arguments.of(
 				LocalDateTime.of(2999, 1, 1, 20, 59, 59, 999_999_999),
@@ -334,8 +321,7 @@ class StudyOnceServiceImplTest {
 	@DisplayName("카페 영업시간 내의 시간에 카공을 만들 수 있다.")
 	void study_can_start_between_cafe_business_hours(LocalDateTime start, LocalDateTime end) {
 		//given
-		List<BusinessHour> businessHours = makeBusinessHourWith7daysFrom9To21();
-		Cafe cafe = cafeSaveHelper.saveCafeWithBusinessHour(businessHours);
+		Cafe cafe = cafeSaveHelper.saveCafeWith7daysFrom9To21();
 		ThumbnailImage thumbnailImage = thumbnailImageSaveHelper.saveThumbnailImage();
 		Member leader = memberSaveHelper.saveMember(thumbnailImage);
 		StudyOnceCreateRequest studyOnceCreateRequest = makeStudyOnceCreateRequest(start, end, cafe.getId());
@@ -356,17 +342,6 @@ class StudyOnceServiceImplTest {
 		);
 	}
 
-	private List<BusinessHour> makeBusinessHourWith7daysFrom9To21() {
-		List<String> daysOfWeek = List.of("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
-		List<BusinessHour> businessHours = new ArrayList<>();
-		for (String day : daysOfWeek) {
-			businessHours.add(
-				createBusinessHourWithDayAndTime(day, LocalTime.of(9, 0), LocalTime.of(21, 0))
-			);
-		}
-		return businessHours;
-	}
-
 	@Test
 	@DisplayName("카공이 시작하기전에 카공 참여를 취소할 수 있다.")
 	void member_can_cancel_study_before_starts() {
@@ -382,8 +357,8 @@ class StudyOnceServiceImplTest {
 		//when
 		sut.tryQuit(member.getId(), studyOnce.getId());
 		//then
-		StudyOnce result = studyOnceRepository.findById(studyOnce.getId()).get();
-		assertThat(result.getStudyMembers().size()).isEqualTo(1);
+		List<StudyMember> result = studyMemberRepository.findAll();
+		assertThat(result.size()).isEqualTo(1);
 	}
 
 	@Test
@@ -420,7 +395,7 @@ class StudyOnceServiceImplTest {
 		Member member = memberSaveHelper.saveMember(thumbnailImage);
 		StudyOnce studyOnce = studyOnceSaveHelper.saveStudyOnceWithTime(cafe, leader, start, end);
 		sut.tryJoin(member.getId(), studyOnce.getId());
-		LocalDateTime attendanceUpdateTime = start.plusMinutes(10).minusNanos(1);
+		LocalDateTime attendanceUpdateTime = start.plusMinutes(10).minusSeconds(1);
 		//when
 		assertThatThrownBy(
 			() -> sut.updateAttendance(leader.getId(), studyOnce.getId(), member.getId(), NO, attendanceUpdateTime))
@@ -462,7 +437,7 @@ class StudyOnceServiceImplTest {
 		Member member = memberSaveHelper.saveMember(thumbnailImage);
 		StudyOnce studyOnce = studyOnceSaveHelper.saveStudyOnceWithTime(cafe, leader, start, end);
 		sut.tryJoin(member.getId(), studyOnce.getId());
-		LocalDateTime attendanceUpdateTime = start.plusHours(2).plusNanos(1);
+		LocalDateTime attendanceUpdateTime = start.plusHours(2).plusSeconds(1);
 		//when
 		assertThatThrownBy(
 			() -> sut.updateAttendance(leader.getId(), studyOnce.getId(), member.getId(), NO, attendanceUpdateTime))
@@ -560,8 +535,7 @@ class StudyOnceServiceImplTest {
 	@DisplayName("카공 시간 변경시 카공 시간은 카페 영업시간내에 포함되어야 한다.")
 	void study_time_must_be_within_cafe_business_hours(LocalDateTime start, LocalDateTime end) {
 		//given
-		List<BusinessHour> businessHours = makeBusinessHourWith7daysFrom9To21();
-		Cafe cafe = cafeSaveHelper.saveCafeWithBusinessHour(businessHours);
+		Cafe cafe = cafeSaveHelper.saveCafeWith7daysFrom9To21();
 		ThumbnailImage thumbnailImage = thumbnailImageSaveHelper.saveThumbnailImage();
 		Member leader = memberSaveHelper.saveMember(thumbnailImage);
 		StudyOnce studyOnce = studyOnceSaveHelper.saveStudyOnceWithTime(cafe, leader,
@@ -585,11 +559,11 @@ class StudyOnceServiceImplTest {
 			),
 			Arguments.of(
 				LocalDateTime.of(2999, 1, 1, 8, 0),
-				LocalDateTime.of(2999, 1, 1, 9, 0, 0, 1)
+				LocalDateTime.of(2999, 1, 1, 9, 0, 0, 100_000_000)
 			),
 			Arguments.of(
 				LocalDateTime.of(2999, 1, 1, 20, 0),
-				LocalDateTime.of(2999, 1, 1, 21, 0, 0, 1)
+				LocalDateTime.of(2999, 1, 1, 21, 0, 1)
 			),
 			Arguments.of(
 				LocalDateTime.of(2999, 1, 1, 20, 59, 59, 999_999_999),
@@ -603,8 +577,7 @@ class StudyOnceServiceImplTest {
 	@DisplayName("카공 시간 변경시 카공 시간은 카페 영업시간내에 포함된다.")
 	void study_time_is_within_cafe_business_hours(LocalDateTime start, LocalDateTime end) {
 		//given
-		List<BusinessHour> businessHours = makeBusinessHourWith7daysFrom9To21();
-		Cafe cafe = cafeSaveHelper.saveCafeWithBusinessHour(businessHours);
+		Cafe cafe = cafeSaveHelper.saveCafeWith7daysFrom9To21();
 		ThumbnailImage thumbnailImage = thumbnailImageSaveHelper.saveThumbnailImage();
 		Member leader = memberSaveHelper.saveMember(thumbnailImage);
 		StudyOnce studyOnce = studyOnceSaveHelper.saveStudyOnceWithTime(cafe, leader,
@@ -646,7 +619,7 @@ class StudyOnceServiceImplTest {
 		StudyOnceUpdateRequest request = new StudyOnceUpdateRequest(cafeId2, "변경된카공이름", start.plusHours(5),
 			start.plusHours(6), 5, false, "오픈채팅방 링크");
 		//when
-		sut.updateStudyOncePartially(leader.getId(), studyOnce.getId(), request, LocalDateTime.now());
+		sut.updateStudyOncePartially(leader.getId(), studyOnce.getId(), request);
 		//then
 		StudyOnce result = studyOnceRepository.findById(studyOnce.getId()).get();
 		assertAll(
@@ -673,7 +646,7 @@ class StudyOnceServiceImplTest {
 			null, 5, true, null);
 		//then
 		assertThatThrownBy(
-			() -> sut.updateStudyOncePartially(member.getId(), studyOnce.getId(), request, LocalDateTime.now()))
+			() -> sut.updateStudyOncePartially(member.getId(), studyOnce.getId(), request))
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_LEADER_PERMISSION_DENIED.getErrorMessage());
 	}

@@ -2,16 +2,19 @@ server:
   port: 8080
 spring:
   datasource: #연결할 디비의 이름
-    driver-class-name: org.h2.Driver #디비 종류
-    url: jdbc:h2:~/test
-    username: "sa"
-    password: ""
+    driver-class-name: org.mariadb.jdbc.Driver #디비 종류
+    url: jdbc:mariadb://localhost:3306/cafegory_test
+    #    username: cafegory
+    username: cafegory_test
+    #    password: cafegory!Q@W#E
+    password: 1234
   jpa: #jpa 종류
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         format_sql: true #이쁘게 해줌
+        dialect: org.hibernate.dialect.MariaDBDialect
   mail:
     host: smtp.gmail.com
     port: 587

@@ -1,5 +1,7 @@
 package com.example.demo.domain;
 
+import static com.example.demo.util.TruncatedTimeUtil.*;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -21,13 +23,13 @@ public class BaseEntity {
 
 	@PrePersist
 	public void prePersist() {
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime now = LOCAL_DATE_TIME_NOW;
 		createdDate = now;
 		lastModifiedDate = now;
 	}
 
 	@PreUpdate
 	public void preUpdate() {
-		lastModifiedDate = LocalDateTime.now();
+		lastModifiedDate = LOCAL_DATE_TIME_NOW;
 	}
 }

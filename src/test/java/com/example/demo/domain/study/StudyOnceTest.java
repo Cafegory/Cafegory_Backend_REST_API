@@ -46,7 +46,7 @@ class StudyOnceTest {
 		LocalDateTime start = NOW.plusHours(4);
 		return Stream.of(
 			Arguments.of(start.minusHours(1), start, true),
-			Arguments.of(start.minusHours(1).plusNanos(1), start, false)
+			Arguments.of(start.minusHours(1).plusSeconds(1), start, false)
 		);
 	}
 
@@ -74,7 +74,7 @@ class StudyOnceTest {
 		StudyOnce sut = createStudyOnceWithTime(cafe, leader, NOW.plusHours(4), NOW.plusHours(6));
 		//when
 		assertThatThrownBy(
-			() -> sut.tryJoin(member, NOW.plusHours(3).plusNanos(1)))
+			() -> sut.tryJoin(member, NOW.plusHours(3).plusNanos(100_000_000)))
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_TOO_LATE_JOIN.getErrorMessage());
 	}
@@ -162,7 +162,7 @@ class StudyOnceTest {
 		sut.tryJoin(member, NOW);
 		//then
 		assertThatThrownBy(
-			() -> sut.tryQuit(member, NOW.plusHours(3).plusNanos(1)))
+			() -> sut.tryQuit(member, NOW.plusHours(3).plusNanos(100_000_000)))
 			.isInstanceOf(CafegoryException.class)
 			.hasMessage(STUDY_ONCE_TOO_LATE_QUIT.getErrorMessage());
 	}

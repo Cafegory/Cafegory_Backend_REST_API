@@ -19,10 +19,6 @@ public class Address {
 		this.region = region;
 	}
 
-	public boolean isInRegion(String region) {
-		return true;
-	}
-
 	public String showFullAddress() {
 		return getFullAddress();
 	}

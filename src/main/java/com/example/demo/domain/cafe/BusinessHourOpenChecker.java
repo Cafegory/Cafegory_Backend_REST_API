@@ -1,5 +1,7 @@
 package com.example.demo.domain.cafe;
 
+import static com.example.demo.util.TruncatedTimeUtil.*;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,7 +42,7 @@ public class BusinessHourOpenChecker implements OpenChecker<BusinessHour> {
 	}
 
 	private boolean is24HourBusiness(LocalTime startTime, LocalTime endTime) {
-		return startTime.equals(LocalTime.MIN) && endTime.equals(LocalTime.MAX);
+		return startTime.equals(LocalTime.MIN) && endTime.equals(MAX_LOCAL_TIME);
 	}
 
 	private boolean isOpenOvernight(LocalTime startTime, LocalTime endTime) {
@@ -58,7 +60,7 @@ public class BusinessHourOpenChecker implements OpenChecker<BusinessHour> {
 
 	@Override
 	public boolean checkWithBusinessHours(List<BusinessHour> businessHours, LocalDateTime now) {
-		if (!hasMatchingDayOfWeek(businessHours, now)) {
+		if (!hasMatchingDayOfWeek(businessHours, truncateDateTimeToSecond(now))) {
 			throw new CafegoryException(ExceptionType.CAFE_NOT_FOUND_DAY_OF_WEEK);
 		}
 		return businessHours.stream()
@@ -68,23 +70,27 @@ public class BusinessHourOpenChecker implements OpenChecker<BusinessHour> {
 
 	public boolean checkBetweenBusinessHours(LocalTime businessStartTime, LocalTime businessEndTime,
 		LocalTime chosenStartTime, LocalTime chosenEndTime) {
+		LocalTime truncatedStartTime = truncateTimeToSecond(chosenStartTime);
+		LocalTime truncatedEndTime = truncateTimeToSecond(chosenEndTime);
+
 		// 영업 시작시간이 당일, 영업 종료시간이 당일
 		if (businessStartTime.isBefore(businessEndTime)) {
-			return (businessStartTime.equals(chosenStartTime) || businessStartTime.isBefore(chosenStartTime)) && (
-				businessEndTime.equals(chosenEndTime) || businessEndTime.isAfter(chosenEndTime));
+			return (businessStartTime.equals(truncatedStartTime) || businessStartTime.isBefore(truncatedStartTime))
+				&& (
+				businessEndTime.equals(truncatedEndTime) || businessEndTime.isAfter(truncatedEndTime));
 		}
 		// 영업 시작시간이 당일, 영업 종료시간이 다음날
 		if (businessStartTime.isAfter(businessEndTime)) {
 			LocalDateTime businessStartDateTime = LocalDateTime.of(LocalDate.now(), businessStartTime);
 			LocalDateTime businessEndDateTime = LocalDateTime.of(LocalDate.now().plusDays(1), businessEndTime);
 			// 선택된 시작시간이 당일, 선택된 종료시간이 당일 || 선택된 시작시간이 다음날, 선택된 종료시간이 다음날
-			if (chosenStartTime.isBefore(chosenEndTime)) {
+			if (truncatedStartTime.isBefore(truncatedEndTime)) {
 				LocalDate chosenDate = LocalDate.now();
 
-				boolean isChosenTimeOvernight = businessStartTime.isAfter(chosenStartTime);
+				boolean isChosenTimeOvernight = businessStartTime.isAfter(truncatedStartTime);
 				LocalDate date = isChosenTimeOvernight ? chosenDate.plusDays(1) : chosenDate;
 				LocalDateTime chosenStartDateTime = LocalDateTime.of(date, chosenStartTime);
-				LocalDateTime chosenEndDateTime = LocalDateTime.of(date, chosenEndTime);
+				LocalDateTime chosenEndDateTime = LocalDateTime.of(date, truncatedEndTime);
 
 				return (businessStartDateTime.isBefore(chosenStartDateTime) || businessStartDateTime.equals(
 					chosenStartDateTime))
@@ -92,9 +98,9 @@ public class BusinessHourOpenChecker implements OpenChecker<BusinessHour> {
 					chosenEndDateTime));
 			}
 			// 선택된 시작시간이 당일, 선택된 종료시간이 다음날
-			if (chosenStartTime.isAfter(chosenEndTime)) {
-				LocalDateTime chosenStartDateTime = LocalDateTime.of(LocalDate.now(), chosenStartTime);
-				LocalDateTime chosenEndDateTime = LocalDateTime.of(LocalDate.now().plusDays(1), chosenEndTime);
+			if (truncatedStartTime.isAfter(truncatedEndTime)) {
+				LocalDateTime chosenStartDateTime = LocalDateTime.of(LocalDate.now(), truncatedStartTime);
+				LocalDateTime chosenEndDateTime = LocalDateTime.of(LocalDate.now().plusDays(1), truncatedEndTime);
 				return (businessStartDateTime.equals(chosenStartDateTime) || businessStartDateTime.isBefore(
 					chosenStartDateTime)) && (businessEndDateTime.equals(chosenEndDateTime)
 					|| businessEndDateTime.isAfter(chosenEndDateTime));

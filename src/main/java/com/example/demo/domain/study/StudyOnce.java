@@ -1,6 +1,7 @@
 package com.example.demo.domain.study;
 
 import static com.example.demo.exception.ExceptionType.*;
+import static com.example.demo.util.TruncatedTimeUtil.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -96,7 +97,7 @@ public class StudyOnce {
 	}
 
 	private void validateStartDateTime(LocalDateTime startDateTime) {
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime now = LOCAL_DATE_TIME_NOW;
 		Duration between = Duration.between(now, startDateTime);
 		if (between.toSeconds() < 3 * 60 * 60) {
 			throw new CafegoryException(ExceptionType.STUDY_ONCE_WRONG_START_TIME);
@@ -116,7 +117,9 @@ public class StudyOnce {
 	}
 
 	private void validateStartAndEndTime(LocalTime startLocalTime, LocalTime endLocalTime) {
-		if (!(startLocalTime.equals(LocalTime.of(23, 0)) && endLocalTime.equals(LocalTime.MAX))) {
+		if (!(startLocalTime.equals(LocalTime.of(23, 0)) &&
+			(endLocalTime.equals(MAX_LOCAL_TIME) || endLocalTime.equals(LocalTime.of(23, 59, 59))))
+		) {
 			throw new CafegoryException(STUDY_ONCE_SHORT_DURATION);
 		}
 	}
@@ -199,7 +202,7 @@ public class StudyOnce {
 	}
 
 	public boolean canJoin(LocalDateTime baseDateTime) {
-		Duration between = Duration.between(baseDateTime, startDateTime);
+		Duration between = Duration.between(truncateDateTimeToSecond(baseDateTime), startDateTime);
 		return between.toSeconds() >= 60 * 60;
 	}
 

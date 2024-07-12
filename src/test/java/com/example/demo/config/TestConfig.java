@@ -44,27 +44,27 @@ public class TestConfig {
 
 	@Bean
 	public MemberSaveHelper memberSaveHelper() {
-		return new MemberSaveHelper(memberRepository);
+		return new MemberSaveHelper(memberRepository, thumbnailImageRepository);
 	}
 
 	@Bean
 	public ReviewSaveHelper reviewSaveHelper() {
-		return new ReviewSaveHelper(reviewRepository);
+		return new ReviewSaveHelper(reviewRepository, cafeRepository, memberRepository);
 	}
 
 	@Bean
 	public StudyMemberSaveHelper studyMemberSaveHelper() {
-		return new StudyMemberSaveHelper(studyMemberRepository);
+		return new StudyMemberSaveHelper(studyMemberRepository, memberRepository, studyOnceRepository);
 	}
 
 	@Bean
 	public StudyOnceCommentSaveHelper studyOnceCommentSaveHelper() {
-		return new StudyOnceCommentSaveHelper(studyOnceCommentRepository);
+		return new StudyOnceCommentSaveHelper(studyOnceCommentRepository, memberRepository, studyOnceRepository);
 	}
 
 	@Bean
 	public StudyOnceSaveHelper studyOnceSaveHelper() {
-		return new StudyOnceSaveHelper(studyOnceRepository);
+		return new StudyOnceSaveHelper(studyOnceRepository, memberRepository, cafeRepository);
 	}
 
 	@Bean

@@ -5,16 +5,11 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
-import com.example.demo.config.TestConfig;
 import com.example.demo.domain.cafe.Cafe;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.ThumbnailImage;
@@ -26,11 +21,9 @@ import com.example.demo.helper.MemberSaveHelper;
 import com.example.demo.helper.ReviewSaveHelper;
 import com.example.demo.helper.ThumbnailImageSaveHelper;
 import com.example.demo.repository.review.ReviewRepository;
+import com.example.demo.service.ServiceTest;
 
-@SpringBootTest
-@Import({TestConfig.class})
-@Transactional
-class ReviewServiceTest {
+class ReviewServiceTest extends ServiceTest {
 
 	@Autowired
 	private ReviewService sut;

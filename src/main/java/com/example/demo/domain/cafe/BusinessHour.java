@@ -37,7 +37,10 @@ public class BusinessHour {
 	@Column(name = "days_of_week")
 	private String day;
 
+	/// columnDefinition 옵션은 나중에 DB에 직접 적용하고 삭제할 것
+	@Column(columnDefinition = "TIME(6)")
 	private LocalTime startTime;
+	@Column(columnDefinition = "TIME(6)")
 	private LocalTime endTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
